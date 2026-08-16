@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trà Chuyện - Header</title>
+    <!-- Google Fonts (tùy chọn cho đẹp) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome cho icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+
+<!-- ========== HEADER ========== -->
+<header>
+    <div class="container">
+        <!-- Logo -->
+        <div class="logo">
+            <h1>Trà <span>Chuyện</span></h1>
+        </div>
+
+        <!-- Thanh tìm kiếm -->
+        <div class="search-bar-wrapper">
+            <div class="search-bar">
+                <input type="text" placeholder="Tìm kiếm sản phẩm...">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+
+        <!-- Menu điều hướng + Icons -->
+        <nav>
+            <ul>
+                <li><a href="#" class="active">TRANG CHỦ</a></li>
+                <li><a href="#">SẢN PHẨM TRÀ</a></li>
+                <li><a href="#">HỘP QUÀ TẶNG</a></li>
+                <li><a href="#">KHẢI VÀ CHÉN</a></li>
+                <li><a href="#">ẤM TỬ SA</a></li>
+                <li><a href="#">THÔNG TIN VỀ TRÀ</a></li>
+            </ul>
+            <div class="nav-icons">
+                <a href="#" title="Tài khoản"><i class="fas fa-user"></i></a>
+                <a href="#" title="Giỏ hàng"><i class="fas fa-shopping-bag"></i></a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+    <!-- ========== SLIDER BANNER ========== -->
+    <div class="container">
+        <div class="slider-container" id="slider">
+            <div class="slider-wrapper" id="sliderWrapper">
+                <div class="slide slide-1"><img src="./img/1.png" alt=""></div>
+                <div class="slide slide-2"><img src="./img/2.png" alt=""></div>
+                <div class="slide slide-3"><img src="./img/3.png" alt=""></div>
+                <div class="slide slide-4"><img src="./img/4.png" alt=""></div>
+                <div class="slide slide-5"><img src="./img/5.png" alt=""></div>
+            </div>
+
+            <!-- Nút điều hướng -->
+            <button class="slider-btn prev" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+            <button class="slider-btn next" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+
+            <!-- Dấu chấm -->
+            <div class="dots-container" id="dotsContainer"></div>
+        </div>
+    </div>
+<!-- ========================================== -->
+<!-- PHẦN BODY - DANH MỤC SẢN PHẨM & BÁN CHẠY -->
+<!-- ========================================== -->
+
+<div class="container body-container">
+
+    <!-- ====== 1. DANH MỤC SẢN PHẨM ====== -->
+    <section class="section-category">
+        <h2 class="section-title">Danh mục sản phẩm</h2>
+        <div class="grid-6col-2row">
+            <!-- Cột 1 -->
+            <div class="category-item">
+                <img src="https://via.placeholder.com/300x200/5d4037/ffffff?text=Trà+Xanh" alt="Trà xanh">
+                <h3>Trà Xanh</h3>
+                <p>10 sản phẩm</p>
+            </div>
+            <!-- Cột 2 -->
+            <div class="category-item">
+                <img src="https://via.placeholder.com/300x200/6d4c41/ffffff?text=Trà+Đen" alt="Trà đen">
+                <h3>Trà Đen</h3>
+                <p>8 sản phẩm</p>
+            </div>
+            <!-- Cột 3 -->
+            <div class="category-item">
+                <img src="https://via.placeholder.com/300x200/8d6e63/ffffff?text=Trà+Ô+Long" alt="Trà ô long">
+                <h3>Trà Ô Long</h3>
+                <p>12 sản phẩm</p>
+            </div>
+            <!-- Cột 4 -->
+            <div class="category-item">
+                <img src="https://via.placeholder.com/300x200/a1887f/ffffff?text=Trà+Thảo+Mộc" alt="Trà thảo mộc">
+                <h3>Trà Thảo Mộc</h3>
+                <p>6 sản phẩm</p>
+            </div>
+            <!-- Cột 5 -->
+            <div class="category-item">
+                <img src="https://via.placeholder.com/300x200/795548/ffffff?text=Ấm+Tử+Sa" alt="Ấm tử sa">
+                <h3>Ấm Tử Sa</h3>
+                <p>15 sản phẩm</p>
+            </div>
+            <!-- Cột 6 -->
+            <div class="category-item">
+                <img src="https://via.placeholder.com/300x200/4e342e/ffffff?text=Bộ+Trà+Cụ" alt="Bộ trà cụ">
+                <h3>Bộ Trà Cụ</h3>
+                <p>9 sản phẩm</p>
+            </div>
+            <!-- Hàng 2 - Cột 7 -->
+            <div class="category-item">
+                <img src="https://via.placeholder.com/300x200/3e2723/ffffff?text=Hộp+Quà+Tặng" alt="Hộp quà tặng">
+                <h3>Hộp Quà Tặng</h3>
+                <p>7 sản phẩm</p>
+            </div>
+            <!-- Hàng 2 - Cột 8 -->
+            <div class="category-item">
+                <img src="https://via.placeholder.com/300x200/5d4037/ffffff?text=Phụ+Kiện+Trà" alt="Phụ kiện trà">
+                <h3>Phụ Kiện Trà</h3>
+                <p>11 sản phẩm</p>
+            </div>
+            <!-- Hàng 2 - Cột 9 -->
+            <div class="category-item">
+                <img src="https://via.placeholder.com/300x200/6d4c41/ffffff?text=Khay+Trà" alt="Khay trà">
+                <h3>Khay Trà</h3>
+                <p>5 sản phẩm</p>
+            </div>
+            <!-- Hàng 2 - Cột 10 -->
+            <div class="category-item">
+                <img src="https://via.placeholder.com/300x200/8d6e63/ffffff?text=Cốc+Trà" alt="Cốc trà">
+                <h3>Cốc Trà</h3>
+                <p>14 sản phẩm</p>
+            </div>
+            <!-- Hàng 2 - Cột 11 -->
+            <div class="category-item">
+                <img src="https://via.placeholder.com/300x200/a1887f/ffffff?text=Trà+Sạch" alt="Trà sạch">
+                <h3>Trà Sạch</h3>
+                <p>8 sản phẩm</p>
+            </div>
+            <!-- Hàng 2 - Cột 12 -->
+            <div class="category-item">
+                <img src="https://via.placeholder.com/300x200/795548/ffffff?text=Trà+Cao+Cấp" alt="Trà cao cấp">
+                <h3>Trà Cao Cấp</h3>
+                <p>6 sản phẩm</p>
+            </div>
+        </div>
+        <div class="view-all">
+            <a href="#" class="btn-view-all">Xem tất cả danh mục →</a>
+        </div>
+    </section>
+
+    <!-- ====== 2. SẢN PHẨM BÁN CHẠY ====== -->
+    <section class="section-best-seller">
+        <h2 class="section-title">Sản phẩm bán chạy</h2>
+        <div class="grid-6col-2row">
+            <!-- Sản phẩm 1 -->
+            <div class="product-item">
+                <div class="product-badge">Hot</div>
+                <img src="https://via.placeholder.com/300x200/b8860b/ffffff?text=Sản+Phẩm+1" alt="Tên sản phẩm 1">
+                <h3>Trà Xanh Thái Nguyên</h3>
+                <div class="product-rating">★★★★★ (25)</div>
+                <div class="product-price">
+                    <span class="current-price">250.000đ</span>
+                    <span class="old-price">300.000đ</span>
+                </div>
+                <button class="btn-add-cart">Thêm vào giỏ</button>
+            </div>
+            <!-- Sản phẩm 2 -->
+            <div class="product-item">
+                <div class="product-badge sale">-20%</div>
+                <img src="https://via.placeholder.com/300x200/b8860b/ffffff?text=Sản+Phẩm+2" alt="Tên sản phẩm 2">
+                <h3>Trà Ô Long Đài Loan</h3>
+                <div class="product-rating">★★★★☆ (18)</div>
+                <div class="product-price">
+                    <span class="current-price">320.000đ</span>
+                    <span class="old-price">400.000đ</span>
+                </div>
+                <button class="btn-add-cart">Thêm vào giỏ</button>
+            </div>
+            <!-- Sản phẩm 3 -->
+            <div class="product-item">
+                <div class="product-badge">Hot</div>
+                <img src="https://via.placeholder.com/300x200/b8860b/ffffff?text=Sản+Phẩm+3" alt="Tên sản phẩm 3">
+                <h3>Ấm Tử Sa Nghi Hưng</h3>
+                <div class="product-rating">★★★★★ (30)</div>
+                <div class="product-price">
+                    <span class="current-price">1.200.000đ</span>
+                    <span class="old-price">1.500.000đ</span>
+                </div>
+                <button class="btn-add-cart">Thêm vào giỏ</button>
+            </div>
+            <!-- Sản phẩm 4 -->
+            <div class="product-item">
+                <div class="product-badge new">Mới</div>
+                <img src="https://via.placeholder.com/300x200/b8860b/ffffff?text=Sản+Phẩm+4" alt="Tên sản phẩm 4">
+                <h3>Bộ Trà Cụ Cao Cấp</h3>
+                <div class="product-rating">★★★★☆ (12)</div>
+                <div class="product-price">
+                    <span class="current-price">850.000đ</span>
+                    <span class="old-price">1.000.000đ</span>
+                </div>
+                <button class="btn-add-cart">Thêm vào giỏ</button>
+            </div>
+            <!-- Sản phẩm 5 -->
+            <div class="product-item">
+                <div class="product-badge sale">-15%</div>
+                <img src="https://via.placeholder.com/300x200/b8860b/ffffff?text=Sản+Phẩm+5" alt="Tên sản phẩm 5">
+                <h3>Hộp Quà Tặng Trà</h3>
+                <div class="product-rating">★★★★★ (20)</div>
+                <div class="product-price">
+                    <span class="current-price">450.000đ</span>
+                    <span class="old-price">530.000đ</span>
+                </div>
+                <button class="btn-add-cart">Thêm vào giỏ</button>
+            </div>
+            <!-- Sản phẩm 6 -->
+            <div class="product-item">
+                <div class="product-badge">Hot</div>
+                <img src="https://via.placeholder.com/300x200/b8860b/ffffff?text=Sản+Phẩm+6" alt="Tên sản phẩm 6">
+                <h3>Trà Đen Shan Tuyết</h3>
+                <div class="product-rating">★★★★☆ (15)</div>
+                <div class="product-price">
+                    <span class="current-price">280.000đ</span>
+                    <span class="old-price">350.000đ</span>
+                </div>
+                <button class="btn-add-cart">Thêm vào giỏ</button>
+            </div>
+            <!-- Sản phẩm 7 -->
+            <div class="product-item">
+                <div class="product-badge new">Mới</div>
+                <img src="https://via.placeholder.com/300x200/b8860b/ffffff?text=Sản+Phẩm+7" alt="Tên sản phẩm 7">
+                <h3>Khay Trà Gỗ Sưa</h3>
+                <div class="product-rating">★★★★★ (8)</div>
+                <div class="product-price">
+                    <span class="current-price">1.500.000đ</span>
+                    <span class="old-price">1.800.000đ</span>
+                </div>
+                <button class="btn-add-cart">Thêm vào giỏ</button>
+            </div>
+            <!-- Sản phẩm 8 -->
+            <div class="product-item">
+                <div class="product-badge sale">-10%</div>
+                <img src="https://via.placeholder.com/300x200/b8860b/ffffff?text=Sản+Phẩm+8" alt="Tên sản phẩm 8">
+                <h3>Cốc Trà Thủy Tinh</h3>
+                <div class="product-rating">★★★★☆ (10)</div>
+                <div class="product-price">
+                    <span class="current-price">180.000đ</span>
+                    <span class="old-price">200.000đ</span>
+                </div>
+                <button class="btn-add-cart">Thêm vào giỏ</button>
+            </div>
+            <!-- Sản phẩm 9 -->
+            <div class="product-item">
+                <div class="product-badge">Hot</div>
+                <img src="https://via.placeholder.com/300x200/b8860b/ffffff?text=Sản+Phẩm+9" alt="Tên sản phẩm 9">
+                <h3>Trà Thảo Mộc Hoa Hồng</h3>
+                <div class="product-rating">★★★★★ (22)</div>
+                <div class="product-price">
+                    <span class="current-price">210.000đ</span>
+                    <span class="old-price">250.000đ</span>
+                </div>
+                <button class="btn-add-cart">Thêm vào giỏ</button>
+            </div>
+            <!-- Sản phẩm 10 -->
+            <div class="product-item">
+                <div class="product-badge new">Mới</div>
+                <img src="https://via.placeholder.com/300x200/b8860b/ffffff?text=Sản+Phẩm+10" alt="Tên sản phẩm 10">
+                <h3>Bộ Ấm Chén Tử Sa</h3>
+                <div class="product-rating">★★★★☆ (14)</div>
+                <div class="product-price">
+                    <span class="current-price">950.000đ</span>
+                    <span class="old-price">1.100.000đ</span>
+                </div>
+                <button class="btn-add-cart">Thêm vào giỏ</button>
+            </div>
+            <!-- Sản phẩm 11 -->
+            <div class="product-item">
+                <div class="product-badge sale">-25%</div>
+                <img src="https://via.placeholder.com/300x200/b8860b/ffffff?text=Sản+Phẩm+11" alt="Tên sản phẩm 11">
+                <h3>Trà Sạch Đặc Biệt</h3>
+                <div class="product-rating">★★★★★ (19)</div>
+                <div class="product-price">
+                    <span class="current-price">390.000đ</span>
+                    <span class="old-price">520.000đ</span>
+                </div>
+                <button class="btn-add-cart">Thêm vào giỏ</button>
+            </div>
+            <!-- Sản phẩm 12 -->
+            <div class="product-item">
+                <div class="product-badge">Hot</div>
+                <img src="https://via.placeholder.com/300x200/b8860b/ffffff?text=Sản+Phẩm+12" alt="Tên sản phẩm 12">
+                <h3>Phụ Kiện Pha Trà</h3>
+                <div class="product-rating">★★★★☆ (9)</div>
+                <div class="product-price">
+                    <span class="current-price">150.000đ</span>
+                    <span class="old-price">180.000đ</span>
+                </div>
+                <button class="btn-add-cart">Thêm vào giỏ</button>
+            </div>
+        </div>
+        <div class="view-all">
+            <a href="#" class="btn-view-all">Xem tất cả sản phẩm →</a>
+        </div>
+    </section>
+    <!-- ====== 3. TRƯNG BÀY ẢNH & VIDEO ====== -->
+<section class="section-gallery">
+    <h2 class="section-title">Thư viện ấm tử sa</h2>
+    <div class="gallery-container">
+        <!-- Cột trái: 4 ảnh -->
+        <div class="gallery-images">
+            <div class="gallery-img-item">
+                <img src="https://via.placeholder.com/400x300/5d4037/ffffff?text=Ấm+Tử+Sa+1" alt="Ấm tử sa 1">
+            </div>
+            <div class="gallery-img-item">
+                <img src="https://via.placeholder.com/400x300/6d4c41/ffffff?text=Ấm+Tử+Sa+2" alt="Ấm tử sa 2">
+            </div>
+            <div class="gallery-img-item">
+                <img src="https://via.placeholder.com/400x300/8d6e63/ffffff?text=Ấm+Tử+Sa+3" alt="Ấm tử sa 3">
+            </div>
+            <div class="gallery-img-item">
+                <img src="https://via.placeholder.com/400x300/a1887f/ffffff?text=Ấm+Tử+Sa+4" alt="Ấm tử sa 4">
+            </div>
+        </div>
+
+        <!-- Cột phải: Video -->
+        <div class="gallery-video">
+            <div class="video-wrapper">
+                <!-- Video từ YouTube (thay link bằng video của bạn) -->
+                <iframe 
+                    src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                    title="Video giới thiệu ấm tử sa" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </div>
+</section>
+
+</div>
+<!-- ========================================== -->
+<!-- FOOTER - THẾ GIỚI TRÀ ĐẠO -->
+<!-- ========================================== -->
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <!-- Cột 1: Giới thiệu -->
+            <div class="footer-col footer-about">
+                <h2 class="footer-logo">TRÀ<span>CHUYỆN</span></h2>
+                <p class="footer-slogan">Ấm tử sa Nghi Hưng & trà cụ cao cấp chính hãng</p>
+                <p class="footer-desc">
+                    Chuyên ấm tử sa Nghi Hưng chính hãng và trà cụ cao cấp, tuyển chọn kỹ lưỡng để nâng tầm trải nghiệm thưởng trà của bạn.
+                </p>
+            </div>
+
+            <!-- Cột 2: Tư vấn & Đặt hàng -->
+            <div class="footer-col footer-contact">
+                <h3 class="footer-heading">TƯ VẤN & ĐẶT HÀNG</h3>
+                <a href="tel:0889018999" class="footer-phone">
+                    <i class="fas fa-phone-alt"></i> 0889.018.999
+                </a>
+            </div>
+
+            <!-- Cột 3: Quy định & Chính sách -->
+            <div class="footer-col footer-policy">
+                <h3 class="footer-heading">QUY ĐỊNH & CHÍNH SÁCH</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Điều khoản & quy định</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Phương thức thanh toán</a></li>
+                    <li><a href="#">Vận chuyển & kiểm hàng</a></li>
+                    <li><a href="#">Bảo hành & đổi trả</a></li>
+                </ul>
+            </div>
+
+            <!-- Cột 4: Thanh toán + Liên hệ -->
+            <div class="footer-col footer-payment-contact">
+                <div class="payment-methods">
+                    <h3 class="footer-heading">THANH TOÁN</h3>
+                    <div class="payment-icons">
+                        <span class="payment-badge">COD</span>
+                        <span class="payment-badge">Chuyển khoản</span>
+                        <span class="payment-badge">VietQR</span>
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <h3 class="footer-heading">LIÊN HỆ</h3>
+                    <p class="company-name">CÔNG TY TNHH TRÀ CHUYỆN</p>
+                    <p class="company-tax">Mã số thuế: </p>
+                    <p class="company-address">
+                        <i class="fas fa-map-marker-alt"></i> Trụ sở chính: Lô 28.100 Khu đô thị phía Tây, P. Từ Minh, TP Hải Phòng
+                    </p>
+                    <p class="company-address">
+                        <i class="fas fa-store"></i> Cửa hàng: Số 5 ngõ 50 Lê Hiến, P. Từ Minh, TP Hải Phòng
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Zalo và Bản quyền -->
+        <div class="footer-bottom">
+            <div class="footer-zalo">
+                <a href="#" class="zalo-link">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Zalo_Logo.png/600px-Zalo_Logo.png" alt="Zalo" style="height: 35px;">
+                </a>
+            </div>
+            <div class="footer-copyright">
+                Bản quyền © 2026 TraChuyen.com
+            </div>
+        </div>
+    </div>
+</footer>
+    <!-- ========== JAVASCRIPT CHO SLIDER ========== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sliderWrapper = document.getElementById('sliderWrapper');
+            const slides = sliderWrapper.querySelectorAll('.slide');
+            const totalSlides = slides.length;
+            let currentIndex = 0;
+            let autoPlayInterval;
+
+            // Tạo các dấu chấm
+            const dotsContainer = document.getElementById('dotsContainer');
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('span');
+                dot.classList.add('dot');
+                if (i === 0) dot.classList.add('active');
+                dot.dataset.index = i;
+                dot.addEventListener('click', function() {
+                    goToSlide(parseInt(this.dataset.index));
+                });
+                dotsContainer.appendChild(dot);
+            }
+
+            const dots = dotsContainer.querySelectorAll('.dot');
+
+            // Hàm chuyển đến slide
+            function goToSlide(index) {
+                if (index < 0) {
+                    index = totalSlides - 1;
+                } else if (index >= totalSlides) {
+                    index = 0;
+                }
+                currentIndex = index;
+                sliderWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+                // Cập nhật dấu chấm
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === currentIndex);
+                });
+            }
+
+            // Nút prev/next
+            document.getElementById('prevBtn').addEventListener('click', function() {
+                goToSlide(currentIndex - 1);
+                resetAutoPlay();
+            });
+
+            document.getElementById('nextBtn').addEventListener('click', function() {
+                goToSlide(currentIndex + 1);
+                resetAutoPlay();
+            });
+
+            // Tự động chạy
+            function startAutoPlay() {
+                autoPlayInterval = setInterval(() => {
+                    goToSlide(currentIndex + 1);
+                }, 4000); // Chuyển ảnh mỗi 4 giây
+            }
+
+            function resetAutoPlay() {
+                clearInterval(autoPlayInterval);
+                startAutoPlay();
+            }
+
+            // Khởi động slider
+            startAutoPlay();
+
+            // Dừng auto khi hover vào slider (tùy chọn)
+            const sliderContainer = document.getElementById('slider');
+            sliderContainer.addEventListener('mouseenter', function() {
+                clearInterval(autoPlayInterval);
+            });
+
+            sliderContainer.addEventListener('mouseleave', function() {
+                startAutoPlay();
+            });
+        });
+    </script>
+
+</body>
+</html>
