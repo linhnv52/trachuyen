@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết sản phẩm - Trà Chuyện</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ============================================ */
+        /* CSS RIÊNG CHO TRANG CHI TIẾT SẢN PHẨM */
+        /* ============================================ */
+
+        .product-detail-page {
+            padding: 40px 0;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: #8d6e63;
+            margin-bottom: 30px;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee7e0;
+        }
+
+        .breadcrumb a {
+            color: #5d4037;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            color: #b8860b;
+        }
+
+        .breadcrumb .separator {
+            color: #c5b5a5;
+        }
+
+        .breadcrumb .current {
+            color: #b8860b;
+            font-weight: 500;
+        }
+
+        /* Product Detail Grid */
+        .product-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        /* Cột trái - Hình ảnh */
+        .product-detail-images {
+            position: relative;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 500px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            background: #f5f0eb;
+        }
+
+        .main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Thumbnail images */
+        .thumbnail-list {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .thumbnail-item {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.3s, transform 0.3s;
+            background: #f5f0eb;
+        }
+
+        .thumbnail-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .thumbnail-item.active {
+            border-color: #b8860b;
+        }
+
+        .thumbnail-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Badge trên ảnh chính */
+        .product-detail-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #b8860b;
+            color: white;
+            padding: 6px 18px;
+            border-radius: 25px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            z-index: 2;
+        }
+
+        .product-detail-badge.sale {
+            background: #e74c3c;
+        }
+
+        .product-detail-badge.new {
+            background: #2ecc71;
+        }
+
+        /* Cột phải - Thông tin */
+        .product-detail-info {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .product-detail-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #3e2723;
+            line-height: 1.3;
+        }
+
+        .product-detail-rating {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .product-detail-rating .stars {
+            color: #f5b342;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        .product-detail-rating .review-count {
+            color: #8d6e63;
+            font-size: 0.9rem;
+        }
+
+        .product-detail-price {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 0;
+            border-top: 1px solid #eee7e0;
+            border-bottom: 1px solid #eee7e0;
+        }
+
+        .product-detail-price .current {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #b8860b;
+        }
+
+        .product-detail-price .old {
+            font-size: 1.2rem;
+            color: #aaa;
+            text-decoration: line-through;
+        }
+
+        .product-detail-price .discount {
+            background: #e74c3c;
+            color: white;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .product-detail-description {
+            color: #5d4037;
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        .product-detail-description h4 {
+            font-size: 1rem;
+            color: #3e2723;
+            margin-bottom: 8px;
+        }
+
+        /* Product meta */
+        .product-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            padding: 15px 0;
+            border-top: 1px solid #eee7e0;
+            border-bottom: 1px solid #eee7e0;
+        }
+
+        .product-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #5d4037;
+            font-size: 0.9rem;
+        }
+
+        .product-meta-item i {
+            color: #b8860b;
+            width: 20px;
+        }
+
+        /* Quantity & Add to cart */
+        .product-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            border: 1px solid #e0d6cc;
+            border-radius: 30px;
+            overflow: hidden;
+        }
+
+        .quantity-selector button {
+            background: #f5f0eb;
+            border: none;
+            padding: 10px 18px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            color: #3e2723;
+        }
+
+        .quantity-selector button:hover {
+            background: #e0d6cc;
+        }
+
+        .quantity-selector input {
+            border: none;
+            width: 60px;
+            text-align: center;
+            font-size: 1rem;
+            padding: 10px 0;
+            outline: none;
+            background: transparent;
+            color: #3e2723;
+        }
+
+        .quantity-selector input::-webkit-inner-spin-button,
+        .quantity-selector input::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .btn-add-to-cart {
+            background: #5d4037;
+            color: white;
+            border: none;
+            padding: 12px 45px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-add-to-cart:hover {
+            background: #b8860b;
+            transform: scale(1.02);
+        }
+
+        .btn-add-to-cart i {
+            font-size: 1.1rem;
+        }
+
+        /* Product policies */
+        .product-policies {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            padding-top: 20px;
+            border-top: 1px solid #eee7e0;
+            margin-top: 10px;
+        }
+
+        .policy-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: #f9f6f0;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            color: #5d4037;
+        }
+
+        .policy-item i {
+            font-size: 1.2rem;
+            color: #b8860b;
+        }
+
+        /* ====== SẢN PHẨM LIÊN QUAN ====== */
+        .related-products {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #eee7e0;
+        }
+
+        .related-products .section-title {
+            font-size: 1.6rem;
+        }
+
+        .related-products .grid-6col-2row {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        /* ============================================ */
+        /* RESPONSIVE */
+        /* ============================================ */
+        @media (max-width: 992px) {
+            .product-detail-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .main-image {
+                height: 400px;
+            }
+
+            .product-policies {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .product-detail-name {
+                font-size: 1.8rem;
+            }
+
+            .product-detail-price .current {
+                font-size: 1.6rem;
+            }
+
+            .main-image {
+                height: 300px;
+            }
+
+            .thumbnail-item {
+                width: 60px;
+                height: 60px;
+            }
+
+            .product-meta {
+                grid-template-columns: 1fr;
+            }
+
+            .product-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .quantity-selector {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .btn-add-to-cart {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .product-policies {
+                grid-template-columns: 1fr;
+            }
+
+            .related-products .grid-6col-2row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-image {
+                height: 250px;
+            }
+
+            .product-detail-name {
+                font-size: 1.4rem;
+            }
+
+            .product-detail-price .current {
+                font-size: 1.3rem;
+            }
+
+            .related-products .grid-6col-2row {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ========== HEADER ========== -->
+<header>
+    <div class="container">
+        <!-- Logo -->
+        <div class="logo">
+            <h1>Trà <span>Chuyện</span></h1>
+        </div>
+
+        <!-- Thanh tìm kiếm -->
+        <div class="search-bar-wrapper">
+            <div class="search-bar">
+                <input type="text" placeholder="Tìm kiếm sản phẩm...">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+
+        <!-- Menu điều hướng + Icons -->
+        <nav>
+            <ul>
+                <li><a href="index.html">TRANG CHỦ</a></li>
+                <li><a href="#" class="active">SẢN PHẨM TRÀ</a></li>
+                <li><a href="#">HỘP QUÀ TẶNG</a></li>
+                <li><a href="#">KHẢI VÀ CHÉN</a></li>
+                <li><a href="#">ẤM TỬ SA</a></li>
+                <li><a href="#">THÔNG TIN VỀ TRÀ</a></li>
+            </ul>
+            <div class="nav-icons">
+                <a href="#" title="Tài khoản"><i class="fas fa-user"></i></a>
+                <a href="#" title="Giỏ hàng"><i class="fas fa-shopping-bag"></i></a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<!-- ========== CHI TIẾT SẢN PHẨM ========== -->
+<div class="container product-detail-page">
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="index.html"><i class="fas fa-home"></i> Trang chủ</a>
+        <span class="separator"><i class="fas fa-chevron-right"></i></span>
+        <a href="#">Sản phẩm trà</a>
+        <span class="separator"><i class="fas fa-chevron-right"></i></span>
+        <span class="current">Ấm Tử Sa Nghi Hưng Cổ Phong</span>
+    </div>
+
+    <!-- Product Detail Grid -->
+    <div class="product-detail-grid">
+        <!-- Cột trái: Hình ảnh -->
+        <div class="product-detail-images">
+            <div class="product-detail-badge">Hot</div>
+            <div class="main-image">
+                <img src="https://via.placeholder.com/600x500/b8860b/ffffff?text=Ấm+Tử+Sa+Nghi+Hưng" alt="Ấm Tử Sa Nghi Hưng Cổ Phong" id="mainImage">
+            </div>
+            <div class="thumbnail-list">
+                <div class="thumbnail-item active" onclick="changeImage(this, 'https://via.placeholder.com/600x500/b8860b/ffffff?text=Ấm+Tử+Sa+1')">
+                    <img src="https://via.placeholder.com/600x500/b8860b/ffffff?text=Ấm+Tử+Sa+1" alt="Thumbnail 1">
+                </div>
+                <div class="thumbnail-item" onclick="changeImage(this, 'https://via.placeholder.com/600x500/8d6e63/ffffff?text=Ấm+Tử+Sa+2')">
+                    <img src="https://via.placeholder.com/600x500/8d6e63/ffffff?text=Ấm+Tử+Sa+2" alt="Thumbnail 2">
+                </div>
+                <div class="thumbnail-item" onclick="changeImage(this, 'https://via.placeholder.com/600x500/a1887f/ffffff?text=Ấm+Tử+Sa+3')">
+                    <img src="https://via.placeholder.com/600x500/a1887f/ffffff?text=Ấm+Tử+Sa+3" alt="Thumbnail 3">
+                </div>
+                <div class="thumbnail-item" onclick="changeImage(this, 'https://via.placeholder.com/600x500/795548/ffffff?text=Ấm+Tử+Sa+4')">
+                    <img src="https://via.placeholder.com/600x500/795548/ffffff?text=Ấm+Tử+Sa+4" alt="Thumbnail 4">
+                </div>
+            </div>
+        </div>
+
+        <!-- Cột phải: Thông tin -->
+        <div class="product-detail-info">
+            <h1 class="product-detail-name">Ấm Tử Sa Nghi Hưng Cổ Phong</h1>
+
+            <div class="product-detail-rating">
+                <span class="stars">★★★★★</span>
+                <span class="review-count">(30 đánh giá)</span>
+            </div>
+
+            <div class="product-detail-price">
+                <span class="current">1.200.000đ</span>
+                <span class="old">1.500.000đ</span>
+                <span class="discount">-20%</span>
+            </div>
+
+            <div class="product-detail-description">
+                <h4>Mô tả sản phẩm</h4>
+                <p>
+                    Ấm tử sa Nghi Hưng cổ phong, được chế tác thủ công bởi nghệ nhân lành nghề với hơn 20 năm kinh nghiệm. 
+                    Chất đất nguyên khoáng từ mỏ tử sa Nghi Hưng, Trung Quốc, giữ nhiệt tốt, mang đến hương vị trà đậm đà, trọn vẹn.
+                    <br><br>
+                    <strong>Đặc điểm nổi bật:</strong>
+                    <br>
+                    ✅ Chất đất nguyên khoáng, không pha trộn<br>
+                    ✅ Chế tác thủ công 100%<br>
+                    ✅ Giữ nhiệt tốt, thích hợp pha trà ô long và phổ nhĩ<br>
+                    ✅ Hoa văn tinh xảo, độc bản
+                </p>
+            </div>
+
+            <!-- Product Meta -->
+            <div class="product-meta">
+                <div class="product-meta-item">
+                    <i class="fas fa-tag"></i>
+                    <span>Danh mục: Ấm Tử Sa</span>
+                </div>
+                <div class="product-meta-item">
+                    <i class="fas fa-box"></i>
+                    <span>Tình trạng: Còn hàng</span>
+                </div>
+                <div class="product-meta-item">
+                    <i class="fas fa-star"></i>
+                    <span>Thương hiệu: Nghi Hưng</span>
+                </div>
+                <div class="product-meta-item">
+                    <i class="fas fa-ruler"></i>
+                    <span>Kích thước: 15 x 10 x 8 cm</span>
+                </div>
+            </div>
+
+            <!-- Quantity & Add to cart -->
+            <div class="product-actions">
+                <div class="quantity-selector">
+                    <button onclick="changeQuantity(-1)">-</button>
+                    <input type="number" value="1" min="1" max="99" id="quantityInput">
+                    <button onclick="changeQuantity(1)">+</button>
+                </div>
+                <button class="btn-add-to-cart">
+                    <i class="fas fa-shopping-bag"></i> Thêm vào giỏ
+                </button>
+            </div>
+
+            <!-- Policies -->
+            <div class="product-policies">
+                <div class="policy-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Chính hãng 100%</span>
+                </div>
+                <div class="policy-item">
+                    <i class="fas fa-truck"></i>
+                    <span>Miễn phí vận chuyển</span>
+                </div>
+                <div class="policy-item">
+                    <i class="fas fa-undo"></i>
+                    <span>Đổi trả trong 7 ngày</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== SẢN PHẨM LIÊN QUAN ====== -->
+    <section class="related-products">
+        <h2 class="section-title">Sản phẩm liên quan</h2>
+        <div class="grid-6col-2row">
+            <div class="product-item">
+                <div class="product-badge sale">-15%</div>
+                <a href="product-detail.html">
+                    <img src="https://via.placeholder.com/300x200/5d4037/ffffff?text=Bộ+Trà+Cụ" alt="Bộ trà cụ">
+                    <h3>Bộ Trà Cụ Gốm Sứ Cao Cấp</h3>
+                </a>
+                <div class="product-rating">★★★★☆ (18)</div>
+                <div class="product-price">
+                    <span class="current-price">850.000đ</span>
+                    <span class="old-price">1.000.000đ</span>
+                </div>
+                <button class="btn-add-cart">Thêm vào giỏ</button>
+            </div>
+
+            <div class="product-item">
+                <div class="product-badge">Hot</div>
+                <a href="product-detail.html">
+                    <img src="https://via.placeholder.com/300x200/6d4c41/ffffff?text=Trà+Xanh" alt="Trà xanh">
+                    <h3>Trà Xanh Thái Nguyên Đặc Biệt</h3>
+                </a>
+                <div class="product-rating">★★★★★ (42)</div>
+                <div class="product-price">
+                    <span class="current-price">250.000đ</span>
+                    <span class="old-price">300.000đ</span>
+                </div>
+                <button class="btn-add-cart">Thêm vào giỏ</button>
+            </div>
+
+            <div class="product-item">
+                <div class="product-badge new">Mới</div>
+                <a href="product-detail.html">
+                    <img src="https://via.placeholder.com/300x200/8d6e63/ffffff?text=Khay+Trà" alt="Khay trà">
+                    <h3>Khay Trà Gỗ Sưa Tự Nhiên</h3>
+                </a>
+                <div class="product-rating">★★★★★ (15)</div>
+                <div class="product-price">
+                    <span class="current-price">1.200.000đ</span>
+                    <span class="old-price">1.500.000đ</span>
+                </div>
+                <button class="btn-add-cart">Thêm vào giỏ</button>
+            </div>
+
+            <div class="product-item">
+                <div class="product-badge sale">-10%</div>
+                <a href="product-detail.html">
+                    <img src="https://via.placeholder.com/300x200/a1887f/ffffff?text=Cốc+Trà" alt="Cốc trà">
+                    <h3>Cốc Trà Thủy Tinh Dung Nham</h3>
+                </a>
+                <div class="product-rating">★★★★☆ (22)</div>
+                <div class="product-price">
+                    <span class="current-price">180.000đ</span>
+                    <span class="old-price">200.000đ</span>
+                </div>
+                <button class="btn-add-cart">Thêm vào giỏ</button>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col footer-about">
+                <h2 class="footer-logo">TRÀ<span>CHUYỆN</span></h2>
+                <p class="footer-slogan">Ấm tử sa Nghi Hưng & trà cụ cao cấp chính hãng</p>
+                <p class="footer-desc">
+                    Chuyên ấm tử sa Nghi Hưng chính hãng và trà cụ cao cấp, tuyển chọn kỹ lưỡng để nâng tầm trải nghiệm thưởng trà của bạn.
+                </p>
+            </div>
+
+            <div class="footer-col footer-contact">
+                <h3 class="footer-heading">TƯ VẤN & ĐẶT HÀNG</h3>
+                <a href="tel:0889018999" class="footer-phone">
+                    <i class="fas fa-phone-alt"></i> 0889.018.999
+                </a>
+            </div>
+
+            <div class="footer-col footer-policy">
+                <h3 class="footer-heading">QUY ĐỊNH & CHÍNH SÁCH</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Điều khoản & quy định</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Phương thức thanh toán</a></li>
+                    <li><a href="#">Vận chuyển & kiểm hàng</a></li>
+                    <li><a href="#">Bảo hành & đổi trả</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col footer-payment-contact">
+                <div class="payment-methods">
+                    <h3 class="footer-heading">THANH TOÁN</h3>
+                    <div class="payment-icons">
+                        <span class="payment-badge">COD</span>
+                        <span class="payment-badge">Chuyển khoản</span>
+                        <span class="payment-badge">VietQR</span>
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <h3 class="footer-heading">LIÊN HỆ</h3>
+                    <p class="company-name">CÔNG TY TNHH TRÀ CHUYỆN</p>
+                    <p class="company-tax">Mã số thuế: </p>
+                    <p class="company-address">
+                        <i class="fas fa-map-marker-alt"></i> Trụ sở chính: Lô 28.100 Khu đô thị phía Tây, P. Từ Minh, TP Hải Phòng
+                    </p>
+                    <p class="company-address">
+                        <i class="fas fa-store"></i> Cửa hàng: Số 5 ngõ 50 Lê Hiến, P. Từ Minh, TP Hải Phòng
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-zalo">
+                <a href="#" class="zalo-link">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Zalo_Logo.png/600px-Zalo_Logo.png" alt="Zalo" style="height: 35px;">
+                </a>
+            </div>
+            <div class="footer-copyright">
+                Bản quyền © 2026 TraChuyen.com
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- ========== JAVASCRIPT ========== -->
+<script>
+    // Change main image when clicking thumbnail
+    function changeImage(element, imageUrl) {
+        // Cập nhật ảnh chính
+        document.getElementById('mainImage').src = imageUrl;
+        
+        // Cập nhật trạng thái active cho thumbnail
+        document.querySelectorAll('.thumbnail-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        element.classList.add('active');
+    }
+
+    // Change quantity
+    function changeQuantity(amount) {
+        const input = document.getElementById('quantityInput');
+        let value = parseInt(input.value) + amount;
+        if (value < 1) value = 1;
+        if (value > 99) value = 99;
+        input.value = value;
+    }
+</script>
+
+</body>
+</html>

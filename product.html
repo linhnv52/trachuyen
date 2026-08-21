@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sản phẩm trà - Trà Chuyện</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ============================================ */
+        /* CSS RIÊNG CHO TRANG SẢN PHẨM */
+        /* ============================================ */
+
+        .products-page {
+            padding: 30px 0 50px;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: #8d6e63;
+            margin-bottom: 25px;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee7e0;
+        }
+
+        .breadcrumb a {
+            color: #5d4037;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            color: #b8860b;
+        }
+
+        .breadcrumb .separator {
+            color: #c5b5a5;
+        }
+
+        .breadcrumb .current {
+            color: #b8860b;
+            font-weight: 500;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #3e2723;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: #8d6e63;
+            font-size: 1.1rem;
+        }
+
+        /* ====== DANH MỤC TRÀ ====== */
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 35px;
+            padding: 15px 0;
+            border-bottom: 2px solid #eee7e0;
+        }
+
+        .category-tab {
+            padding: 10px 28px;
+            border-radius: 30px;
+            border: 2px solid #e0d6cc;
+            background: transparent;
+            color: #5d4037;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .category-tab:hover {
+            border-color: #b8860b;
+            color: #b8860b;
+            transform: translateY(-2px);
+        }
+
+        .category-tab.active {
+            background: #b8860b;
+            border-color: #b8860b;
+            color: white;
+        }
+
+        .category-tab .count {
+            background: rgba(255,255,255,0.2);
+            padding: 0 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            margin-left: 5px;
+        }
+
+        .category-tab.active .count {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* ====== FILTER & SORT ====== */
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding: 15px 20px;
+            background: #f9f6f0;
+            border-radius: 12px;
+        }
+
+        .filter-bar .result-count {
+            color: #5d4037;
+            font-size: 0.95rem;
+        }
+
+        .filter-bar .result-count span {
+            font-weight: 700;
+            color: #b8860b;
+        }
+
+        .filter-options {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-options select {
+            padding: 8px 20px;
+            border-radius: 25px;
+            border: 1px solid #e0d6cc;
+            background: white;
+            color: #3e2723;
+            font-size: 0.9rem;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .filter-options select:hover,
+        .filter-options select:focus {
+            border-color: #b8860b;
+        }
+
+        .filter-options .view-mode {
+            display: flex;
+            gap: 5px;
+        }
+
+        .filter-options .view-mode button {
+            padding: 6px 12px;
+            border: 1px solid #e0d6cc;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #8d6e63;
+        }
+
+        .filter-options .view-mode button:hover,
+        .filter-options .view-mode button.active {
+            background: #b8860b;
+            border-color: #b8860b;
+            color: white;
+        }
+
+        /* ====== GRID SẢN PHẨM ====== */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .products-grid.list-view {
+            grid-template-columns: 1fr;
+        }
+
+        .products-grid.list-view .product-item {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            text-align: left;
+            padding: 15px;
+        }
+
+        .products-grid.list-view .product-item img {
+            width: 200px;
+            height: 200px;
+            flex-shrink: 0;
+        }
+
+        .products-grid.list-view .product-item .product-info {
+            flex: 1;
+        }
+
+        .products-grid.list-view .product-item h3 {
+            height: auto;
+            -webkit-line-clamp: unset;
+        }
+
+        /* ====== PHÂN TRANG ====== */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .pagination a,
+        .pagination span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+            height: 40px;
+            padding: 0 12px;
+            border-radius: 8px;
+            border: 1px solid #e0d6cc;
+            color: #5d4037;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .pagination a:hover {
+            background: #b8860b;
+            border-color: #b8860b;
+            color: white;
+        }
+
+        .pagination a.active {
+            background: #b8860b;
+            border-color: #b8860b;
+            color: white;
+        }
+
+        .pagination a.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination a.disabled:hover {
+            background: transparent;
+            border-color: #e0d6cc;
+            color: #5d4037;
+        }
+
+        /* ====== KHÔNG CÓ SẢN PHẨM ====== */
+        .no-products {
+            text-align: center;
+            padding: 60px 20px;
+            color: #8d6e63;
+        }
+
+        .no-products i {
+            font-size: 4rem;
+            color: #d4c5b5;
+            margin-bottom: 15px;
+        }
+
+        .no-products h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #3e2723;
+            margin-bottom: 10px;
+        }
+
+        /* ============================================ */
+        /* RESPONSIVE */
+        /* ============================================ */
+        @media (max-width: 992px) {
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+
+            .category-tab {
+                padding: 8px 18px;
+                font-size: 0.85rem;
+            }
+
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+
+            .filter-options {
+                justify-content: space-between;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .products-grid.list-view .product-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .products-grid.list-view .product-item img {
+                width: 100%;
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+
+            .category-tabs {
+                gap: 6px;
+            }
+
+            .category-tab {
+                padding: 6px 14px;
+                font-size: 0.75rem;
+            }
+
+            .filter-options {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-options select {
+                width: 100%;
+            }
+
+            .pagination a,
+            .pagination span {
+                min-width: 32px;
+                height: 32px;
+                font-size: 0.8rem;
+                padding: 0 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ========== HEADER ========== -->
+<header>
+    <div class="container">
+        <!-- Logo -->
+        <div class="logo">
+            <h1>Trà <span>Chuyện</span></h1>
+        </div>
+
+        <!-- Thanh tìm kiếm -->
+        <div class="search-bar-wrapper">
+            <div class="search-bar">
+                <input type="text" placeholder="Tìm kiếm sản phẩm...">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+
+        <!-- Menu điều hướng + Icons -->
+        <nav>
+            <ul>
+                <li><a href="index.html">TRANG CHỦ</a></li>
+                <li><a href="products.html" class="active">SẢN PHẨM TRÀ</a></li>
+                <li><a href="#">HỘP QUÀ TẶNG</a></li>
+                <li><a href="#">KHẢI VÀ CHÉN</a></li>
+                <li><a href="#">ẤM TỬ SA</a></li>
+                <li><a href="#">THÔNG TIN VỀ TRÀ</a></li>
+            </ul>
+            <div class="nav-icons">
+                <a href="#" title="Tài khoản"><i class="fas fa-user"></i></a>
+                <a href="#" title="Giỏ hàng"><i class="fas fa-shopping-bag"></i></a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<!-- ========== TRANG SẢN PHẨM ========== -->
+<div class="container products-page">
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="index.html"><i class="fas fa-home"></i> Trang chủ</a>
+        <span class="separator"><i class="fas fa-chevron-right"></i></span>
+        <span class="current">Sản phẩm trà</span>
+    </div>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1>🍵 Sản phẩm trà</h1>
+        <p>Khám phá bộ sưu tập trà và trà cụ tuyển chọn từ khắp nơi trên thế giới</p>
+    </div>
+
+    <!-- ====== DANH MỤC TRÀ ====== -->
+    <div class="category-tabs" id="categoryTabs">
+        <button class="category-tab active" data-category="all">
+            Tất cả <span class="count">(25)</span>
+        </button>
+        <button class="category-tab" data-category="tra-bi-dao">
+            Trà bí đao <span class="count">(1)</span>
+        </button>
+        <button class="category-tab" data-category="tra-xanh">
+            Trà Xanh <span class="count">(6)</span>
+        </button>
+        <button class="category-tab" data-category="tra-den">
+            Trà Đen <span class="count">(4)</span>
+        </button>
+        <button class="category-tab" data-category="tra-o-long">
+            Trà Ô Long <span class="count">(5)</span>
+        </button>
+        <button class="category-tab" data-category="tra-thao-moc">
+            Trà Thảo Mộc <span class="count">(3)</span>
+        </button>
+        <button class="category-tab" data-category="tra-sach">
+            Trà Sạch <span class="count">(2)</span>
+        </button>
+        <button class="category-tab" data-category="tra-cao-cap">
+            Trà Cao Cấp <span class="count">(4)</span>
+        </button>
+    </div>
+
+    <!-- ====== FILTER BAR ====== -->
+    <div class="filter-bar">
+        <div class="result-count">
+            Hiển thị <span id="productCount">25</span> sản phẩm
+        </div>
+        <div class="filter-options">
+            <div class="view-mode">
+                <button class="active" id="gridView" title="Dạng lưới"><i class="fas fa-th"></i></button>
+                <button id="listView" title="Dạng danh sách"><i class="fas fa-list"></i></button>
+            </div>
+            <select id="sortSelect">
+                <option value="default">Mặc định</option>
+                <option value="price-asc">Giá tăng dần</option>
+                <option value="price-desc">Giá giảm dần</option>
+                <option value="name">Tên A-Z</option>
+                <option value="rating">Đánh giá cao nhất</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- ====== GRID SẢN PHẨM ====== -->
+    <div class="products-grid" id="productsGrid">
+        <!-- Sản phẩm sẽ được JavaScript render vào đây -->
+    </div>
+
+    <!-- ====== PHÂN TRANG ====== -->
+    <div class="pagination" id="pagination">
+        <a href="#" class="disabled"><i class="fas fa-chevron-left"></i></a>
+        <a href="#" class="active">1</a>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">...</a>
+        <a href="#">5</a>
+        <a href="#"><i class="fas fa-chevron-right"></i></a>
+    </div>
+</div>
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col footer-about">
+                <h2 class="footer-logo">TRÀ<span>CHUYỆN</span></h2>
+                <p class="footer-slogan">Ấm tử sa Nghi Hưng & trà cụ cao cấp chính hãng</p>
+                <p class="footer-desc">
+                    Chuyên ấm tử sa Nghi Hưng chính hãng và trà cụ cao cấp, tuyển chọn kỹ lưỡng để nâng tầm trải nghiệm thưởng trà của bạn.
+                </p>
+            </div>
+
+            <div class="footer-col footer-contact">
+                <h3 class="footer-heading">TƯ VẤN & ĐẶT HÀNG</h3>
+                <a href="tel:0889018999" class="footer-phone">
+                    <i class="fas fa-phone-alt"></i> 0889.018.999
+                </a>
+            </div>
+
+            <div class="footer-col footer-policy">
+                <h3 class="footer-heading">QUY ĐỊNH & CHÍNH SÁCH</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Điều khoản & quy định</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Phương thức thanh toán</a></li>
+                    <li><a href="#">Vận chuyển & kiểm hàng</a></li>
+                    <li><a href="#">Bảo hành & đổi trả</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col footer-payment-contact">
+                <div class="payment-methods">
+                    <h3 class="footer-heading">THANH TOÁN</h3>
+                    <div class="payment-icons">
+                        <span class="payment-badge">COD</span>
+                        <span class="payment-badge">Chuyển khoản</span>
+                        <span class="payment-badge">VietQR</span>
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <h3 class="footer-heading">LIÊN HỆ</h3>
+                    <p class="company-name">CÔNG TY TNHH TRÀ CHUYỆN</p>
+                    <p class="company-tax">Mã số thuế: </p>
+                    <p class="company-address">
+                        <i class="fas fa-map-marker-alt"></i> Trụ sở chính: Lô 28.100 Khu đô thị phía Tây, P. Từ Minh, TP Hải Phòng
+                    </p>
+                    <p class="company-address">
+                        <i class="fas fa-store"></i> Cửa hàng: Số 5 ngõ 50 Lê Hiến, P. Từ Minh, TP Hải Phòng
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-zalo">
+                <a href="#" class="zalo-link">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Zalo_Logo.png/600px-Zalo_Logo.png" alt="Zalo" style="height: 35px;">
+                </a>
+            </div>
+            <div class="footer-copyright">
+                Bản quyền © 2026 TraChuyen.com
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- ========== JAVASCRIPT ========== -->
+<script>
+    // =============================================
+    // DỮ LIỆU SẢN PHẨM (Giả lập)
+    // =============================================
+    const products = [
+        // Trà Xanh
+        {
+            id: 1,
+            name: 'Trà Xanh Thái Nguyên Đặc Biệt',
+            category: 'tra-xanh',
+            categoryName: 'Trà Xanh',
+            price: 250000,
+            salePrice: 200000,
+            rating: 5,
+            reviewCount: 42,
+            image: 'https://via.placeholder.com/300x200/5d4037/ffffff?text=Trà+Xanh+Thái+Nguyên',
+            badge: 'Hot',
+            description: 'Trà xanh Thái Nguyên đặc biệt, hái từ những búp non đầu mùa.'
+        },
+        {
+            id: 2,
+            name: 'Trà Xanh Tân Cương',
+            category: 'tra-xanh',
+            categoryName: 'Trà Xanh',
+            price: 180000,
+            salePrice: null,
+            rating: 4,
+            reviewCount: 28,
+            image: 'https://via.placeholder.com/300x200/6d4c41/ffffff?text=Trà+Xanh+Tân+Cương',
+            badge: null,
+            description: 'Trà xanh Tân Cương hương thơm nhẹ, vị chát đậm đà.'
+        },
+        {
+            id: 3,
+            name: 'Trà Xanh Shan Tuyết',
+            category: 'tra-xanh',
+            categoryName: 'Trà Xanh',
+            price: 320000,
+            salePrice: 280000,
+            rating: 5,
+            reviewCount: 35,
+            image: 'https://via.placeholder.com/300x200/8d6e63/ffffff?text=Trà+Xanh+Shan+Tuyết',
+            badge: 'Mới',
+            description: 'Trà xanh Shan Tuyết từ những cây chè cổ thụ vùng cao.'
+        },
+        {
+            id: 4,
+            name: 'Trà Xanh Hương Sen',
+            category: 'tra-xanh',
+            categoryName: 'Trà Xanh',
+            price: 220000,
+            salePrice: 190000,
+            rating: 4,
+            reviewCount: 20,
+            image: 'https://via.placeholder.com/300x200/a1887f/ffffff?text=Trà+Xanh+Hương+Sen',
+            badge: null,
+            description: 'Trà xanh ướp hương sen tự nhiên, thơm nhẹ, dễ uống.'
+        },
+        {
+            id: 5,
+            name: 'Trà Xanh Mộc Châu',
+            category: 'tra-xanh',
+            categoryName: 'Trà Xanh',
+            price: 160000,
+            salePrice: null,
+            rating: 4,
+            reviewCount: 15,
+            image: 'https://via.placeholder.com/300x200/795548/ffffff?text=Trà+Xanh+Mộc+Châu',
+            badge: null,
+            description: 'Trà xanh Mộc Châu chất lượng cao, hương thơm đặc trưng.'
+        },
+        {
+            id: 6,
+            name: 'Trà Xanh Hà Giang',
+            category: 'tra-xanh',
+            categoryName: 'Trà Xanh',
+            price: 280000,
+            salePrice: 230000,
+            rating: 5,
+            reviewCount: 30,
+            image: 'https://via.placeholder.com/300x200/4e342e/ffffff?text=Trà+Xanh+Hà+Giang',
+            badge: 'Hot',
+            description: 'Trà xanh Hà Giang từ vùng đất cao nguyên đá.'
+        },
+
+        // Trà Đen
+        {
+            id: 7,
+            name: 'Trà Đen Shan Tuyết',
+            category: 'tra-den',
+            categoryName: 'Trà Đen',
+            price: 280000,
+            salePrice: null,
+            rating: 5,
+            reviewCount: 32,
+            image: 'https://via.placeholder.com/300x200/3e2723/ffffff?text=Trà+Đen+Shan+Tuyết',
+            badge: 'Hot',
+            description: 'Trà đen Shan Tuyết vị đậm đà, hương thơm đặc trưng.'
+        },
+        {
+            id: 8,
+            name: 'Trà Đen Srilanka',
+            category: 'tra-den',
+            categoryName: 'Trà Đen',
+            price: 200000,
+            salePrice: 170000,
+            rating: 4,
+            reviewCount: 18,
+            image: 'https://via.placeholder.com/300x200/5d4037/ffffff?text=Trà+Đen+Srilanka',
+            badge: null,
+            description: 'Trà đen Srilanka hương vị mạnh mẽ, thích hợp pha sữa.'
+        },
+        {
+            id: 9,
+            name: 'Trà Đen Assam Ấn Độ',
+            category: 'tra-den',
+            categoryName: 'Trà Đen',
+            price: 250000,
+            salePrice: 210000,
+            rating: 4,
+            reviewCount: 22,
+            image: 'https://via.placeholder.com/300x200/6d4c41/ffffff?text=Trà+Đen+Assam',
+            badge: 'Mới',
+            description: 'Trà đen Assam vị mạnh, hương thơm đặc trưng của Ấn Độ.'
+        },
+        {
+            id: 10,
+            name: 'Trà Đen Lapsang Souchong',
+            category: 'tra-den',
+            categoryName: 'Trà Đen',
+            price: 350000,
+            salePrice: 290000,
+            rating: 5,
+            reviewCount: 25,
+            image: 'https://via.placeholder.com/300x200/8d6e63/ffffff?text=Trà+Đen+Lapsang',
+            badge: 'Hot',
+            description: 'Trà đen Lapsang Souchong hương khói đặc trưng, vị đậm.'
+        },
+
+        // Trà Ô Long
+        {
+            id: 11,
+            name: 'Trà Ô Long Đài Loan Cao Sơn',
+            category: 'tra-o-long',
+            categoryName: 'Trà Ô Long',
+            price: 350000,
+            salePrice: 280000,
+            rating: 5,
+            reviewCount: 38,
+            image: 'https://via.placeholder.com/300x200/a1887f/ffffff?text=Ô+Long+Đài+Loan',
+            badge: 'Hot',
+            description: 'Trà ô long Đài Loan trồng ở độ cao 1000m, hương hoa nhẹ nhàng.'
+        },
+        {
+            id: 12,
+            name: 'Trà Ô Long Thiết Quan Âm',
+            category: 'tra-o-long',
+            categoryName: 'Trà Ô Long',
+            price: 300000,
+            salePrice: 250000,
+            rating: 4,
+            reviewCount: 28,
+            image: 'https://via.placeholder.com/300x200/795548/ffffff?text=Ô+Long+Thiết+Quan+Âm',
+            badge: null,
+            description: 'Trà ô long Thiết Quan Âm hương thơm quyến rũ, vị ngọt hậu.'
+        },
+        {
+            id: 13,
+            name: 'Trà Ô Long Phúc Kiến',
+            category: 'tra-o-long',
+            categoryName: 'Trà Ô Long',
+            price: 280000,
+            salePrice: null,
+            rating: 4,
+            reviewCount: 20,
+            image: 'https://via.placeholder.com/300x200/4e342e/ffffff?text=Ô+Long+Phúc+Kiến',
+            badge: null,
+            description: 'Trà ô long Phúc Kiến truyền thống, vị đậm đà.'
+        },
+        {
+            id: 14,
+            name: 'Trà Ô Long Tứ Hải',
+            category: 'tra-o-long',
+            categoryName: 'Trà Ô Long',
+            price: 400000,
+            salePrice: 350000,
+            rating: 5,
+            reviewCount: 30,
+            image: 'https://via.placeholder.com/300x200/3e2723/ffffff?text=Ô+Long+Tứ+Hải',
+            badge: 'Mới',
+            description: 'Trà ô long Tứ Hải cao cấp, hương thơm đặc biệt.'
+        },
+        {
+            id: 15,
+            name: 'Trà Ô Long Sữa',
+            category: 'tra-o-long',
+            categoryName: 'Trà Ô Long',
+            price: 260000,
+            salePrice: 220000,
+            rating: 4,
+            reviewCount: 25,
+            image: 'https://via.placeholder.com/300x200/5d4037/ffffff?text=Ô+Long+Sữa',
+            badge: null,
+            description: 'Trà ô long sữa hương thơm béo ngậy, vị dễ uống.'
+        },
+
+        // Trà Thảo Mộc
+        {
+            id: 16,
+            name: 'Trà Thảo Mộc Hoa Hồng',
+            category: 'tra-thao-moc',
+            categoryName: 'Trà Thảo Mộc',
+            price: 210000,
+            salePrice: 180000,
+            rating: 5,
+            reviewCount: 33,
+            image: 'https://via.placeholder.com/300x200/6d4c41/ffffff?text=Thảo+Mộc+Hoa+Hồng',
+            badge: 'Hot',
+            description: 'Trà thảo mộc hoa hồng, hương thơm nhẹ nhàng, tốt cho sức khỏe.'
+        },
+        {
+            id: 17,
+            name: 'Trà Thảo Mộc Hoa Cúc',
+            category: 'tra-thao-moc',
+            categoryName: 'Trà Thảo Mộc',
+            price: 170000,
+            salePrice: null,
+            rating: 4,
+            reviewCount: 20,
+            image: 'https://via.placeholder.com/300x200/8d6e63/ffffff?text=Thảo+Mộc+Hoa+Cúc',
+            badge: null,
+            description: 'Trà thảo mộc hoa cúc, thanh nhiệt, giải độc.'
+        },
+        {
+            id: 18,
+            name: 'Trà Thảo Mộc Bạc Hà',
+            category: 'tra-thao-moc',
+            categoryName: 'Trà Thảo Mộc',
+            price: 190000,
+            salePrice: 160000,
+            rating: 4,
+            reviewCount: 18,
+            image: 'https://via.placeholder.com/300x200/a1887f/ffffff?text=Thảo+Mộc+Bạc+Hà',
+            badge: null,
+            description: 'Trà thảo mộc bạc hà, mát lạnh, sảng khoái.'
+        },
+
+        // Trà Sạch
+        {
+            id: 19,
+            name: 'Trà Sạch Đặc Biệt',
+            category: 'tra-sach',
+            categoryName: 'Trà Sạch',
+            price: 390000,
+            salePrice: 320000,
+            rating: 5,
+            reviewCount: 40,
+            image: 'https://via.placeholder.com/300x200/795548/ffffff?text=Trà+Sạch+Đặc+Biệt',
+            badge: 'Hot',
+            description: 'Trà sạch đặc biệt, được trồng theo tiêu chuẩn hữu cơ.'
+        },
+        {
+            id: 20,
+            name: 'Trà Sạch Hữu Cơ',
+            category: 'tra-sach',
+            categoryName: 'Trà Sạch',
+            price: 280000,
+            salePrice: 240000,
+            rating: 5,
+            reviewCount: 25,
+            image: 'https://via.placeholder.com/300x200/4e342e/ffffff?text=Trà+Sạch+Hữu+Cơ',
+            badge: 'Mới',
+            description: 'Trà sạch hữu cơ, an toàn cho sức khỏe.'
+        },
+
+        // Trà Cao Cấp
+        {
+            id: 21,
+            name: 'Trà Cao Cấp Đà Lạt',
+            category: 'tra-cao-cap',
+            categoryName: 'Trà Cao Cấp',
+            price: 500000,
+            salePrice: 420000,
+            rating: 5,
+            reviewCount: 28,
+            image: 'https://via.placeholder.com/300x200/3e2723/ffffff?text=Trà+Cao+Cấp+Đà+Lạt',
+            badge: 'Mới',
+            description: 'Trà cao cấp Đà Lạt, hương thơm đặc trưng của vùng đất cao nguyên.'
+        },
+        {
+            id: 22,
+            name: 'Trà Cao Cấp Bạch Trà',
+            category: 'tra-cao-cap',
+            categoryName: 'Trà Cao Cấp',
+            price: 600000,
+            salePrice: 500000,
+            rating: 5,
+            reviewCount: 32,
+            image: 'https://via.placeholder.com/300x200/5d4037/ffffff?text=Bạch+Trà+Cao+Cấp',
+            badge: 'Hot',
+            description: 'Bạch trà cao cấp, thu hoạch từ những búp non nhất.'
+        },
+        {
+            id: 23,
+            name: 'Trà Cao Cấp Hồng Trà',
+            category: 'tra-cao-cap',
+            categoryName: 'Trà Cao Cấp',
+            price: 450000,
+            salePrice: 380000,
+            rating: 4,
+            reviewCount: 22,
+            image: 'https://via.placeholder.com/300x200/6d4c41/ffffff?text=Hồng+Trà+Cao+Cấp',
+            badge: null,
+            description: 'Hồng trà cao cấp, vị đậm đà, hương thơm quyến rũ.'
+        },
+        {
+            id: 24,
+            name: 'Trà Cao Cấp Vân Nam',
+            category: 'tra-cao-cap',
+            categoryName: 'Trà Cao Cấp',
+            price: 550000,
+            salePrice: 460000,
+            rating: 5,
+            reviewCount: 30,
+            image: 'https://via.placeholder.com/300x200/8d6e63/ffffff?text=Trà+Cao+Cấp+Vân+Nam',
+            badge: 'Hot',
+            description: 'Trà cao cấp Vân Nam, hương thơm đặc biệt, vị ngọt hậu.'
+        },
+        {
+            id: 25,
+            name: 'Trà bí không đao',
+            category: 'tra-bi-dao',
+            categoryName: 'Trà bí đao',
+            price: 120000,
+            salePrice: null,
+            rating: 5,
+            reviewCount: 1,
+            image: '/img/placeholder.svg',
+            badge: 'Mới',
+            description: 'Trà bí đao thanh mát, giải nhiệt cho mùa hè.'
+        }
+    ];
+
+    // =============================================
+    // LOGIC HIỂN THỊ
+    // =============================================
+
+    let currentCategory = 'all';
+    let currentSort = 'default';
+    let currentView = 'grid';
+    let currentPage = 1;
+    const itemsPerPage = 8;
+
+    // DOM elements
+    const productsGrid = document.getElementById('productsGrid');
+    const categoryTabs = document.getElementById('categoryTabs');
+    const productCount = document.getElementById('productCount');
+    const sortSelect = document.getElementById('sortSelect');
+    const gridViewBtn = document.getElementById('gridView');
+    const listViewBtn = document.getElementById('listView');
+    const pagination = document.getElementById('pagination');
+
+    // Render products
+    function renderProducts() {
+        // Filter by category
+        let filtered = products;
+        if (currentCategory !== 'all') {
+            filtered = products.filter(p => p.category === currentCategory);
+        }
+
+        // Sort
+        filtered = sortProducts(filtered, currentSort);
+
+        // Pagination
+        const totalItems = filtered.length;
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const paginatedItems = filtered.slice(startIndex, endIndex);
+
+        // Update count
+        productCount.textContent = totalItems;
+
+        // Render grid
+        if (paginatedItems.length === 0) {
+            productsGrid.innerHTML = `
+                <div class="no-products" style="grid-column: 1/-1;">
+                    <i class="fas fa-leaf"></i>
+                    <h3>Không có sản phẩm</h3>
+                    <p>Danh mục này hiện chưa có sản phẩm nào.</p>
+                </div>
+            `;
+        } else {
+            productsGrid.innerHTML = paginatedItems.map(product => `
+                <div class="product-item" data-id="${product.id}">
+                    ${product.badge ? `<div class="product-badge ${product.badge === 'Sale' ? 'sale' : product.badge === 'Mới' ? 'new' : ''}">${product.badge}</div>` : ''}
+                    <a href="product-detail.html?id=${product.id}">
+                        <img src="${product.image}" alt="${product.name}">
+                        <h3>${product.name}</h3>
+                    </a>
+                    <div class="product-rating">${'★'.repeat(product.rating)}${'☆'.repeat(5 - product.rating)} (${product.reviewCount})</div>
+                    <div class="product-price">
+                        <span class="current-price">${formatPrice(product.salePrice || product.price)}đ</span>
+                        ${product.salePrice ? `<span class="old-price">${formatPrice(product.price)}đ</span>` : ''}
+                    </div>
+                    <button class="btn-add-cart" onclick="addToCart(${product.id})">Thêm vào giỏ</button>
+                </div>
+            `).join('');
+        }
+
+        // Update view mode
+        productsGrid.className = 'products-grid' + (currentView === 'list' ? ' list-view' : '');
+
+        // Render pagination
+        renderPagination(totalPages);
+    }
+
+    // Sort products
+    function sortProducts(items, sortType) {
+        const sorted = [...items];
+        switch (sortType) {
+            case 'price-asc':
+                sorted.sort((a, b) => (a.salePrice || a.price) - (b.salePrice || b.price));
+                break;
+            case 'price-desc':
+                sorted.sort((a, b) => (b.salePrice || b.price) - (a.salePrice || a.price));
+                break;
+            case 'name':
+                sorted.sort((a, b) => a.name.localeCompare(b.name));
+                break;
+            case 'rating':
+                sorted.sort((a, b) => b.rating - a.rating);
+                break;
+            default:
+                break;
+        }
+        return sorted;
+    }
+
+    // Format price
+    function formatPrice(price) {
+        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+
+    // Render pagination
+    function renderPagination(totalPages) {
+        if (totalPages <= 1) {
+            pagination.innerHTML = '';
+            return;
+        }
+
+        let html = '';
+        // Prev
+        html += `<a href="#" class="${currentPage <= 1 ? 'disabled' : ''}" onclick="changePage(${currentPage - 1})"><i class="fas fa-chevron-left"></i></a>`;
+
+        // Pages
+        for (let i = 1; i <= totalPages; i++) {
+            if (i === currentPage) {
+                html += `<a href="#" class="active">${i}</a>`;
+            } else if (i === 1 || i === totalPages || Math.abs(i - currentPage) <= 2) {
+                html += `<a href="#" onclick="changePage(${i})">${i}</a>`;
+            } else if (i === currentPage - 3 || i === currentPage + 3) {
+                html += `<span>...</span>`;
+            }
+        }
+
+        // Next
+        html += `<a href="#" class="${currentPage >= totalPages ? 'disabled' : ''}" onclick="changePage(${currentPage + 1})"><i class="fas fa-chevron-right"></i></a>`;
+
+        pagination.innerHTML = html;
+    }
+
+    // Change page
+    function changePage(page) {
+        const filtered = currentCategory === 'all' ? products : products.filter(p => p.category === currentCategory);
+        const totalPages = Math.ceil(filtered.length / itemsPerPage);
+        if (page < 1 || page > totalPages) return;
+        currentPage = page;
+        renderProducts();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Add to cart
+    function addToCart(productId) {
+        alert('Đã thêm sản phẩm #' + productId + ' vào giỏ hàng!');
+    }
+
+    // =============================================
+    // EVENT LISTENERS
+    // =============================================
+
+    // Category tabs
+    categoryTabs.addEventListener('click', function(e) {
+        const tab = e.target.closest('.category-tab');
+        if (!tab) return;
+
+        document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        currentCategory = tab.dataset.category;
+        currentPage = 1;
+        renderProducts();
+    });
+
+    // Sort
+    sortSelect.addEventListener('change', function() {
+        currentSort = this.value;
+        currentPage = 1;
+        renderProducts();
+    });
+
+    // View mode
+    gridViewBtn.addEventListener('click', function() {
+        currentView = 'grid';
+        gridViewBtn.classList.add('active');
+        listViewBtn.classList.remove('active');
+        renderProducts();
+    });
+
+    listViewBtn.addEventListener('click', function() {
+        currentView = 'list';
+        listViewBtn.classList.add('active');
+        gridViewBtn.classList.remove('active');
+        renderProducts();
+    });
+
+    // =============================================
+    // KHỞI ĐỘNG
+    // =============================================
+
+    renderProducts();
+</script>
+
+</body>
+</html>

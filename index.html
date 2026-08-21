@@ -25,17 +25,20 @@
 
         <!-- Thanh tìm kiếm -->
         <div class="search-bar-wrapper">
-            <div class="search-bar">
-                <input type="text" placeholder="Tìm kiếm sản phẩm...">
-                <button type="submit"><i class="fas fa-search"></i></button>
+            <div class="smart-search">
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm..." autocomplete="off">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="smart-search-results" id="searchResults"></div>
             </div>
         </div>
 
         <!-- Menu điều hướng + Icons -->
         <nav>
             <ul>
-                <li><a href="#" class="active">TRANG CHỦ</a></li>
-                <li><a href="#">SẢN PHẨM TRÀ</a></li>
+                <li><a href="index.html" class="active">TRANG CHỦ</a></li>
+                <li><a href="product.html">SẢN PHẨM TRÀ</a></li>
                 <li><a href="#">HỘP QUÀ TẶNG</a></li>
                 <li><a href="#">KHẢI VÀ CHÉN</a></li>
                 <li><a href="#">ẤM TỬ SA</a></li>
@@ -360,6 +363,17 @@
                 <p class="footer-desc">
                     Chuyên ấm tử sa Nghi Hưng chính hãng và trà cụ cao cấp, tuyển chọn kỹ lưỡng để nâng tầm trải nghiệm thưởng trà của bạn.
                 </p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon facebook" title="Facebook" aria-label="Facebook">
+                        <svg viewBox="0 0 320 512" fill="currentColor"><path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"/></svg>
+                    </a>
+                    <a href="#" class="social-icon tiktok" title="TikTok" aria-label="TikTok">
+                        <svg viewBox="0 0 448 512" fill="currentColor"><path d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z"/></svg>
+                    </a>
+                    <a href="#" class="social-icon zalo" title="Zalo" aria-label="Zalo">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.49 10.04V5.5h1.53v4.54h-1.53zm-3.34 0h1.53V8.08c0-1.05-.3-1.9-1.04-2.47-.58-.44-1.35-.66-2.32-.66H4.5v4.06H6.02V6.62h.77c.66 0 1.1.4 1.1 1.22v2.2h1.26zm6.58-3.66v1.23h2.63v1.15h-2.63v2.3h-1.53V5.5h4.17v.88h-2.64zm-8.4 6.54l5.66-5.9h-5.6V7.9h3.35l-5.66 5.9h5.6v-.88H7.33z"/></svg>
+                    </a>
+                </div>
             </div>
 
             <!-- Cột 2: Tư vấn & Đặt hàng -->
@@ -496,6 +510,24 @@
             });
         });
     </script>
+
+<script src="js/smart-search.js"></script>
+<script>
+    (function () {
+        var input = document.getElementById('searchInput');
+        var results = document.getElementById('searchResults');
+        if (!input || !results) return;
+        initSmartSearch({
+            input: input,
+            resultsEl: results,
+            endpoint: 'api/search.php',
+            minChars: 2,
+            onPick: function (item) {
+                window.location.href = 'productdetal.php?id=' + item.id;
+            }
+        });
+    })();
+</script>
 
 </body>
 </html>
