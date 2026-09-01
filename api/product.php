@@ -37,8 +37,6 @@ echo json_encode([
     'price'              => $product['price'],
     'old_price'          => $product['old_price'],
     'discount'           => $discount,
-    'rating_avg'         => $product['rating_avg'],
-    'review_count'       => (int)$product['review_count'],
     'stock_quantity'     => (int)$product['stock_quantity'],
     'views'              => (int)$product['views'],
     'image_url'          => $product['image_url'],

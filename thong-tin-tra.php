@@ -34,7 +34,10 @@ foreach (getAllCategories() as $c) {
 }
 function teaCardLink(string $name, array $map): string
 {
-    return isset($map[normalizeText($name)]) ? 'product.php?category=' . urlencode($map[normalizeText($name)]) : 'product.php';
+    if (!isset($map[normalizeText($name)])) {
+        return 'product.php';
+    }
+    return categoryPageUrl($map[normalizeText($name)]);
 }
 
 require __DIR__ . '/includes/header.php';
@@ -43,54 +46,150 @@ require __DIR__ . '/includes/header.php';
 <div class="container body-container tea-info-page">
     <h2 class="section-title">THÔNG TIN VỀ TRÀ</h2>
 
-    <!-- ====== CÁC LOẠI TRÀ ====== -->
-    <section class="tea-info-section">
-        <h3 class="tea-info-heading"><i class="fas fa-mug-hot"></i> <?= e($tea['tea_s1_title']) ?></h3>
-        <div class="tea-type-grid">
-            <?php foreach (teaLines($tea['tea_s1_cards']) as $card):
-                [$cardName, $cardDesc] = array_pad(explode('|', $card, 2), 2, '');
-                ?>
-                <div class="tea-type-card">
-                    <h4><?= e(trim($cardName)) ?></h4>
-                    <p><?= e(trim($cardDesc)) ?></p>
-                    <a href="<?= e(teaCardLink(trim($cardName), $teaCatMap)) ?>">Xem sản phẩm →</a>
+    <!-- ====== LAYOUT 2 CỘT: DANH MỤC | NỘI DUNG ====== -->
+    <div class="tea-info-split">
+
+        <!-- Cột trái: danh mục -->
+        <aside class="tea-info-nav">
+            <button type="button" class="tea-nav-btn active" data-cat="tra"><i class="fas fa-leaf"></i> TRÀ</button>
+            <button type="button" class="tea-nav-btn" data-cat="gomsu"><i class="fas fa-mug-saucer"></i> GỐM SỨ</button>
+            <button type="button" class="tea-nav-btn" data-cat="amtusa"><i class="fas fa-wine-bottle"></i> ẤM TỬ SA</button>
+        </aside>
+
+        <!-- Cột phải: nội dung -->
+        <div class="tea-info-content">
+
+            <!-- ====== PANEL TRÀ ====== -->
+            <section class="tea-info-panel active" data-panel="tra">
+                <div class="tea-info-section">
+                    <h3 class="tea-info-heading"><i class="fas fa-mug-hot"></i> <?= e($tea['tea_s1_title']) ?></h3>
+                    <div class="tea-type-grid">
+                        <?php foreach (teaLines($tea['tea_s1_cards']) as $card):
+                            [$cardName, $cardDesc] = array_pad(explode('|', $card, 2), 2, '');
+                            ?>
+                            <div class="tea-type-card">
+                                <h4><?= e(trim($cardName)) ?></h4>
+                                <p><?= e(trim($cardDesc)) ?></p>
+                                <a href="<?= e(teaCardLink(trim($cardName), $teaCatMap)) ?>">Xem sản phẩm →</a>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
-            <?php endforeach; ?>
+
+                <div class="tea-info-section">
+                    <h3 class="tea-info-heading"><i class="fas fa-magnifying-glass"></i> <?= e($tea['tea_s2_title']) ?></h3>
+                    <ul class="tea-info-list">
+                        <?php foreach (teaLines($tea['tea_s2_items']) as $item): ?>
+                            <li><?= teaLine($item) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+
+                <div class="tea-info-section">
+                    <h3 class="tea-info-heading"><i class="fas fa-fire-flame-simple"></i> <?= e($tea['tea_s3_title']) ?></h3>
+                    <ol class="tea-info-steps">
+                        <?php foreach (teaLines($tea['tea_s3_items']) as $step): ?>
+                            <li><?= teaLine($step) ?></li>
+                        <?php endforeach; ?>
+                    </ol>
+                </div>
+
+                <div class="tea-info-section">
+                    <h3 class="tea-info-heading"><i class="fas fa-box-open"></i> <?= e($tea['tea_s4_title']) ?></h3>
+                    <ul class="tea-info-list">
+                        <?php foreach (teaLines($tea['tea_s4_items']) as $item): ?>
+                            <li><?= teaLine($item) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ====== PANEL GỐM SỨ ====== -->
+            <section class="tea-info-panel" data-panel="gomsu">
+                <div class="tea-info-section">
+                    <h3 class="tea-info-heading"><i class="fas fa-mug-saucer"></i> <?= e($tea['gomsu_s1_title']) ?></h3>
+                    <ul class="tea-info-list">
+                        <?php foreach (teaLines($tea['gomsu_s1_items']) as $item): ?>
+                            <li><?= teaLine($item) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+
+                <div class="tea-info-section">
+                    <h3 class="tea-info-heading"><i class="fas fa-hand-holding-droplet"></i> <?= e($tea['gomsu_s2_title']) ?></h3>
+                    <ol class="tea-info-steps">
+                        <?php foreach (teaLines($tea['gomsu_s2_items']) as $step): ?>
+                            <li><?= teaLine($step) ?></li>
+                        <?php endforeach; ?>
+                    </ol>
+                </div>
+
+                <div class="tea-info-section">
+                    <h3 class="tea-info-heading"><i class="fas fa-soap"></i> <?= e($tea['gomsu_s3_title']) ?></h3>
+                    <ul class="tea-info-list">
+                        <?php foreach (teaLines($tea['gomsu_s3_items']) as $item): ?>
+                            <li><?= teaLine($item) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ====== PANEL ẤM TỬ SA ====== -->
+            <section class="tea-info-panel" data-panel="amtusa">
+                <div class="tea-info-section">
+                    <h3 class="tea-info-heading"><i class="fas fa-wine-bottle"></i> <?= e($tea['amtusa_s1_title']) ?></h3>
+                    <ul class="tea-info-list">
+                        <?php foreach (teaLines($tea['amtusa_s1_items']) as $item): ?>
+                            <li><?= teaLine($item) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+
+                <div class="tea-info-section">
+                    <h3 class="tea-info-heading"><i class="fas fa-hand-holding-droplet"></i> <?= e($tea['amtusa_s2_title']) ?></h3>
+                    <ol class="tea-info-steps">
+                        <?php foreach (teaLines($tea['amtusa_s2_items']) as $step): ?>
+                            <li><?= teaLine($step) ?></li>
+                        <?php endforeach; ?>
+                    </ol>
+                </div>
+
+                <div class="tea-info-section">
+                    <h3 class="tea-info-heading"><i class="fas fa-triangle-exclamation"></i> <?= e($tea['amtusa_s3_title']) ?></h3>
+                    <ul class="tea-info-list">
+                        <?php foreach (teaLines($tea['amtusa_s3_items']) as $item): ?>
+                            <li><?= teaLine($item) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </section>
+
         </div>
-    </section>
-
-    <!-- ====== CHỌN TRÀ ====== -->
-    <section class="tea-info-section">
-        <h3 class="tea-info-heading"><i class="fas fa-leaf"></i> <?= e($tea['tea_s2_title']) ?></h3>
-        <ul class="tea-info-list">
-            <?php foreach (teaLines($tea['tea_s2_items']) as $item): ?>
-                <li><?= teaLine($item) ?></li>
-            <?php endforeach; ?>
-        </ul>
-    </section>
-
-    <!-- ====== PHA TRÀ ====== -->
-    <section class="tea-info-section">
-        <h3 class="tea-info-heading"><i class="fas fa-fire-flame-simple"></i> <?= e($tea['tea_s3_title']) ?></h3>
-        <ol class="tea-info-steps">
-            <?php foreach (teaLines($tea['tea_s3_items']) as $step): ?>
-                <li><?= teaLine($step) ?></li>
-            <?php endforeach; ?>
-        </ol>
-    </section>
-
-    <!-- ====== BẢO QUẢN ====== -->
-    <section class="tea-info-section">
-        <h3 class="tea-info-heading"><i class="fas fa-box-open"></i> <?= e($tea['tea_s4_title']) ?></h3>
-        <ul class="tea-info-list">
-            <?php foreach (teaLines($tea['tea_s4_items']) as $item): ?>
-                <li><?= teaLine($item) ?></li>
-            <?php endforeach; ?>
-        </ul>
-    </section>
+    </div>
 </div>
 
 <?php
-$extraScript = '';
+$extraScript = <<<'HTML'
+<script>
+    (function () {
+        var cats = ['tra', 'gomsu', 'amtusa'];
+        var btns = Array.prototype.slice.call(document.querySelectorAll('.tea-nav-btn'));
+        var panels = Array.prototype.slice.call(document.querySelectorAll('.tea-info-panel'));
+
+        function activate(cat) {
+            btns.forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-cat') === cat); });
+            panels.forEach(function (p) { p.classList.toggle('active', p.getAttribute('data-panel') === cat); });
+        }
+
+        btns.forEach(function (b) {
+            b.addEventListener('click', function () { activate(b.getAttribute('data-cat')); });
+        });
+
+        var params = new URLSearchParams(window.location.search);
+        var cat = params.get('cat');
+        if (cats.indexOf(cat) !== -1) activate(cat);
+    })();
+</script>
+HTML;
 require __DIR__ . '/includes/footer.php';
 ?>

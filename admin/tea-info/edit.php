@@ -17,14 +17,28 @@ foreach ($defaults as $key => $val) {
 }
 
 $fields = [
-    'tea_s1_title' => ['label' => 'Tiêu đề mục 1', 'type' => 'title'],
-    'tea_s1_cards' => ['label' => 'Các loại trà (card)', 'type' => 'cards'],
-    'tea_s2_title' => ['label' => 'Tiêu đề mục 2', 'type' => 'title'],
-    'tea_s2_items' => ['label' => 'Cách chọn trà ngon', 'type' => 'items'],
-    'tea_s3_title' => ['label' => 'Tiêu đề mục 3', 'type' => 'title'],
-    'tea_s3_items' => ['label' => 'Nghệ thuật pha trà (các bước)', 'type' => 'items'],
-    'tea_s4_title' => ['label' => 'Tiêu đề mục 4', 'type' => 'title'],
-    'tea_s4_items' => ['label' => 'Bảo quản trà đúng cách', 'type' => 'items'],
+    'tea_s1_title' => ['label' => 'TRÀ · Tiêu đề mục 1', 'type' => 'title'],
+    'tea_s1_cards' => ['label' => 'TRÀ · Các loại trà (card)', 'type' => 'cards'],
+    'tea_s2_title' => ['label' => 'TRÀ · Tiêu đề mục 2', 'type' => 'title'],
+    'tea_s2_items' => ['label' => 'TRÀ · Cách chọn trà ngon', 'type' => 'items'],
+    'tea_s3_title' => ['label' => 'TRÀ · Tiêu đề mục 3', 'type' => 'title'],
+    'tea_s3_items' => ['label' => 'TRÀ · Nghệ thuật pha trà (các bước)', 'type' => 'items'],
+    'tea_s4_title' => ['label' => 'TRÀ · Tiêu đề mục 4', 'type' => 'title'],
+    'tea_s4_items' => ['label' => 'TRÀ · Bảo quản trà đúng cách', 'type' => 'items'],
+
+    'gomsu_s1_title' => ['label' => 'GỐM SỨ · Giới thiệu', 'type' => 'title'],
+    'gomsu_s1_items' => ['label' => 'GỐM SỨ · Giới thiệu (danh sách)', 'type' => 'items'],
+    'gomsu_s2_title' => ['label' => 'GỐM SỨ · Cách sử dụng', 'type' => 'title'],
+    'gomsu_s2_items' => ['label' => 'GỐM SỨ · Cách sử dụng (các bước)', 'type' => 'items'],
+    'gomsu_s3_title' => ['label' => 'GỐM SỨ · Vệ sinh & bảo quản', 'type' => 'title'],
+    'gomsu_s3_items' => ['label' => 'GỐM SỨ · Vệ sinh & bảo quản', 'type' => 'items'],
+
+    'amtusa_s1_title' => ['label' => 'ẤM TỬ SA · Giới thiệu', 'type' => 'title'],
+    'amtusa_s1_items' => ['label' => 'ẤM TỬ SA · Giới thiệu (danh sách)', 'type' => 'items'],
+    'amtusa_s2_title' => ['label' => 'ẤM TỬ SA · Cách sử dụng & dưỡng ấm', 'type' => 'title'],
+    'amtusa_s2_items' => ['label' => 'ẤM TỬ SA · Cách sử dụng & dưỡng ấm (các bước)', 'type' => 'items'],
+    'amtusa_s3_title' => ['label' => 'ẤM TỬ SA · Lưu ý', 'type' => 'title'],
+    'amtusa_s3_items' => ['label' => 'ẤM TỬ SA · Lưu ý khi dùng', 'type' => 'items'],
 ];
 
 $flash = null;
@@ -59,7 +73,7 @@ require __DIR__ . '/../includes/header.php';
 <div class="toolbar">
     <div class="toolbar-left" style="color:var(--text-light);">
         <i class="fas fa-circle-info"></i>
-        Mỗi dòng là một mục riêng. Card trà soạn dạng <b>Tên | Mô tả</b>. Với danh sách, phần chữ trước dấu ":" đầu dòng sẽ tự in đậm.
+        Nội dung gồm 3 danh mục: <b>TRÀ · GỐM SỨ · ẤM TỬ SA</b>. Mỗi dòng là một mục riêng. Card trà soạn dạng <b>Tên | Mô tả</b>. Với danh sách, phần chữ trước dấu ":" đầu dòng sẽ tự in đậm.
         <a href="<?= e(url('/thong-tin-tra.php')) ?>" target="_blank" style="margin-left:6px;">Xem trang <i class="fas fa-external-link-alt"></i></a>
     </div>
 </div>

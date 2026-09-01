@@ -39,7 +39,8 @@ if (!empty($product['badge'])) {
 }
 
 $mainImg = $product['image_url'] ?: url('/img/placeholder.svg');
-$stars = str_repeat('★', (int)$product['rating_avg']) . str_repeat('☆', 5 - (int)$product['rating_avg']);
+$gallery = productGallery($product['gallery'] ?? null);
+$thumbs  = $gallery ? array_merge([$mainImg], $gallery) : [];
 $discount = $product['old_price'] && $product['old_price'] > $product['price']
     ? (int)round((1 - $product['price'] / $product['old_price']) * 100)
     : 0;
@@ -53,10 +54,10 @@ require __DIR__ . '/includes/header.php';
     <div class="breadcrumb">
         <a href="index.php"><i class="fas fa-home"></i> Trang chủ</a>
         <span class="separator"><i class="fas fa-chevron-right"></i></span>
-        <a href="product.php">Sản phẩm trà</a>
+        <a href="san-pham-tra.php">Sản phẩm trà</a>
         <?php if ($product['category_slug']): ?>
             <span class="separator"><i class="fas fa-chevron-right"></i></span>
-            <a href="product.php?category=<?= e($product['category_slug']) ?>"><?= e($product['category_name']) ?></a>
+            <a href="<?= e(categoryPageUrl($product['category_slug'])) ?>"><?= e($product['category_name']) ?></a>
         <?php endif; ?>
         <span class="separator"><i class="fas fa-chevron-right"></i></span>
         <span class="current"><?= e($product['name']) ?></span>
@@ -69,16 +70,25 @@ require __DIR__ . '/includes/header.php';
             <div class="main-image">
                 <img src="<?= e($mainImg) ?>" alt="<?= e($product['name']) ?>" id="mainImage">
             </div>
+
+            <?php if (count($thumbs) > 1): ?>
+            <div class="thumbnail-wrap">
+                <button type="button" class="thumb-arrow prev" aria-label="Ảnh trước"><i class="fas fa-chevron-left"></i></button>
+                <div class="thumbnail-list" id="thumbList">
+                    <?php foreach ($thumbs as $ti => $tImg): ?>
+                        <div class="thumbnail-item <?= $ti === 0 ? 'active' : '' ?>" data-src="<?= e($tImg) ?>">
+                            <img src="<?= e($tImg) ?>" alt="<?= e($product['name']) ?> <?= $ti + 1 ?>" loading="lazy">
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <button type="button" class="thumb-arrow next" aria-label="Ảnh sau"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <?php endif; ?>
         </div>
 
         <!-- Cột phải: Thông tin -->
         <div class="product-detail-info">
             <h1 class="product-detail-name"><?= e($product['name']) ?></h1>
-
-            <div class="product-detail-rating">
-                <span class="stars"><?= $stars ?></span>
-                <span class="review-count">(<?= (int)$product['review_count'] ?> đánh giá)</span>
-            </div>
 
             <div class="product-meta">
                 <div class="product-meta-item">
@@ -114,12 +124,7 @@ require __DIR__ . '/includes/header.php';
                 <p><?= nl2br(e($product['description'] ?: 'Chưa có mô tả cho sản phẩm này.')) ?></p>
             </div>
 
-            <!-- Policies -->
-            <div class="product-policies">
-                <div class="policy-item"><i class="fas fa-shield-alt"></i><span>Chính hãng 100%</span></div>
-                <div class="policy-item"><i class="fas fa-truck"></i><span>Miễn phí vận chuyển</span></div>
-                <div class="policy-item"><i class="fas fa-undo"></i><span>Đổi trả trong 7 ngày</span></div>
-            </div>
+            <a class="btn-consult" href="tel:0877013030"><i class="fas fa-phone-alt"></i>Tư vấn mua hàng</a>
         </div>
     </div>
 
@@ -130,19 +135,17 @@ require __DIR__ . '/includes/header.php';
         <div class="grid-6col-2row">
             <?php foreach ($related as $rp):
                 $rImg = $rp['image_url'] ?: url('/img/placeholder.svg');
-                $rStars = str_repeat('★', (int)$rp['rating_avg']) . str_repeat('☆', 5 - (int)$rp['rating_avg']);
                 ?>
                 <div class="product-item" data-id="<?= (int)$rp['id'] ?>">
                     <a href="productdetal.php?id=<?= $rp['id'] ?>">
                         <img src="<?= e($rImg) ?>" alt="<?= e($rp['name']) ?>">
                         <h3><?= e($rp['name']) ?></h3>
                     </a>
-                    <div class="product-rating"><?= $rStars ?> (<?= (int)$rp['review_count'] ?>)</div>
                     <div class="product-price">
                         <span class="current-price"><?= formatPrice($rp['price']) ?>đ</span>
                         <?php if ($rp['old_price']): ?><span class="old-price"><?= formatPrice($rp['old_price']) ?>đ</span><?php endif; ?>
                     </div>
-                    <a class="btn-add-cart" href="productdetal.php?id=<?= $rp['id'] ?>">Xem chi tiết</a>
+                    <a class="btn-add-cart" href="productdetal.php?id=<?= $rp['id'] ?>" title="Xem chi tiết"><i class="fas fa-arrow-right"></i></a>
                 </div>
             <?php endforeach; ?>
         </div>
@@ -152,6 +155,45 @@ require __DIR__ . '/includes/header.php';
 </div>
 
 <?php
-$extraScript = '';
+$extraScript = count($thumbs) > 1 ? <<<'HTML'
+<script>
+(function () {
+    var list = document.getElementById('thumbList');
+    if (!list) return;
+    var main = document.getElementById('mainImage');
+    var wrap = list.parentElement;
+
+    // Bấm thumbnail -> đổi ảnh chính + highlight
+    list.addEventListener('click', function (e) {
+        var item = e.target.closest('.thumbnail-item');
+        if (!item || !main) return;
+        var src = item.getAttribute('data-src');
+        if (!src || main.src.indexOf(src) !== -1) return;
+        main.src = src;
+        list.querySelectorAll('.thumbnail-item.active').forEach(function (el) {
+            el.classList.remove('active');
+        });
+        item.classList.add('active');
+    });
+
+    // Mũi tên cuộn slider đúng 1 ô
+    document.querySelectorAll('.thumb-arrow').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var first = list.firstElementChild;
+            var step = first ? first.getBoundingClientRect().width + 12 : 92;
+            list.scrollBy({ left: btn.classList.contains('next') ? step : -step, behavior: 'smooth' });
+        });
+    });
+
+    // Chỉ hiện mũi tên khi danh sách tràn ngang
+    function toggleArrows() {
+        wrap.classList.toggle('has-arrows', list.scrollWidth > list.clientWidth + 4);
+    }
+    window.addEventListener('resize', toggleArrows);
+    window.addEventListener('load', toggleArrows);
+    toggleArrows();
+})();
+</script>
+HTML : '';
 require __DIR__ . '/includes/footer.php';
 ?>

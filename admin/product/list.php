@@ -97,7 +97,6 @@ require __DIR__ . '/../includes/header.php';
             <option value="price-asc" <?= $sort === 'price-asc' ? 'selected' : '' ?>>Giá tăng dần</option>
             <option value="price-desc" <?= $sort === 'price-desc' ? 'selected' : '' ?>>Giá giảm dần</option>
             <option value="name" <?= $sort === 'name' ? 'selected' : '' ?>>Tên A-Z</option>
-            <option value="rating" <?= $sort === 'rating' ? 'selected' : '' ?>>Đánh giá cao nhất</option>
             <option value="best" <?= $sort === 'best' ? 'selected' : '' ?>>Bán chạy</option>
         </select>
         <?php if ($search !== '' || $categoryId !== '' || $status !== '' || $sort !== 'newest'): ?>
@@ -118,7 +117,6 @@ require __DIR__ . '/../includes/header.php';
                 <th>Danh mục</th>
                 <th>Giá bán</th>
                 <th>Tồn kho</th>
-                <th>Đánh giá</th>
                 <th>Trạng thái</th>
                 <th>Thao tác</th>
             </tr>
@@ -126,7 +124,7 @@ require __DIR__ . '/../includes/header.php';
         <tbody>
             <?php if (!$products): ?>
                 <tr>
-                    <td colspan="8" style="text-align:center; padding:50px; color:var(--text-light);">
+                    <td colspan="7" style="text-align:center; padding:50px; color:var(--text-light);">
                         <i class="fas fa-leaf" style="font-size:3rem; color:#d4c5b5; margin-bottom:12px; display:block;"></i>
                         Không tìm thấy sản phẩm phù hợp.
                     </td>
@@ -148,7 +146,6 @@ require __DIR__ . '/../includes/header.php';
                         <?php endif; ?>
                     </td>
                     <td><?= (int)$p['stock_quantity'] ?></td>
-                    <td>★ <?= number_format((float)$p['rating_avg'], 1) ?> <span style="color:#aaa;">(<?= (int)$p['review_count'] ?>)</span></td>
                     <td>
                         <span class="status-badge <?= $p['is_active'] ? 'active' : 'inactive' ?>">
                             <?= $p['is_active'] ? 'Hoạt động' : 'Tạm dừng' ?>

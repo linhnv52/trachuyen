@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS products (
   review_count int DEFAULT 0 COMMENT 'Tổng số lượt đánh giá',
   is_best_seller tinyint(1) DEFAULT 0 COMMENT 'Sản phẩm bán chạy',
   stock_quantity int DEFAULT 0 COMMENT 'Số lượng tồn kho',
+  capacity int DEFAULT NULL COMMENT 'Dung tích (ml)',
   is_active tinyint(1) DEFAULT 1 COMMENT 'Trạng thái hoạt động',
   views int DEFAULT 0 COMMENT 'Số lượt xem',
   created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -77,7 +78,7 @@ INSERT INTO categories (id, name, slug, description, image_url, is_active, sort_
 -- SEED: SẢN PHẨM
 -- ============================================================
 INSERT INTO products
-  (code, category_id, name, slug, description, short_description, price, old_price, badge, image_url, rating_avg, review_count, is_best_seller, stock_quantity, is_active) VALUES
+  (code, category_id, name, slug, description, short_description, price, old_price, badge, image_url, rating_avg, review_count, is_best_seller, stock_quantity, capacity, is_active) VALUES
 ('TC-001', 1, 'Trà Xanh Thái Nguyên Đặc Biệt', 'tra-xanh-thai-nguyen-dac-biet', 'Trà xanh Thái Nguyên đặc biệt, hái từ những búp non đầu mùa, vị chát dịu hậu ngọt sâu.', 'Búp non đầu mùa, vị chát dịu hậu ngọt', 250000, 300000, 'hot', 'https://via.placeholder.com/600x500/5d4037/ffffff?text=Trà+Xanh+Thái+Nguyên', 5.0, 42, 1, 25, 1),
 ('TC-002', 1, 'Trà Xanh Tân Cương', 'tra-xanh-tan-cuong', 'Trà xanh Tân Cương hương thơm nhẹ, vị chát đậm đà đặc trưng vùng trung du.', 'Hương thơm nhẹ, vị chát đậm đà', 180000, NULL, '', 'https://via.placeholder.com/600x500/6d4c41/ffffff?text=Trà+Xanh+Tân+Cương', 4.0, 28, 0, 18, 1),
 ('TC-003', 1, 'Trà Xanh Shan Tuyết', 'tra-xanh-shan-tuyet', 'Trà xanh Shan Tuyết từ những cây chè cổ thụ vùng cao, hương cốm thoảng, vị đượm.', 'Chè cổ thụ vùng cao, hương cốm thoảng', 320000, 280000, 'new', 'https://via.placeholder.com/600x500/8d6e63/ffffff?text=Trà+Xanh+Shan+Tuyết', 5.0, 35, 1, 12, 1),
@@ -95,11 +96,11 @@ INSERT INTO products
 ('TC-012', 4, 'Trà Thảo Mộc Hoa Hồng', 'tra-thao-moc-hoa-hong', 'Trà thảo mộc hoa hồng, hỗ trợ ngủ ngon, thư giãn tinh thần.', 'Hoa hồng, hỗ trợ ngủ ngon', 210000, 180000, '', 'https://via.placeholder.com/600x500/6d4c41/ffffff?text=Thảo+Mộc+Hoa+Hồng', 5.0, 22, 0, 22, 1),
 ('TC-013', 4, 'Trà Thảo Mộc Gừng Mật Ong', 'tra-thao-moc-gung-mat-ong', 'Trà gừng mật ong ấm bụng, giải cảm, tăng sức đề kháng.', 'Gừng mật ong, ấm bụng', 170000, NULL, '', 'https://via.placeholder.com/600x500/795548/ffffff?text=Gừng+Mật+Ong', 4.5, 14, 0, 25, 1),
 
-('TC-014', 5, 'Ấm Tử Sa Nghi Hưng Cổ Phong', 'am-tu-sa-nghi-hung-co-phong', 'Ấm tử sa Nghi Hưng chế tác thủ công bởi nghệ nhân lành nghề, chất đất nguyên khoáng, giữ nhiệt tốt.', 'Thủ công, chất đất nguyên khoáng', 1200000, 1500000, 'hot', 'https://via.placeholder.com/600x500/b8860b/ffffff?text=Ấm+Tử+Sa', 5.0, 30, 1, 8, 1),
-('TC-015', 5, 'Bộ Ấm Chén Tử Sa', 'bo-am-chen-tu-sa', 'Bộ ấm chén tử sa đồng bộ, tinh xảo, thích hợp thưởng trà hàng ngày.', 'Đồng bộ ấm chén', 950000, 1100000, 'new', 'https://via.placeholder.com/600x500/8d6e63/ffffff?text=Bộ+Ấm+Chén+Tử+Sa', 4.5, 14, 0, 10, 1),
+('TC-014', 5, 'Ấm Tử Sa Nghi Hưng Cổ Phong', 'am-tu-sa-nghi-hung-co-phong', 'Ấm tử sa Nghi Hưng chế tác thủ công bởi nghệ nhân lành nghề, chất đất nguyên khoáng, giữ nhiệt tốt.', 'Thủ công, chất đất nguyên khoáng', 1200000, 1500000, 'hot', 'https://via.placeholder.com/600x500/b8860b/ffffff?text=Ấm+Tử+Sa', 5.0, 30, 1, 8, 200, 1),
+('TC-015', 5, 'Bộ Ấm Chén Tử Sa', 'bo-am-chen-tu-sa', 'Bộ ấm chén tử sa đồng bộ, tinh xảo, thích hợp thưởng trà hàng ngày.', 'Đồng bộ ấm chén', 950000, 1100000, 'new', 'https://via.placeholder.com/600x500/8d6e63/ffffff?text=Bộ+Ấm+Chén+Tử+Sa', 4.5, 14, 0, 10, 300, 1),
 
-('TC-016', 6, 'Bộ Trà Cụ Gốm Sứ Cao Cấp', 'bo-tra-cu-gom-su-cao-cap', 'Bộ trà cụ gốm sứ Bát Tràng cao cấp, men ngọc, sang trọng.', 'Gốm sứ Bát Tràng', 850000, 1000000, 'sale', 'https://via.placeholder.com/600x500/4e342e/ffffff?text=Bộ+Trà+Cụ', 4.0, 18, 1, 10, 1),
-('TC-017', 6, 'Khay Trà Gỗ Sưa Tự Nhiên', 'khay-tra-go-sua-tu-nhien', 'Khay trà gỗ sưa tự nhiên, vân gỗ đẹp, chống thấm tốt.', 'Gỗ sưa tự nhiên', 1500000, 1800000, '', 'https://via.placeholder.com/600x500/795548/ffffff?text=Khay+Trà+Gỗ+Sưa', 5.0, 8, 0, 5, 1),
+('TC-016', 6, 'Bộ Trà Cụ Gốm Sứ Cao Cấp', 'bo-tra-cu-gom-su-cao-cap', 'Bộ trà cụ gốm sứ Bát Tràng cao cấp, men ngọc, sang trọng.', 'Gốm sứ Bát Tràng', 850000, 1000000, 'sale', 'https://via.placeholder.com/600x500/4e342e/ffffff?text=Bộ+Trà+Cụ', 4.0, 18, 1, 10, 200, 1),
+('TC-017', 6, 'Khay Trà Gỗ Sưa Tự Nhiên', 'khay-tra-go-sua-tu-nhien', 'Khay trà gỗ sưa tự nhiên, vân gỗ đẹp, chống thấm tốt.', 'Gỗ sưa tự nhiên', 1500000, 1800000, '', 'https://via.placeholder.com/600x500/795548/ffffff?text=Khay+Trà+Gỗ+Sưa', 5.0, 8, 0, 5, 250, 1),
 
 ('TC-018', 7, 'Hộp Quà Tặng Trà Thái Nguyên', 'hop-qua-tang-tra-thai-nguyen', 'Hộp quà tặng trà Thái Nguyên cao cấp, kèm túi lụa, thiệp chúc.', 'Hộp quà tặng kèm thiệp', 450000, 530000, 'sale', 'https://via.placeholder.com/600x500/3e2723/ffffff?text=Hộp+Quà+Tặng', 5.0, 20, 1, 15, 1),
 ('TC-019', 7, 'Set Quà Trà Đen Shan Tuyết', 'set-qua-tra-den-shan-tuyet', 'Set quà trà đen shan tuyết với hộp gỗ sang trọng.', 'Hộp gỗ sang trọng', 520000, NULL, '', 'https://via.placeholder.com/600x500/5d4037/ffffff?text=Set+Quà+Trà+Đen', 4.5, 7, 0, 12, 1),
@@ -108,7 +109,7 @@ INSERT INTO products
 ('TC-021', 8, 'Phụ Kiện Pha Trà Cao Cấp', 'phu-kien-pha-tra-cao-cap', 'Bộ phụ kiện pha trà: kẹp chén, muỗng, bàn lọc, thìa.', 'Bộ phụ kiện đầy đủ', 150000, 180000, 'new', 'https://via.placeholder.com/600x500/6d4c41/ffffff?text=Phụ+Kiện+Pha+Trà', 4.5, 9, 0, 40, 1);
 
 -- ============================================================
--- TÀI KHOẢN ADMIN (mật khẩu mặc định: admin123)
+-- TÀI KHOẢN ADMIN (tạo tài khoản riêng; không dùng mật khẩu mặc định)
 -- ============================================================
 CREATE TABLE IF NOT EXISTS admin_users (
   id int NOT NULL AUTO_INCREMENT,
@@ -120,8 +121,9 @@ CREATE TABLE IF NOT EXISTS admin_users (
   UNIQUE KEY username (username)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO admin_users (username, password_hash, full_name) VALUES
-('admin', '$2y$10$1i2xB2uC4inuCMAg2ovg4ebX9AHnnqt6KORLFFVLXLeNuNY0IC8bm', 'Quản trị viên');
+-- Ví dụ tạo admin:  password_hash = password_hash('mat-khau-manh-moi', PASSWORD_DEFAULT)
+-- INSERT INTO admin_users (username, password_hash, full_name) VALUES
+-- ('admin', '<hash>', 'Quản trị viên');
 
 -- ============================================================
 -- BANNER TRANG CHỦ (quản lý từ Admin > Banner trang chủ)

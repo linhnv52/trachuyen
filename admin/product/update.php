@@ -35,6 +35,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$errors) {
         try {
             $imageUrl = uploadProductImage($_FILES['image'] ?? [], $product['image_url']);
+
+            // Gallery: (ảnh cũ - ảnh tick Xóa) + ảnh mới upload
+            $existingGallery = productGallery($product['gallery'] ?? null);
+            $removeGallery = array_filter((array)($_POST['remove_gallery'] ?? []));
+            if ($removeGallery) {
+                $existingGallery = array_values(array_diff($existingGallery, $removeGallery));
+            }
+            $uploadedGallery = uploadGalleryImages($_FILES['gallery'] ?? []);
+            $finalGallery = array_merge($existingGallery, $uploadedGallery);
+
             $data = [
                 'code' => $_POST['code'] ?? '',
                 'category_id' => (int)$_POST['category_id'],
@@ -45,10 +55,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'old_price' => $_POST['old_price'] ?? '',
                 'badge' => $_POST['badge'] ?? '',
                 'image_url' => $imageUrl,
+                'gallery' => $finalGallery ? json_encode($finalGallery, JSON_UNESCAPED_SLASHES) : null,
                 'rating_avg' => $_POST['rating_avg'] ?? 0,
                 'review_count' => $_POST['review_count'] ?? 0,
                 'is_best_seller' => $_POST['is_best_seller'] ?? 0,
                 'stock_quantity' => $_POST['stock_quantity'] ?? 0,
+                'capacity' => trim($_POST['capacity'] ?? '') === '' ? null : (int)$_POST['capacity'],
                 'is_active' => $_POST['is_active'] ?? 0,
             ];
             updateProduct($id, $data);

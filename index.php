@@ -21,13 +21,6 @@ $bestSellers = db()->query('SELECT p.*, c.name AS category_name, c.slug AS categ
                             ORDER BY p.rating_avg DESC, p.created_at DESC
                             LIMIT 12')->fetchAll();
 
-$newProducts = db()->query('SELECT p.*, c.name AS category_name, c.slug AS category_slug
-                            FROM products p
-                            JOIN categories c ON c.id = p.category_id
-                            WHERE p.is_active = 1 AND p.badge = "new"
-                            ORDER BY p.created_at DESC, p.id DESC
-                            LIMIT 12')->fetchAll();
-
 // Banner slider (quản lý từ admin); fallback ảnh mặc định nếu chưa có dữ liệu
 $banners = db()->query('SELECT image_url FROM banners WHERE is_active = 1 ORDER BY sort_order, id')->fetchAll(PDO::FETCH_COLUMN);
 if (!$banners) {
@@ -60,7 +53,7 @@ require __DIR__ . '/includes/header.php';
         <h2 class="section-title">Danh mục sản phẩm</h2>
         <div class="grid-6col-2row">
             <?php foreach ($displayCategories as $c): ?>
-                <a class="category-item" href="product.php?category=<?= e($c['slug']) ?>">
+                <a class="category-item" href="<?= e(categoryPageUrl($c['slug'])) ?>">
                     <img src="<?= e(categoryImage($c['image_url'])) ?>" alt="<?= e($c['name']) ?>">
                     <h3><?= e($c['name']) ?></h3>
                     <p><?= $catCounts[$c['id']] ?? 0 ?> sản phẩm</p>
@@ -72,81 +65,8 @@ require __DIR__ . '/includes/header.php';
         </div>
     </section>
 
-    <!-- ====== 2. SẢN PHẨM BÁN CHẠY ====== -->
-    <section class="section-best-seller">
-        <h2 class="section-title">Sản phẩm bán chạy</h2>
-        <div class="grid-6col-2row">
-            <?php if (!$bestSellers): ?>
-                <p style="grid-column:1/-1; text-align:center; color:#8d6e63; padding:30px;">Chưa có sản phẩm bán chạy.</p>
-            <?php else: foreach ($bestSellers as $p):
-                $badge = '';
-                if (!empty($p['badge'])) {
-                    $cls = match ($p['badge']) { 'hot' => '', 'sale' => 'sale', 'new' => 'new', default => '' };
-                    $label = match ($p['badge']) { 'hot' => 'Hot', 'sale' => 'Sale', 'new' => 'Mới', default => '' };
-                    $badge = '<div class="product-badge ' . $cls . '">' . $label . '</div>';
-                }
-                $img = $p['image_url'] ?: url('/img/placeholder.svg');
-                $rating = str_repeat('★', (int)$p['rating_avg']) . str_repeat('☆', 5 - (int)$p['rating_avg']);
-                ?>
-                <div class="product-item" data-id="<?= (int)$p['id'] ?>">
-                    <?= $badge ?>
-                    <a href="productdetal.php?id=<?= $p['id'] ?>">
-                        <img src="<?= e($img) ?>" alt="<?= e($p['name']) ?>">
-                        <h3><?= e($p['name']) ?></h3>
-                    </a>
-                    <div class="product-rating"><?= $rating ?> (<?= (int)$p['review_count'] ?>)</div>
-                    <div class="product-price">
-                        <span class="current-price"><?= formatPrice($p['price']) ?>đ</span>
-                        <?php if ($p['old_price']): ?><span class="old-price"><?= formatPrice($p['old_price']) ?>đ</span><?php endif; ?>
-                    </div>
-                    <a class="btn-add-cart" href="productdetal.php?id=<?= $p['id'] ?>">Xem chi tiết</a>
-                </div>
-            <?php endforeach; endif; ?>
-        </div>
-        <div class="view-all">
-            <a href="product.php" class="btn-view-all">Xem tất cả sản phẩm →</a>
-        </div>
-    </section>
-
-    <!-- ====== 3. SẢN PHẨM MỚI NHẤT ====== -->
-    <section class="section-best-seller">
-        <h2 class="section-title">Sản phẩm mới nhất</h2>
-        <div class="grid-6col-2row">
-            <?php if (!$newProducts): ?>
-                <p style="grid-column:1/-1; text-align:center; color:#8d6e63; padding:30px;">Chưa có sản phẩm.</p>
-            <?php else: foreach ($newProducts as $p):
-                $badge = '';
-                if (!empty($p['badge'])) {
-                    $cls = match ($p['badge']) { 'hot' => '', 'sale' => 'sale', 'new' => 'new', default => '' };
-                    $label = match ($p['badge']) { 'hot' => 'Hot', 'sale' => 'Sale', 'new' => 'Mới', default => '' };
-                    $badge = '<div class="product-badge ' . $cls . '">' . $label . '</div>';
-                }
-                $img = $p['image_url'] ?: url('/img/placeholder.svg');
-                $rating = str_repeat('★', (int)$p['rating_avg']) . str_repeat('☆', 5 - (int)$p['rating_avg']);
-                ?>
-                <div class="product-item" data-id="<?= (int)$p['id'] ?>">
-                    <?= $badge ?>
-                    <a href="productdetal.php?id=<?= $p['id'] ?>">
-                        <img src="<?= e($img) ?>" alt="<?= e($p['name']) ?>">
-                        <h3><?= e($p['name']) ?></h3>
-                    </a>
-                    <div class="product-rating"><?= $rating ?> (<?= (int)$p['review_count'] ?>)</div>
-                    <div class="product-price">
-                        <span class="current-price"><?= formatPrice($p['price']) ?>đ</span>
-                        <?php if ($p['old_price']): ?><span class="old-price"><?= formatPrice($p['old_price']) ?>đ</span><?php endif; ?>
-                    </div>
-                    <a class="btn-add-cart" href="productdetal.php?id=<?= $p['id'] ?>">Xem chi tiết</a>
-                </div>
-            <?php endforeach; endif; ?>
-        </div>
-        <div class="view-all">
-            <a href="product.php" class="btn-view-all">Xem tất cả sản phẩm →</a>
-        </div>
-    </section>
-
-    <!-- ====== 4. TRƯNG BÀY ẢNH & VIDEO ====== -->
+    <!-- ====== 2. TRƯNG BÀY ẢNH & VIDEO ====== -->
     <section class="section-gallery">
-        <h2 class="section-title">Thư viện ấm tử sa</h2>
         <div class="gallery-container">
             <div class="gallery-images">
                 <div class="gallery-img-item"><img src="img/placeholder.svg" alt="Ấm tử sa 1"></div>
@@ -166,6 +86,60 @@ require __DIR__ . '/includes/header.php';
                     </iframe>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- ====== 3. SẢN PHẨM BÁN CHẠY ====== -->
+    <section class="section-best-seller">
+        <h2 class="section-title">Sản phẩm bán chạy</h2>
+        <div class="grid-6col-2row">
+            <?php if (!$bestSellers): ?>
+                <p style="grid-column:1/-1; text-align:center; color:#8d6e63; padding:30px;">Chưa có sản phẩm bán chạy.</p>
+            <?php else: foreach ($bestSellers as $p):
+                $badge = '';
+                if (!empty($p['badge'])) {
+                    $cls = match ($p['badge']) { 'hot' => '', 'sale' => 'sale', 'new' => 'new', default => '' };
+                    $label = match ($p['badge']) { 'hot' => 'Hot', 'sale' => 'Sale', 'new' => 'Mới', default => '' };
+                    $badge = '<div class="product-badge ' . $cls . '">' . $label . '</div>';
+                }
+                $img = $p['image_url'] ?: url('/img/placeholder.svg');
+                ?>
+                <div class="product-item" data-id="<?= (int)$p['id'] ?>">
+                    <?= $badge ?>
+                    <a href="productdetal.php?id=<?= $p['id'] ?>">
+                        <img src="<?= e($img) ?>" alt="<?= e($p['name']) ?>">
+                        <h3><?= e($p['name']) ?></h3>
+                    </a>
+                    <div class="product-price">
+                        <span class="current-price"><?= formatPrice($p['price']) ?>đ</span>
+                        <?php if ($p['old_price']): ?><span class="old-price"><?= formatPrice($p['old_price']) ?>đ</span><?php endif; ?>
+                    </div>
+                    <a class="btn-add-cart" href="productdetal.php?id=<?= $p['id'] ?>" title="Xem chi tiết"><i class="fas fa-arrow-right"></i></a>
+                </div>
+            <?php endforeach; endif; ?>
+        </div>
+        <div class="view-all">
+            <a href="product.php" class="btn-view-all">Xem tất cả sản phẩm →</a>
+        </div>
+    </section>
+
+    <!-- ====== 4. HÀNG DỊCH VỤ ====== -->
+    <section class="services-row">
+        <div class="service-item">
+            <i class="fas fa-headset"></i>
+            <h3>Tư vấn sản phẩm</h3>
+        </div>
+        <div class="service-item">
+            <i class="fas fa-shield-alt"></i>
+            <h3>Bảo hiểm rơi vỡ</h3>
+        </div>
+        <div class="service-item">
+            <i class="fas fa-box-open"></i>
+            <h3>Được kiểm hàng</h3>
+        </div>
+        <div class="service-item">
+            <i class="fas fa-truck-fast"></i>
+            <h3>Giao hàng nhanh chóng</h3>
         </div>
     </section>
 

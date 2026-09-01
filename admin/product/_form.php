@@ -5,6 +5,16 @@
  */
 $v = $old; // các giá trị cần điền vào form
 $errors = $errors ?? [];
+// Danh mục trà cụ/ấm tử sa được phép nhập dung tích (bằng slug, không cứng id)
+$_teaSlugs = ['am-tu-sa', 'bo-tra-cu'];
+$_curCatId = (int)($v['category_id'] ?? 0);
+$_isTeaUtensil = false;
+foreach (($categories ?? []) as $_cat) {
+    if ((int)$_cat['id'] === $_curCatId && in_array($_cat['slug'], $_teaSlugs, true)) {
+        $_isTeaUtensil = true;
+        break;
+    }
+}
 function fieldError(string $key): void
 {
     global $errors;
@@ -101,15 +111,12 @@ function fieldError(string $key): void
                 <input type="number" name="stock_quantity" value="<?= e($v['stock_quantity'] ?? '0') ?>" min="0">
             </div>
 
+            <?php if ($_isTeaUtensil): ?>
             <div class="form-group">
-                <label>Điểm đánh giá (0-5)</label>
-                <input type="number" name="rating_avg" value="<?= e($v['rating_avg'] ?? '0') ?>" min="0" max="5" step="0.1">
+                <label>Dung tích (ml)</label>
+                <input type="number" name="capacity" value="<?= e($v['capacity'] ?? '') ?>" min="1" placeholder="VD: 200">
             </div>
-
-            <div class="form-group">
-                <label>Số lượt đánh giá</label>
-                <input type="number" name="review_count" value="<?= e($v['review_count'] ?? '0') ?>" min="0">
-            </div>
+            <?php endif; ?>
 
             <div class="form-group full">
                 <label>Mô tả ngắn</label>
@@ -131,6 +138,25 @@ function fieldError(string $key): void
                 <?php endif; ?>
                 <input type="file" name="image" accept="image/*" style="padding:8px; border:1px dashed var(--gray); border-radius:10px; width:100%;">
                 <div style="font-size:0.78rem; color:var(--text-light); margin-top:6px;">Chấp nhận JPG, PNG, WEBP, GIF. Tối đa 5MB. Nếu không chọn, giữ ảnh cũ.</div>
+            </div>
+
+            <div class="form-group full">
+                <label>Ảnh phụ (gallery)</label>
+                <?php if (!empty($v['gallery'])): ?>
+                    <div style="display:flex; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+                        <?php foreach (productGallery($v['gallery']) as $gImg): ?>
+                            <div style="width:90px; text-align:center;">
+                                <div class="image-preview" style="width:90px; height:90px;"><img src="<?= e($gImg) ?>" alt="Ảnh gallery"></div>
+                                <label class="form-check" style="font-size:0.75rem; margin-top:4px;">
+                                    <input type="checkbox" name="remove_gallery[]" value="<?= e($gImg) ?>"> Xóa
+                                </label>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+                <input type="file" name="gallery[]" id="galleryInput" accept="image/*" multiple style="padding:8px; border:1px dashed var(--gray); border-radius:10px; width:100%;">
+                <div id="galleryPreview" style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;"></div>
+                <div style="font-size:0.78rem; color:var(--text-light); margin-top:6px;">Chọn cùng lúc nhiều ảnh làm slider dưới ảnh chính. Tick "Xóa" để loại ảnh hiện tại khi lưu.</div>
             </div>
 
             <div class="form-group full">
@@ -194,4 +220,24 @@ function fieldError(string $key): void
             hidden.removeAttribute('name');
         }
     }
+
+    // Preview ảnh gallery mới chọn
+    document.addEventListener('DOMContentLoaded', function() {
+        const gInput = document.getElementById('galleryInput');
+        const gPreview = document.getElementById('galleryPreview');
+        if (!gInput || !gPreview) return;
+        gInput.addEventListener('change', function() {
+            gPreview.innerHTML = '';
+            Array.from(this.files || []).forEach(function(f) {
+                if (!f.type.startsWith('image/')) return;
+                const box = document.createElement('div');
+                box.className = 'image-preview';
+                box.style.cssText = 'width:70px; height:70px;';
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(f);
+                box.appendChild(img);
+                gPreview.appendChild(box);
+            });
+        });
+    });
 </script>

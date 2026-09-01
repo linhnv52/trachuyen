@@ -7,75 +7,55 @@ $extraScript = $extraScript ?? '';
 ?>
 <footer class="footer">
     <div class="container">
-        <div class="footer-grid">
-            <div class="footer-col footer-about">
-                <h2 class="footer-logo">TRÀ<span>CHUYỆN</span></h2>
-                <p class="footer-slogan">Ấm tử sa Nghi Hưng & trà cụ cao cấp chính hãng</p>
-                <p class="footer-desc">
-                    Chuyên ấm tử sa Nghi Hưng chính hãng và trà cụ cao cấp, tuyển chọn kỹ lưỡng để nâng tầm trải nghiệm thưởng trà của bạn.
-                </p>
+        <div class="footer-top">
+            <div class="footer-brand">
+                <h3 class="footer-heading"><a class="footer-logo-link" href="index.php">TRÀ CHUYỆN</a></h3>
+                <p class="footer-slogan">Một chén trà, một câu chuyện</p>
+            </div>
+            <div class="footer-contact-list">
                 <div class="social-icons">
-                    <a href="#" class="social-icon facebook" title="Facebook" aria-label="Facebook">
+                    <a href="https://facebook.com/yourpage" class="social-icon facebook" title="Facebook" aria-label="Facebook" target="_blank" rel="noopener">
                         <svg viewBox="0 0 320 512" fill="currentColor"><path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"/></svg>
                     </a>
-                    <a href="#" class="social-icon tiktok" title="TikTok" aria-label="TikTok">
+                    <a href="https://instagram.com/yourpage" class="social-icon instagram" title="Instagram" aria-label="Instagram" target="_blank" rel="noopener">
+                        <svg viewBox="0 0 448 512" fill="currentColor"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
+                    </a>
+                    <a href="https://tiktok.com/@yourpage" class="social-icon tiktok" title="TikTok" aria-label="TikTok" target="_blank" rel="noopener">
                         <svg viewBox="0 0 448 512" fill="currentColor"><path d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z"/></svg>
                     </a>
-                    <a href="#" class="social-icon zalo" title="Zalo" aria-label="Zalo">
+                    <a href="https://zalo.me/0877013030" class="social-icon zalo" title="Zalo" aria-label="Zalo" target="_blank" rel="noopener">
                         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.49 10.04V5.5h1.53v4.54h-1.53zm-3.34 0h1.53V8.08c0-1.05-.3-1.9-1.04-2.47-.58-.44-1.35-.66-2.32-.66H4.5v4.06H6.02V6.62h.77c.66 0 1.1.4 1.1 1.22v2.2h1.26zm6.58-3.66v1.23h2.63v1.15h-2.63v2.3h-1.53V5.5h4.17v.88h-2.64zm-8.4 6.54l5.66-5.9h-5.6V7.9h3.35l-5.66 5.9h5.6v-.88H7.33z"/></svg>
                     </a>
-                </div>
-            </div>
-
-            <div class="footer-col footer-contact">
-                <h3 class="footer-heading">TƯ VẤN & ĐẶT HÀNG</h3>
-                <a href="tel:0889018999" class="footer-phone">
-                    <i class="fas fa-phone-alt"></i> 0889.018.999
-                </a>
-            </div>
-
-            <div class="footer-col footer-policy">
-                <h3 class="footer-heading">QUY ĐỊNH & CHÍNH SÁCH</h3>
-                <ul class="footer-links">
-                    <li><a href="#">Điều khoản & quy định</a></li>
-                    <li><a href="#">Chính sách bảo mật</a></li>
-                    <li><a href="#">Phương thức thanh toán</a></li>
-                    <li><a href="#">Vận chuyển & kiểm hàng</a></li>
-                    <li><a href="#">Bảo hành & đổi trả</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col footer-payment-contact">
-                <div class="payment-methods">
-                    <h3 class="footer-heading">THANH TOÁN</h3>
-                    <div class="payment-icons">
-                        <span class="payment-badge">COD</span>
-                        <span class="payment-badge">Chuyển khoản</span>
-                        <span class="payment-badge">VietQR</span>
-                    </div>
-                </div>
-                <div class="contact-info">
-                    <h3 class="footer-heading">LIÊN HỆ</h3>
-                    <p class="company-name">CÔNG TY TNHH TRÀ CHUYỆN</p>
-                    <p class="company-tax">Mã số thuế: </p>
-                    <p class="company-address">
-                        <i class="fas fa-map-marker-alt"></i> Trụ sở chính: Lô 28.100 Khu đô thị phía Tây, P. Từ Minh, TP Hải Phòng
-                    </p>
-                    <p class="company-address">
-                        <i class="fas fa-store"></i> Cửa hàng: Số 5 ngõ 50 Lê Hiến, P. Từ Minh, TP Hải Phòng
-                    </p>
+                    <a href="https://maps.google.com/?q=Tra%20Chuyen%2C%20Hai%20Phong" class="social-icon gmap" title="Google Map" aria-label="Google Map" target="_blank" rel="noopener">
+                        <svg viewBox="0 0 384 512" fill="currentColor"><path d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.774-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z"/></svg>
+                    </a>
                 </div>
             </div>
         </div>
 
-        <div class="footer-bottom">
-            <div class="footer-zalo">
-                <a href="#" class="zalo-link">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Zalo_Logo.png/600px-Zalo_Logo.png" alt="Zalo" style="height: 35px;">
+        <div class="footer-grid">
+            <div class="footer-col footer-consult">
+                <h3 class="footer-heading">TƯ VẤN ĐẶT HÀNG</h3>
+                <p class="footer-text">Đặt hàng online, giao tận nơi toàn quốc.</p>
+                <a href="tel:0877013030" class="footer-phone">
+                    <i class="fas fa-phone-alt"></i> 0877.01.3030
                 </a>
             </div>
-            <div class="footer-copyright">
-                Bản quyền © 2026 TraChuyen.com
+
+            <div class="footer-col footer-store">
+                <h3 class="footer-heading">ĐỊA CHỈ CỬA HÀNG</h3>
+                <p class="footer-contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <a href="https://maps.google.com/?q=Tầng 1, 5C chung cư CT3, Đ. Tố Hữu, khu đô thị VCN, Phường Nam, TP. Nha Trang, Khánh Hòa"
+                       target="_blank" rel="noopener" class="footer-address-link">
+                        Tầng 1, 5C chung cư CT3, Đ. Tố Hữu, khu đô thị VCN, Phường Nam, TP. Nha Trang, Khánh Hòa
+                    </a>
+                </p>
+            </div>
+
+            <div class="footer-col footer-business">
+                <h3 class="footer-heading">HỘ KINH DOANH TRÀ CHUYỆN</h3>
+                <p class="footer-tagline">Một không gian dành cho trà, ấm và những món đồ gốm được lựa chọn dành cho người yêu trà.</p>
             </div>
         </div>
     </div>
@@ -83,12 +63,18 @@ $extraScript = $extraScript ?? '';
 
 <?= $extraScript ?>
 
+<!-- Bản tĩnh (GitHub Pages): bổ sung cấu hình trang + breakpoint -->
+<?php if (!empty($pageStaticConfig)): ?>
+<script type="application/json" id="pageConfig"><?= json_encode($pageStaticConfig, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?></script>
+<?php endif; ?>
+
 <script>
     // Ảnh không tải được (VD via.placeholder.com lỗi) -> thay bằng placeholder cục bộ
     document.addEventListener('error', function (e) {
         if (e.target && e.target.tagName === 'IMG') {
             e.target.onerror = null;
-            e.target.src = '/img/placeholder.svg';
+            var useStatic = document.querySelector('html').hasAttribute('data-static');
+            e.target.src = useStatic ? 'img/placeholder.svg' : '/img/placeholder.svg';
         }
     }, true);
 </script>
@@ -101,31 +87,43 @@ $extraScript = $extraScript ?? '';
     </div>
 </div>
 
-<script src="<?= url('/js/smart-search.js') ?>"></script>
+<script src="js/smart-search.js"></script>
 <script>
 (function () {
     var input = document.getElementById('searchInput');
     var results = document.getElementById('searchResults');
     if (!input || !results) return;
+    var isStatic = document.querySelector('html').hasAttribute('data-static');
     initSmartSearch({
         input: input,
         resultsEl: results,
-        endpoint: '<?= url('/api/search.php') ?>',
+        endpoint: isStatic ? null : 'api/search.php',
+        dataUrl: isStatic ? 'data/products.json' : null,
         minChars: 2,
         onPick: function (item) {
-            window.location.href = '<?= url('/productdetal.php') ?>?id=' + item.id;
+            window.location.href = isStatic
+                ? (item.detail_url || 'product.html')
+                : 'productdetal.php?id=' + item.id;
         }
     });
 })();
 </script>
-<script src="<?= url('/js/product-modal.js') ?>"></script>
+<script src="js/product-modal.js"></script>
 <script>
-    initProductModal({
-        overlay: document.getElementById('productModalOverlay'),
-        modal: document.getElementById('productModal'),
-        body: document.getElementById('productModalBody'),
-        endpoint: '<?= url('/api/product.php') ?>'
-    });
+    (function () {
+        var isStatic = document.querySelector('html').hasAttribute('data-static');
+        initProductModal({
+            overlay: document.getElementById('productModalOverlay'),
+            modal: document.getElementById('productModal'),
+            body: document.getElementById('productModalBody'),
+            endpoint: isStatic ? null : 'api/product.php',
+            dataUrl: isStatic ? 'data/products.json' : null,
+            placeholder: isStatic ? 'img/placeholder.svg' : null,
+            detailUrl: isStatic
+                ? function (p) { return p.detail_url || 'product.html'; }
+                : function (p) { return 'productdetal.php?id=' + p.id; }
+        });
+    })();
 </script>
 </body>
 </html>

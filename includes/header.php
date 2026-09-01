@@ -18,7 +18,7 @@ $extraCssLinks = $extraCssLinks ?? '';
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <?= $extraCssLinks ?>
@@ -29,7 +29,9 @@ $extraCssLinks = $extraCssLinks ?? '';
 <header>
     <div class="container">
         <div class="logo">
-            <h1>Trà <span>Chuyện</span></h1>
+            <a href="index.php" aria-label="Trà Chuyện">
+                <img src="https://lh3.googleusercontent.com/d/1m-0-hXczkfAv8wzQGyb55N3DJlhQTW3Z=w800" alt="Trà Chuyện">
+            </a>
         </div>
 
         <div class="search-bar-wrapper">
@@ -45,10 +47,10 @@ $extraCssLinks = $extraCssLinks ?? '';
         <nav>
             <ul>
                 <li><a href="index.php" class="<?= $active === 'home' ? 'active' : '' ?>">TRANG CHỦ</a></li>
-                <li><a href="product.php" class="<?= $active === 'products' ? 'active' : '' ?>">SẢN PHẨM TRÀ</a></li>
-                <li><a href="product.php?category=hop-qua-tang">HỘP QUÀ TẶNG</a></li>
-                <li><a href="product.php?category=bo-tra-cu">KHẢI VÀ CHÉN</a></li>
-                <li><a href="product.php?category=am-tu-sa">ẤM TỬ SA</a></li>
+                <li><a href="san-pham-tra.php" class="<?= $active === 'products' ? 'active' : '' ?>">SẢN PHẨM TRÀ</a></li>
+                <li><a href="hop-qua-tang.php" class="<?= $active === 'gift' ? 'active' : '' ?>">HỘP QUÀ TẶNG</a></li>
+                <li><a href="khai-va-chen.php" class="<?= $active === 'teaset' ? 'active' : '' ?>">GỐM SỨ</a></li>
+                <li><a href="am-tu-sa.php" class="<?= $active === 'teapot' ? 'active' : '' ?>">ẤM TỬ SA</a></li>
                 <li><a href="thong-tin-tra.php" class="<?= $active === 'about' ? 'active' : '' ?>">THÔNG TIN VỀ TRÀ</a></li>
             </ul>
             <div class="nav-icons">

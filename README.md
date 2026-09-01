@@ -8,7 +8,7 @@ Website bán trà "Trà Chuyện" — Giai đoạn 1: trưng bày sản phẩm +
 
 ## Cài đặt & chạy
 1. Bật **Laragon** (Apache + MySQL).
-2. Import database: file `database.sql` vào MySQL (`trachuyen_db`). Mật khẩu admin mặc định: **admin** / **admin123**.
+2. Import database: file `database.sql` vào MySQL (`trachuyen_db`). Lần đầu, tạo tài khoản admin trong bảng `admin_users` (hash mật khẩu bằng `password_hash`, không dùng mật khẩu mặc định).
    - Nếu DB đã có sẵn, chỉ cần chạy phần seed + tạo bảng `admin_users` trong `database.sql`.
 3. Truy cập:
    - Trang chủ: http://trachuyen.test (hoặc http://localhost:8080 nếu chạy `php -S localhost:8080`)
@@ -35,6 +35,15 @@ admin/product/_form.php  Form dùng chung
 database.sql             Schema + dữ liệu mẫu
 img/products/            Ảnh sản phẩm upload
 ```
+
+## Bản tĩnh (GitHub Pages)
+Để phục vụ qua GitHub Pages (chỉ hỗ trợ tĩnh), chạy lệnh sinh bản tĩnh vào `docs/`:
+
+```
+php tools/build-static.php
+```
+
+Lệnh này đọc DB (cần MySQL đang chạy), xuất `docs/data/products.json` + render 7 trang chính và từng trang sản phẩm thành `docs/*.html`. Bật GitHub Pages với source là thư mục `/docs`.
 
 ## Ghi chú
 - Các file `.html` cũ (`index.html`, `product.html`, `product-detail.html`, `admin.html`) là bản giao diện tĩnh tham khảo; bản chạy thật là các file `.php`.

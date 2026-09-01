@@ -28,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$errors) {
         try {
             $imageUrl = uploadProductImage($_FILES['image'] ?? []);
+            $uploadedGallery = uploadGalleryImages($_FILES['gallery'] ?? []);
             $data = [
                 'code' => $_POST['code'] ?? '',
                 'category_id' => (int)$_POST['category_id'],
@@ -38,10 +39,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'old_price' => $_POST['old_price'] ?? '',
                 'badge' => $_POST['badge'] ?? '',
                 'image_url' => $imageUrl,
+                'gallery' => $uploadedGallery ? json_encode($uploadedGallery, JSON_UNESCAPED_SLASHES) : null,
                 'rating_avg' => $_POST['rating_avg'] ?? 0,
                 'review_count' => $_POST['review_count'] ?? 0,
                 'is_best_seller' => $_POST['is_best_seller'] ?? 0,
                 'stock_quantity' => $_POST['stock_quantity'] ?? 0,
+                'capacity' => trim($_POST['capacity'] ?? '') === '' ? null : (int)$_POST['capacity'],
                 'is_active' => $_POST['is_active'] ?? 0,
             ];
             $newId = createProduct($data);

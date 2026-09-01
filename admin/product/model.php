@@ -129,6 +129,12 @@ function getAllProducts(array $filters = [], int $page = 1, int $perPage = 8): a
         $where[] = 'p.category_id = ?';
         $params[] = (int)$filters['category_id'];
     }
+    if (!empty($filters['category_ids']) && is_array($filters['category_ids'])) {
+        $ids = array_values(array_filter(array_map('intval', $filters['category_ids'])));
+        if ($ids) {
+            $where[] = 'p.category_id IN (' . implode(',', $ids) . ')';
+        }
+    }
     if (isset($filters['status']) && $filters['status'] !== '') {
         $where[] = 'p.is_active = ?';
         $params[] = (int)$filters['status'];
@@ -140,6 +146,15 @@ function getAllProducts(array $filters = [], int $page = 1, int $perPage = 8): a
     if (isset($filters['max_price']) && $filters['max_price'] !== '') {
         $where[] = 'p.price <= ?';
         $params[] = (float)$filters['max_price'];
+    }
+    if (!empty($filters['capacity']) && is_array($filters['capacity'])) {
+        $caps = array_values(array_filter(array_map('intval', $filters['capacity']), fn ($v) => $v > 0));
+        if ($caps) {
+            $where[] = 'p.capacity IN (' . implode(',', array_fill(0, count($caps), '?')) . ')';
+            foreach ($caps as $cap) {
+                $params[] = $cap;
+            }
+        }
     }
 
     $whereSql = $where ? ('WHERE ' . implode(' AND ', $where)) : '';
@@ -179,9 +194,9 @@ function createProduct(array $data): int
     $searchKey = normalizeText(trim($data['name']) . ' ' . $code . ' ' . ($data['short_description'] ?? ''));
 
     $stmt = db()->prepare('INSERT INTO products
-        (code, search_key, category_id, name, slug, description, short_description, price, old_price, badge, image_url,
-         rating_avg, review_count, is_best_seller, stock_quantity, is_active)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)');
+        (code, search_key, category_id, name, slug, description, short_description, price, old_price, badge, image_url, gallery,
+         rating_avg, review_count, is_best_seller, stock_quantity, capacity, is_active)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)');
 
     $stmt->execute([
         $code,
@@ -195,10 +210,12 @@ function createProduct(array $data): int
         $data['old_price'] !== '' ? (float)$data['old_price'] : null,
         $data['badge'] ?? '',
         $data['image_url'] ?? null,
+        $data['gallery'] ?? null,
         (float)($data['rating_avg'] ?? 0),
         (int)($data['review_count'] ?? 0),
         !empty($data['is_best_seller']) ? 1 : 0,
         (int)($data['stock_quantity'] ?? 0),
+        !empty($data['capacity']) ? (int)$data['capacity'] : null,
         !empty($data['is_active']) ? 1 : 0,
     ]);
 
@@ -213,8 +230,8 @@ function updateProduct(int $id, array $data): void
 
     $stmt = db()->prepare('UPDATE products SET
         code = ?, search_key = ?, category_id = ?, name = ?, slug = ?, description = ?, short_description = ?,
-        price = ?, old_price = ?, badge = ?, image_url = ?,
-        rating_avg = ?, review_count = ?, is_best_seller = ?, stock_quantity = ?, is_active = ?
+        price = ?, old_price = ?, badge = ?, image_url = ?, gallery = ?,
+        rating_avg = ?, review_count = ?, is_best_seller = ?, stock_quantity = ?, capacity = ?, is_active = ?
         WHERE id = ?');
 
     $stmt->execute([
@@ -229,10 +246,12 @@ function updateProduct(int $id, array $data): void
         $data['old_price'] !== '' ? (float)$data['old_price'] : null,
         $data['badge'] ?? '',
         $data['image_url'] ?? null,
+        $data['gallery'] ?? null,
         (float)($data['rating_avg'] ?? 0),
         (int)($data['review_count'] ?? 0),
         !empty($data['is_best_seller']) ? 1 : 0,
         (int)($data['stock_quantity'] ?? 0),
+        !empty($data['capacity']) ? (int)$data['capacity'] : null,
         !empty($data['is_active']) ? 1 : 0,
         $id,
     ]);
@@ -278,4 +297,59 @@ function uploadProductImage(array $file, ?string $currentImage = null): ?string
     }
 
     return UPLOAD_URL . $name;
+}
+
+/**
+ * Giải mã gallery JSON của sản phẩm thành mảng đường dẫn ảnh.
+ */
+function productGallery(?string $json): array
+{
+    if ($json === null || $json === '') {
+        return [];
+    }
+    $arr = json_decode($json, true);
+    return is_array($arr) ? array_values(array_filter($arr)) : [];
+}
+
+/**
+ * Upload nhiều ảnh phụ (gallery). Bỏ qua ô trống,
+ * lỗi bất kỳ file nào sẽ dừng và ném exception. Trả về mảng đường dẫn.
+ */
+function uploadGalleryImages(array $files): array
+{
+    $paths = [];
+    if (empty($files['name']) || !is_array($files['name'])) {
+        return $paths;
+    }
+
+    $allowed = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'image/webp' => 'webp', 'image/gif' => 'gif'];
+
+    if (!is_dir(UPLOAD_DIR) && !mkdir(UPLOAD_DIR, 0777, true)) {
+        throw new RuntimeException('Không tạo được thư mục upload.');
+    }
+
+    foreach ($files['name'] as $i => $name) {
+        if (($files['error'][$i] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE || $name === '' || $name === null) {
+            continue;
+        }
+
+        if ($files['error'][$i] !== UPLOAD_ERR_OK) {
+            throw new RuntimeException('Lỗi tải lên "' . $name . '" (mã ' . $files['error'][$i] . ').');
+        }
+        $mime = mime_content_type($files['tmp_name'][$i]);
+        if (!isset($allowed[$mime])) {
+            throw new RuntimeException('"' . $name . '" không phải ảnh JPG/PNG/WEBP/GIF.');
+        }
+        if ($files['size'][$i] > 5 * 1024 * 1024) {
+            throw new RuntimeException('"' . $name . '" quá lớn (tối đa 5MB).');
+        }
+
+        $stored = 'g' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $allowed[$mime];
+        if (!move_uploaded_file($files['tmp_name'][$i], UPLOAD_DIR . $stored)) {
+            throw new RuntimeException('Không thể lưu ảnh "' . $name . '".');
+        }
+        $paths[] = UPLOAD_URL . $stored;
+    }
+
+    return $paths;
 }

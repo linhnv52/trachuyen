@@ -75,6 +75,23 @@ function url(string $path): string
 }
 
 /**
+ * Đường dẫn trang public tương ứng với slug danh mục.
+ * Các chuyên mục có trang riêng; nhóm trà về san-pham-tra.php kèm tab;
+ * slug lạ về trang Tất cả sản phẩm.
+ */
+function categoryPageUrl(string $slug): string
+{
+    return match ($slug) {
+        'hop-qua-tang' => 'hop-qua-tang.php',
+        'bo-tra-cu'    => 'khai-va-chen.php',
+        'am-tu-sa'     => 'am-tu-sa.php',
+        'tra-xanh', 'tra-den', 'tra-o-long', 'tra-thao-moc', 'phu-kien-tra', 'tra-xanh-viet'
+                       => 'san-pham-tra.php?category=' . urlencode($slug),
+        default        => 'product.php?category=' . urlencode($slug),
+    };
+}
+
+/**
  * Trả về ảnh danh mục; nếu rỗng hoặc file không tồn tại thì dùng ảnh mặc định.
  */
 function categoryImage(?string $imageUrl): string
