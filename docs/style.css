@@ -577,7 +577,8 @@ nav ul li a.active {
 /* Item danh mục */
 .category-item {
     background: white;
-    border-radius: 12px;
+    border-radius: 0;
+    border: 1px solid #000;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
     transition: transform 0.3s, box-shadow 0.3s;
@@ -614,7 +615,8 @@ nav ul li a.active {
 /* Item sản phẩm bán chạy */
 .product-item {
     background: white;
-    border-radius: 12px;
+    border-radius: 0;
+    border: 1px solid #000;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
     transition: transform 0.3s, box-shadow 0.3s;
@@ -1519,7 +1521,8 @@ body.modal-open {
 
 .product-modal-images img {
     width: 100%;
-    border-radius: 12px;
+    border-radius: 0;
+    border: 1px solid #000;
     object-fit: cover;
     aspect-ratio: 1 / 1;
     background: #f5f0eb;
