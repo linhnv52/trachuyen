@@ -69,6 +69,24 @@
                 <img src="https://via.placeholder.com/600x500/8d6e63/ffffff?text=Trà+Xanh+Shan+Tuyết" alt="Trà Xanh Shan Tuyết" id="mainImage">
             </div>
 
+                        <div class="thumbnail-wrap">
+                <button type="button" class="thumb-arrow prev" aria-label="Ảnh trước"><i class="fas fa-chevron-left"></i></button>
+                <div class="thumbnail-list" id="thumbList">
+                                            <div class="thumbnail-item active" data-src="https://via.placeholder.com/600x500/8d6e63/ffffff?text=Trà+Xanh+Shan+Tuyết">
+                            <img src="https://via.placeholder.com/600x500/8d6e63/ffffff?text=Trà+Xanh+Shan+Tuyết" alt="Trà Xanh Shan Tuyết 1" loading="lazy">
+                        </div>
+                                            <div class="thumbnail-item " data-src="img/products/g3_1.svg">
+                            <img src="img/products/g3_1.svg" alt="Trà Xanh Shan Tuyết 2" loading="lazy">
+                        </div>
+                                            <div class="thumbnail-item " data-src="img/products/g3_2.svg">
+                            <img src="img/products/g3_2.svg" alt="Trà Xanh Shan Tuyết 3" loading="lazy">
+                        </div>
+                                            <div class="thumbnail-item " data-src="img/products/g3_3.svg">
+                            <img src="img/products/g3_3.svg" alt="Trà Xanh Shan Tuyết 4" loading="lazy">
+                        </div>
+                                    </div>
+                <button type="button" class="thumb-arrow next" aria-label="Ảnh sau"><i class="fas fa-chevron-right"></i></button>
+            </div>
                     </div>
 
         <!-- Cột phải: Thông tin -->
@@ -90,7 +108,7 @@
                 </div>
                 <div class="product-meta-item">
                     <i class="fas fa-eye"></i>
-                    <span>Lượt xem: 9</span>
+                    <span>Lượt xem: 10</span>
                 </div>
             </div>
 
@@ -213,7 +231,44 @@
     </div>
 </footer>
 
+<script>
+(function () {
+    var list = document.getElementById('thumbList');
+    if (!list) return;
+    var main = document.getElementById('mainImage');
+    var wrap = list.parentElement;
 
+    // Bấm thumbnail -> đổi ảnh chính + highlight
+    list.addEventListener('click', function (e) {
+        var item = e.target.closest('.thumbnail-item');
+        if (!item || !main) return;
+        var src = item.getAttribute('data-src');
+        if (!src || main.src.indexOf(src) !== -1) return;
+        main.src = src;
+        list.querySelectorAll('.thumbnail-item.active').forEach(function (el) {
+            el.classList.remove('active');
+        });
+        item.classList.add('active');
+    });
+
+    // Mũi tên cuộn slider đúng 1 ô
+    document.querySelectorAll('.thumb-arrow').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var first = list.firstElementChild;
+            var step = first ? first.getBoundingClientRect().width + 12 : 92;
+            list.scrollBy({ left: btn.classList.contains('next') ? step : -step, behavior: 'smooth' });
+        });
+    });
+
+    // Chỉ hiện mũi tên khi danh sách tràn ngang
+    function toggleArrows() {
+        wrap.classList.toggle('has-arrows', list.scrollWidth > list.clientWidth + 4);
+    }
+    window.addEventListener('resize', toggleArrows);
+    window.addEventListener('load', toggleArrows);
+    toggleArrows();
+})();
+</script>
 <!-- Bản tĩnh (GitHub Pages): bổ sung cấu hình trang + breakpoint -->
 
 <script>
