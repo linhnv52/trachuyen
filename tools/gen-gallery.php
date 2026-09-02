@@ -13,7 +13,7 @@ function xmlEscape(string $s): string
     return htmlspecialchars($s, ENT_XML1 | ENT_QUOTES, 'UTF-8');
 }
 
-$rows = db()->query('SELECT id, name, code FROM products ORDER BY id')->fetchAll();
+$rows = db()->query('SELECT id, name, code, gallery FROM products ORDER BY id')->fetchAll();
 
 /** Bảng màu nâu/trà — [nền, chữ] */
 $palette = [
@@ -29,17 +29,28 @@ $palette = [
     ['#7b5e3b', '#ffffff'],
 ];
 
+const TARGET = 5; // số ảnh phụ mong muốn cho mỗi sản phẩm
+
 $written = 0;
 $updated = 0;
 
 foreach ($rows as $p) {
     $existing = productGallery($p['gallery'] ?? null);
-    if ($existing) {
-        continue; // đã có ảnh phụ
+
+    // Chỉ xử lý sản phẩm có ảnh phụ là placeholder SVG (bỏ qua sản phẩm có ảnh thật như id=1)
+    $isPlaceholder = true;
+    foreach ($existing as $img) {
+        if (stripos($img, '.svg') === false) {
+            $isPlaceholder = false;
+            break;
+        }
     }
 
-    $gallery = [];
-    for ($n = 1; $n <= 3; $n++) {
+    $gallery = $isPlaceholder ? $existing : [];
+    $count   = count($gallery);
+
+    while ($count < TARGET) {
+        $n = ++$count;
         $file = sprintf('g%d_%d.svg', (int)$p['id'], $n);
         $dest = UPLOAD_DIR . $file;
         [$bg, $fg] = $palette[((int)$p['id'] + $n) % count($palette)];
@@ -63,10 +74,12 @@ foreach ($rows as $p) {
         $written++;
     }
 
-    $stmt = db()->prepare('UPDATE products SET gallery = ? WHERE id = ?');
-    $stmt->execute([json_encode($gallery, JSON_UNESCAPED_SLASHES), (int)$p['id']]);
-    $updated++;
-    echo 'id=' . $p['id'] . ' ' . $p['name'] . PHP_EOL;
+    if ($count < TARGET || ($isPlaceholder && $count > 0)) {
+        $stmt = db()->prepare('UPDATE products SET gallery = ? WHERE id = ?');
+        $stmt->execute([json_encode($gallery, JSON_UNESCAPED_SLASHES), (int)$p['id']]);
+        $updated++;
+        echo 'id=' . $p['id'] . ' ' . $p['name'] . ' (' . $count . ' ảnh)' . PHP_EOL;
+    }
 }
 
 echo 'Sinh ' . $written . ' file ảnh phụ, cập nhật ' . $updated . ' sản phẩm.' . PHP_EOL;
