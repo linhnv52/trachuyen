@@ -78,7 +78,7 @@ require __DIR__ . '/includes/header.php';
             <div class="gallery-video">
                 <div class="video-wrapper">
                     <iframe
-                        src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                        src="https://drive.google.com/file/d//preview"
                         title="Video giới thiệu ấm tử sa"
                         frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

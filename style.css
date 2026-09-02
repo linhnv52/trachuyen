@@ -850,7 +850,7 @@ nav ul li a.active {
 
 .gallery-img-item {
     overflow: hidden;
-    border-radius: 12px;
+    border-radius: 0;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s, box-shadow 0.3s;
     cursor: pointer;
@@ -868,18 +868,21 @@ nav ul li a.active {
     display: block;
 }
 
-/* Cột phải: Video */
+/* Cột phải: Video (dạng dọc 9:16 như TikTok) */
 .gallery-video {
-    border-radius: 12px;
+    border-radius: 0;
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     background: #1a1a1a;
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    max-height: 560px;
 }
 
 .video-wrapper {
     position: relative;
-    padding-bottom: 56.25%; /* Tỷ lệ 16:9 */
-    height: 0;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
 }
 
@@ -906,7 +909,7 @@ nav ul li a.active {
     }
 
     .gallery-video {
-        max-height: 400px;
+        max-height: 480px;
     }
 }
 
@@ -918,7 +921,7 @@ nav ul li a.active {
     }
 
     .gallery-video {
-        max-height: 250px;
+        max-height: 420px;
     }
 
     .gallery-img-item:hover {
