@@ -32,6 +32,15 @@
     var categoriesMap = {};
     var capacitiesByProduct = {};
 
+    // Mốc giá (radio) — khớp với $PRICE_BRACKETS trong includes/product-listing.php
+    var PRICE_BRACKETS = {
+        'duoi-500': [null, 500000],
+        '500-1m':   [500000, 1000000],
+        '1m-1.5m':  [1000000, 1500000],
+        '1.5m-2m':  [1500000, 2000000],
+        'tren-2m':  [2000000, null]
+    };
+
     function formatPrice(n) { return Number(n || 0).toLocaleString('vi-VN'); }
 
     function e(s) {
@@ -103,8 +112,10 @@
         var sort = paramValue(params, 'sort', 'default') || 'default';
         var category = paramValue(params, 'category', '') || '';
         var page = Math.max(1, uint(paramValue(params, 'page', 1)) || 1);
-        var minPrice = String(paramValue(params, 'min_price', '') || '').trim();
-        var maxPrice = String(paramValue(params, 'max_price', '') || '').trim();
+        var priceRange = paramValue(params, 'price_range', '') || '';
+        var pr = PRICE_BRACKETS[priceRange] || null;
+        var minPrice = pr ? (pr[0] || '') : '';
+        var maxPrice = pr ? (pr[1] || '') : '';
         var caps = (params.capacity || []).map(uint).filter(function (x) { return x > 0; });
 
         var fixedId = 0;
@@ -143,7 +154,7 @@
         renderGrid(items);
         renderPagination(totalPages, page);
         updateToolbar(total);
-        syncSidebar(sort, minPrice, maxPrice, caps);
+        syncSidebar(sort, priceRange, caps);
         activateTab(catId || fixedId);
     }
 
@@ -199,15 +210,14 @@
         if (el) el.textContent = total;
     }
 
-    function syncSidebar(sort, minPrice, maxPrice, caps) {
+    function syncSidebar(sort, priceRange, caps) {
         var form = document.querySelector('.filter-sidebar');
         if (!form) return;
         var sortSel = form.querySelector('select[name="sort"]');
         if (sortSel) sortSel.value = sort;
-        var minInp = form.querySelector('input[name="min_price"]');
-        if (minInp) minInp.value = minPrice;
-        var maxInp = form.querySelector('input[name="max_price"]');
-        if (maxInp) maxInp.value = maxPrice;
+        form.querySelectorAll('input[name="price_range"]').forEach(function (r) {
+            r.checked = r.value === priceRange;
+        });
         form.querySelectorAll('input[name="capacity[]"]').forEach(function (cb) {
             cb.checked = caps.indexOf(uint(cb.value)) !== -1;
         });
@@ -244,7 +254,7 @@
         var doSubmit = function () {
             var data = new FormData(form);
             var overrides = { page: '' };
-            ['min_price', 'max_price'].forEach(function (k) { overrides[k] = data.get(k) || ''; });
+            overrides.price_range = data.get('price_range') || '';
             overrides.sort = data.get('sort') || 'default';
             var caps = data.getAll('capacity[]').map(uint).filter(function (x) { return x > 0; });
             if (caps.length) overrides.capacity = caps; else overrides.capacity = '';
@@ -252,7 +262,7 @@
         };
         form.addEventListener('submit', function (ev) { ev.preventDefault(); doSubmit(); });
         form.addEventListener('change', function (ev) {
-            if (ev.target.matches('select[name="sort"]') || ev.target.matches('input[name="capacity[]"]')) doSubmit();
+            if (ev.target.matches('select[name="sort"]') || ev.target.matches('input[name="capacity[]"]') || ev.target.matches('input[name="price_range"]')) doSubmit();
         });
     }
 

@@ -29,10 +29,24 @@ $sort       = $_GET['sort'] ?? 'default';
 if (!in_array($sort, ['default','price-asc','price-desc','name','rating'], true)) {
     $sort = 'default';
 }
-$minPrice   = $_GET['min_price'] ?? '';
-$maxPrice   = $_GET['max_price'] ?? '';
 $page       = max(1, (int)($_GET['page'] ?? 1));
 $perPage    = 8;
+
+// Lọc giá theo mốc (radio) — value => [min, max] (null = không chặn)
+$PRICE_BRACKETS = [
+    'duoi-500'  => [null, 500000],
+    '500-1m'    => [500000, 1000000],
+    '1m-1.5m'   => [1000000, 1500000],
+    '1.5m-2m'   => [1500000, 2000000],
+    'tren-2m'   => [2000000, null],
+];
+$priceRange = trim((string)($_GET['price_range'] ?? ''));
+if (!isset($PRICE_BRACKETS[$priceRange])) {
+    $priceRange = '';
+}
+$bracket  = $priceRange !== '' ? $PRICE_BRACKETS[$priceRange] : null;
+$minPrice = $bracket ? ($bracket[0] !== null ? (string)$bracket[0] : '') : '';
+$maxPrice = $bracket ? ($bracket[1] !== null ? (string)$bracket[1] : '') : '';
 
 // Lọc dung tích (chỉ trang Ấm Tử Sa) — mảng giá trị ml
 $capacity  = $_GET['capacity'] ?? [];
@@ -217,12 +231,20 @@ require __DIR__ . '/header.php';
 
                 <div class="filter-group">
                     <h4 class="filter-title">Giá</h4>
-                    <div class="filter-price">
-                        <input type="number" name="min_price" value="<?= e($minPrice) ?>" placeholder="Từ" min="0">
-                        <span class="price-sep">-</span>
-                        <input type="number" name="max_price" value="<?= e($maxPrice) ?>" placeholder="Đến" min="0">
-                    </div>
-                    <button type="submit" class="filter-apply">Lọc</button>
+                    <?php foreach ($PRICE_BRACKETS as $_prKey => $_prRange): ?>
+                        <label class="filter-option">
+                            <input type="radio" name="price_range" value="<?= e($_prKey) ?>"
+                                   <?= $priceRange === $_prKey ? 'checked' : '' ?>
+                                   onchange="this.form.submit()">
+                            <?php if ($_prRange[0] === null): ?>
+                                Dưới <?= formatPrice($_prRange[1]) ?>
+                            <?php elseif ($_prRange[1] === null): ?>
+                                Trên <?= formatPrice($_prRange[0]) ?>
+                            <?php else: ?>
+                                <?= formatPrice($_prRange[0]) ?> → <?= formatPrice($_prRange[1]) ?>
+                            <?php endif; ?>
+                        </label>
+                    <?php endforeach; ?>
                 </div>
 
                 <?php if ($showCapacityFilter): ?>
