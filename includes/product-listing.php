@@ -48,12 +48,11 @@ $bracket  = $priceRange !== '' ? $PRICE_BRACKETS[$priceRange] : null;
 $minPrice = $bracket ? ($bracket[0] !== null ? (string)$bracket[0] : '') : '';
 $maxPrice = $bracket ? ($bracket[1] !== null ? (string)$bracket[1] : '') : '';
 
-// Lọc dung tích (chỉ trang Ấm Tử Sa) — mảng giá trị ml
-$capacity  = $_GET['capacity'] ?? [];
-if (!is_array($capacity)) {
-    $capacity = [$capacity];
+// Lọc dung tích (chỉ trang Ấm Tử Sa) — dung tích là 1 giá trị ml
+$capacity = trim((string)($_GET['capacity'] ?? ''));
+if ($capacity !== '' && !ctype_digit($capacity)) {
+    $capacity = '';
 }
-$capacity = array_values(array_filter(array_map('intval', $capacity), fn ($v) => $v > 0));
 $showCapacityFilter = ($PL_fixedSlug === 'am-tu-sa');
 
 $allCategories = getAllCategories();
@@ -253,7 +252,9 @@ require __DIR__ . '/header.php';
                     <?php if ($capacityOptions): ?>
                         <?php foreach ($capacityOptions as $cap): ?>
                             <label class="filter-option">
-                                <input type="checkbox" name="capacity[]" value="<?= (int)$cap ?>" <?= in_array((int)$cap, $capacity, true) ? 'checked' : '' ?> onchange="this.form.submit()">
+                                <input type="radio" name="capacity" value="<?= (int)$cap ?>"
+                                       <?= (string)$capacity === (string)$cap ? 'checked' : '' ?>
+                                       onchange="this.form.submit()">
                                 <?= (int)$cap ?>ml
                             </label>
                         <?php endforeach; ?>

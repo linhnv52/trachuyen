@@ -65,9 +65,7 @@
             var k = decodeURIComponent(pair[0]);
             var v = decodeURIComponent((pair[1] || '').replace(/\+/g, ' '));
             if (k === 'capacity[]') {
-                p.capacity = p.capacity || [];
-                var n = parseInt(v, 10);
-                if (!isNaN(n)) p.capacity.push(n);
+                continue; // cũ (checkbox) — bỏ
             } else if (p[k] !== undefined) {
                 p[k] = [].concat(p[k], v);
             } else {
@@ -116,8 +114,7 @@
         var pr = PRICE_BRACKETS[priceRange] || null;
         var minPrice = pr ? (pr[0] || '') : '';
         var maxPrice = pr ? (pr[1] || '') : '';
-        var caps = (params.capacity || []).map(uint).filter(function (x) { return x > 0; });
-
+        var cap = uint(paramValue(params, 'capacity', '') || '');
         var fixedId = 0;
         if (config.fixedSlug && categoriesMap[config.fixedSlug]) fixedId = categoriesMap[config.fixedSlug].id;
         var catId = fixedId;
@@ -133,7 +130,7 @@
             }
             if (minPrice !== '' && Number(p.price) < Number(minPrice)) return false;
             if (maxPrice !== '' && Number(p.price) > Number(maxPrice)) return false;
-            if (caps.length && caps.indexOf(capacitiesByProduct[p.id]) === -1) return false;
+            if (cap && capacitiesByProduct[p.id] !== cap) return false;
             return true;
         });
 
@@ -154,7 +151,7 @@
         renderGrid(items);
         renderPagination(totalPages, page);
         updateToolbar(total);
-        syncSidebar(sort, priceRange, caps);
+        syncSidebar(sort, priceRange, cap);
         activateTab(catId || fixedId);
     }
 
@@ -210,7 +207,7 @@
         if (el) el.textContent = total;
     }
 
-    function syncSidebar(sort, priceRange, caps) {
+    function syncSidebar(sort, priceRange, cap) {
         var form = document.querySelector('.filter-sidebar');
         if (!form) return;
         var sortSel = form.querySelector('select[name="sort"]');
@@ -218,8 +215,8 @@
         form.querySelectorAll('input[name="price_range"]').forEach(function (r) {
             r.checked = r.value === priceRange;
         });
-        form.querySelectorAll('input[name="capacity[]"]').forEach(function (cb) {
-            cb.checked = caps.indexOf(uint(cb.value)) !== -1;
+        form.querySelectorAll('input[name="capacity"]').forEach(function (rb) {
+            rb.checked = uint(rb.value) === uint(cap);
         });
     }
 
@@ -256,13 +253,13 @@
             var overrides = { page: '' };
             overrides.price_range = data.get('price_range') || '';
             overrides.sort = data.get('sort') || 'default';
-            var caps = data.getAll('capacity[]').map(uint).filter(function (x) { return x > 0; });
-            if (caps.length) overrides.capacity = caps; else overrides.capacity = '';
+            var cap = uint(data.get('capacity') || '');
+            overrides.capacity = cap ? cap : '';
             updateQuery(overrides);
         };
         form.addEventListener('submit', function (ev) { ev.preventDefault(); doSubmit(); });
         form.addEventListener('change', function (ev) {
-            if (ev.target.matches('select[name="sort"]') || ev.target.matches('input[name="capacity[]"]') || ev.target.matches('input[name="price_range"]')) doSubmit();
+            if (ev.target.matches('select[name="sort"]') || ev.target.matches('input[name="capacity"]') || ev.target.matches('input[name="price_range"]')) doSubmit();
         });
     }
 
@@ -274,12 +271,6 @@
             var fixedId = 0;
             if (config.fixedSlug && categoriesMap[config.fixedSlug]) fixedId = categoriesMap[config.fixedSlug].id;
             products.forEach(function (p) { capacitiesByProduct[p.id] = uint(p.capacity); });
-
-            // Dựng sidebar dung tích cho trang Ấm Tử Sa (nếu PHP chưa dựng đủ)
-            if (fixedId) {
-                var caps = products.map(function (p) { return capacitiesByProduct[p.id]; })
-                    .filter(function (v) { return v > 0 && config.groupIds.indexOf(p) !== -1; }).length;
-            }
 
             apply();
             hookCategories();

@@ -147,14 +147,9 @@ function getAllProducts(array $filters = [], int $page = 1, int $perPage = 8): a
         $where[] = 'p.price <= ?';
         $params[] = (float)$filters['max_price'];
     }
-    if (!empty($filters['capacity']) && is_array($filters['capacity'])) {
-        $caps = array_values(array_filter(array_map('intval', $filters['capacity']), fn ($v) => $v > 0));
-        if ($caps) {
-            $where[] = 'p.capacity IN (' . implode(',', array_fill(0, count($caps), '?')) . ')';
-            foreach ($caps as $cap) {
-                $params[] = $cap;
-            }
-        }
+    if (isset($filters['capacity']) && $filters['capacity'] !== '' && $filters['capacity'] !== null) {
+        $where[] = 'p.capacity = ?';
+        $params[] = (int)$filters['capacity'];
     }
 
     $whereSql = $where ? ('WHERE ' . implode(' AND ', $where)) : '';

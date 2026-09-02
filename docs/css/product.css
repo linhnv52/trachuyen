@@ -157,7 +157,7 @@
         .products-sidebar {
             background: #f9f6f0;
             border: 1px solid #eee7e0;
-            border-radius: 12px;
+            border-radius: 0;
             padding: 20px;
             position: sticky;
             top: 20px;
@@ -253,10 +253,22 @@
         }
 
         .filter-option input {
+            appearance: none;
+            -webkit-appearance: none;
             width: 16px;
             height: 16px;
-            accent-color: #b8860b;
+            border: 1px solid #3e2723;
+            border-radius: 0;
+            background: #fff;
             cursor: pointer;
+            position: relative;
+            flex-shrink: 0;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .filter-option input:checked {
+            background: #b8860b;
+            border-color: #b8860b;
         }
 
         .filter-empty {
