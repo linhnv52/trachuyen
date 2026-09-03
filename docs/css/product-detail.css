@@ -540,16 +540,7 @@
 
         .related-products .old-price {
             color: var(--cartier-muted);
-        }
-
-        .related-products .btn-add-cart {
-            background: var(--cartier-ink);
-            border-radius: 0;
-        }
-
-        .related-products .btn-add-cart:hover {
-            background: var(--cartier-red);
-        }
+}
 
         /* Final shared luxury pass: product detail */
         .product-detail-page {

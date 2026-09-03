@@ -194,7 +194,6 @@ function plProductCard(array $p): string
         </a>
         ' . (!empty($p['capacity']) ? '<div class="product-capacity">Dung tích: ' . (int)$p['capacity'] . 'ml</div>' : '') . '
         <div class="product-price">' . $price . '</div>
-        <a class="btn-add-cart" href="productdetal.php?id=' . (int)$p['id'] . '" title="Xem chi tiết"><i class="fas fa-arrow-right"></i></a>
     </div>';
 }
 

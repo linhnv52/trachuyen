@@ -953,7 +953,6 @@
                         <span class="current-price">${formatPrice(product.salePrice || product.price)}đ</span>
                         ${product.salePrice ? `<span class="old-price">${formatPrice(product.price)}đ</span>` : ''}
                     </div>
-                    <button class="btn-add-cart" onclick="addToCart(${product.id})">Thêm vào giỏ</button>
                 </div>
             `).join('');
         }

@@ -37,7 +37,6 @@
         }
 
         /* Nút dạng liên kết và icon không gạch chân khi hover */
-        .btn-add-cart:hover,
         .btn-view-all:hover,
         .social-icon:hover,
         .nav-icons a:hover,
@@ -826,34 +825,6 @@ nav ul li a.active {
     text-decoration: line-through;
 }
 
-.btn-add-cart {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 38px;
-    height: 38px;
-    background: #5d4037;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
-}
-
-.btn-add-cart i {
-    transition: transform 0.2s;
-}
-
-.btn-add-cart:hover {
-    background: #b8860b;
-    transform: scale(1.05);
-}
-
-.btn-add-cart:hover i {
-    transform: translateX(3px);
-}
-
 /* ====== HÀNG DỊCH VỤ (TRANG CHỦ) ====== */
 .services-row {
     display: grid;
@@ -976,12 +947,6 @@ nav ul li a.active {
 
     .current-price {
         font-size: 1rem;
-    }
-
-    .btn-add-cart {
-        width: 34px;
-        height: 34px;
-        font-size: 0.8rem;
     }
 }
 /* ============================================ */
@@ -2085,21 +2050,6 @@ nav ul li a.active {
     color: var(--cartier-muted);
 }
 
-/* Nút thêm giỏ: viền mảnh + hover đỏ (lion tinh) */
-.btn-add-cart {
-    width: 42px;
-    height: 42px;
-    background: var(--cartier-ink);
-    color: #fff;
-    border-radius: 0;
-    transition: background 0.25s ease, transform 0.25s ease;
-}
-
-.btn-add-cart:hover {
-    background: var(--cartier-red);
-    transform: none;
-}
-
 /* ---------- BADGE: đỏ Cartier thống nhất ---------- */
 .product-badge {
     background: var(--cartier-red);
@@ -2651,13 +2601,8 @@ header > .container > nav ul {
     flex: 0 0 calc((100% - 72px) / 4);
 }
 
-.section-best-seller .btn-add-cart {
-    display: none !important;
-}
-
 /* Homepage: New products and editorial tea-category layouts */
-.section-new-products .product-price,
-.section-new-products .btn-add-cart {
+.section-new-products .product-price {
     display: none !important;
 }
 
@@ -2794,19 +2739,6 @@ header > .container > nav ul {
 .old-price {
     color: var(--luxury-muted);
     font-size: .78rem;
-}
-
-.btn-add-cart {
-    width: 38px;
-    height: 38px;
-    border-radius: 0;
-    background: var(--luxury-ink);
-    transition: background .25s ease, transform .25s ease;
-}
-
-.btn-add-cart:hover {
-    background: var(--luxury-red);
-    transform: translateY(-2px);
 }
 
 .product-badge {

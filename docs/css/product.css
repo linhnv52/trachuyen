@@ -636,16 +636,6 @@
             color: var(--cartier-muted);
         }
 
-        .btn-add-cart {
-            background: var(--cartier-ink);
-            border-radius: 0;
-        }
-
-        .btn-add-cart:hover {
-            background: var(--cartier-red);
-            transform: none;
-        }
-
         .cat-arrow {
             background: var(--cartier-ink);
             border-radius: 0;

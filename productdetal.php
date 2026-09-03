@@ -145,8 +145,7 @@ require __DIR__ . '/includes/header.php';
                         <span class="current-price"><?= formatPrice($rp['price']) ?>đ</span>
                         <?php if ($rp['old_price']): ?><span class="old-price"><?= formatPrice($rp['old_price']) ?>đ</span><?php endif; ?>
                     </div>
-                    <a class="btn-add-cart" href="productdetal.php?id=<?= $rp['id'] ?>" title="Xem chi tiết"><i class="fas fa-arrow-right"></i></a>
-                </div>
+                    </div>
             <?php endforeach; ?>
         </div>
     </section>

@@ -183,8 +183,7 @@
         return '<div class="product-item" data-id="' + p.id + '">' + badge +
             '<a href="' + e(p.detail_url) + '"><img src="' + e(p.image_url) + '" alt="' + e(p.name) + '"><h3>' + e(p.name) + '</h3></a>' +
             (p.capacity ? '<div class="product-capacity">Dung tích: ' + p.capacity + 'ml</div>' : '') +
-            '<div class="product-price">' + price + '</div>' +
-            '<a class="btn-add-cart" href="' + e(p.detail_url) + '" title="Xem chi tiết"><i class="fas fa-arrow-right"></i></a></div>';
+            '<div class="product-price">' + price + '</div></div>';
     }
 
     function renderGrid(items) {

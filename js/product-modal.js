@@ -20,7 +20,7 @@
  *       detailUrl: function(p) { return p.detail_url; }
  *   });
  *
- * Click vào .product-item[data-id] (không phải nút .btn-add-cart) sẽ mở popup.
+ * Click vào .product-item[data-id] sẽ mở popup.
  */
 function initProductModal(config) {
     var overlay = config.overlay;
@@ -185,7 +185,6 @@ function initProductModal(config) {
     document.addEventListener('click', function (e) {
         var card = e.target.closest('.product-item[data-id]');
         if (!card) return;
-        if (e.target.closest('.btn-add-cart')) return; // giữ hành vi điều hướng bình thường
         e.preventDefault();
         load(card.getAttribute('data-id'));
     });
