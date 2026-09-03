@@ -2819,3 +2819,44 @@ header > .container > nav ul {
         height: 155px;
     }
 }
+
+/* Compact sticky header and clean product pricing. */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    min-height: 80px;
+    padding-top: 4px;
+}
+
+header > .container {
+    min-height: 72px;
+}
+
+.logo img {
+    max-height: 62px;
+}
+
+.product-badge,
+.product-detail-badge,
+.old-price,
+.discount,
+.product-detail-price .old,
+.product-detail-price .discount {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    header {
+        min-height: 60px;
+        padding-top: 2px;
+    }
+
+    header > .container {
+        min-height: 54px;
+    }
+
+    .logo img {
+        max-height: 48px;
+    }
+}
