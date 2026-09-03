@@ -7,9 +7,24 @@
         }
 
         body {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', sans-serif;
             letter-spacing: -0.01em;
             background-color: #f9f6f0; /* Màu nền trang, có thể thay đổi */
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        /* Font hiển thị (serif premium) cho tiêu đề */
+        .display-font,
+        .section-title,
+        .page-header h1,
+        .tea-info-heading,
+        .product-modal-name,
+        .product-detail-title,
+        .cart-modal-title,
+        .no-products h3 {
+            font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+            letter-spacing: -0.015em;
         }
 
         /* Liên kết: chỉ gạch chân khi di chuột vào */
@@ -34,6 +49,7 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+            position: relative;
         }
 @font-face {
     font-family: 'CoalhandLuke';
@@ -66,6 +82,164 @@ header {
     height: auto;
     max-height: 110px;
     object-fit: contain;
+}
+
+/* Nút hamburger (menu di động) - bên trái, ẩn trên desktop */
+.nav-toggle {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 42px;
+    height: 42px;
+    padding: 10px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 40;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.nav-toggle .bar {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: #3e2723;
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* ---------- MENU DI ĐỘNG (off-canvas) ---------- */
+.mobile-menu-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(40, 25, 15, 0.45);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 50;
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+}
+
+.mobile-menu-backdrop.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 86%;
+    max-width: 320px;
+    background: #fdfbf7;
+    box-shadow: 4px 0 24px rgba(61, 40, 24, 0.18);
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition: transform 0.32s cubic-bezier(0.22, 0.61, 0.36, 1), visibility 0.32s;
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 24px 22px 32px;
+}
+
+.mobile-menu.open {
+    transform: translateX(0);
+    visibility: visible;
+}
+
+.mobile-menu-close {
+    align-self: flex-end;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(184, 134, 11, 0.08);
+    border: 1px solid #e8dfd5;
+    border-radius: 10px;
+    color: #3e2723;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-bottom: 8px;
+    transition: background 0.25s, color 0.25s;
+}
+
+.mobile-menu-close:active {
+    background: rgba(184, 134, 11, 0.18);
+    color: #b8860b;
+}
+
+.mobile-menu-list {
+    list-style: none;
+    margin: 0 0 24px;
+    padding: 0;
+}
+
+.mobile-menu-list li {
+    border-bottom: 1px solid #eee7e0;
+}
+
+.mobile-menu-list li:last-child {
+    border-bottom: none;
+}
+
+.mobile-menu-list li a {
+    display: flex;
+    align-items: center;
+    padding: 16px 6px;
+    color: #3e2723;
+    font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+    font-size: 1.15rem;
+    font-weight: 500;
+    text-decoration: none;
+    min-height: 50px;
+    transition: color 0.2s, padding-left 0.2s;
+}
+
+.mobile-menu-list li a:active,
+.mobile-menu-list li a.active {
+    color: #b8860b;
+}
+
+.mobile-menu-icons {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid #e8dfd5;
+    display: flex;
+    gap: 26px;
+}
+
+.mobile-menu-icons a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #5d4037;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 10px 4px;
+    transition: color 0.2s;
+}
+
+.mobile-menu-icons a i {
+    font-size: 1.15rem;
+}
+
+.mobile-menu-icons a:active {
+    color: #b8860b;
+}
+
+body.nav-open {
+    overflow: hidden;
 }
 
 /* Thanh tìm kiếm - Ở dưới logo, căn giữa */
@@ -271,28 +445,14 @@ nav ul li a.active {
 
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 768px) {
+    /* Hiển thị hamburger bên trái trên di động */
+    .nav-toggle {
+        display: flex;
+    }
+
+    /* Ẩn menu ngang, chỉ còn trong panel off-canvas */
     nav {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-    }
-
-    nav ul {
-        gap: 10px 15px;
-        justify-content: center;
-        width: 100%;
-    }
-
-    nav ul li a {
-        font-size: 0.85rem;
-    }
-
-    .nav-icons {
-        gap: 15px;
-        padding-top: 5px;
-        border-top: 1px solid #eee7e0;
-        width: 100%;
-        justify-content: center;
+        display: none;
     }
 
     .logo img {
@@ -546,8 +706,8 @@ nav ul li a.active {
 }
 
 .section-title {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 2rem;
+    font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+    font-size: 2.1rem;
     text-align: center;
     color: #5d4037;
     margin-bottom: 30px;
@@ -1088,7 +1248,7 @@ nav ul li a.active {
 }
 
 .tea-info-heading {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
     font-size: 1.4rem;
     color: #3e2723;
     margin-bottom: 18px;
@@ -1200,7 +1360,7 @@ nav ul li a.active {
     color: #5d4037;
     font-size: 1rem;
     font-weight: 600;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Be Vietnam Pro', system-ui, sans-serif;
     cursor: pointer;
     text-align: left;
     transition: all 0.25s;
@@ -1560,7 +1720,7 @@ body.modal-open {
 }
 
 .product-modal-name {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
     font-size: 1.55rem;
     color: #3e2723;
     margin: 0;

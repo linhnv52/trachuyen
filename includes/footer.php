@@ -125,5 +125,48 @@ $extraScript = $extraScript ?? '';
         });
     })();
 </script>
+
+<!-- ====== MENU DI ĐỘNG (hamburger) ====== -->
+<script>
+(function () {
+    var toggle = document.getElementById('navToggle');
+    var menu = document.getElementById('mobileMenu');
+    var backdrop = document.getElementById('mobileMenuBackdrop');
+    var closeBtn = document.getElementById('mobileMenuClose');
+    if (!toggle || !menu || !backdrop) return;
+
+    function openMenu() {
+        menu.classList.add('open');
+        backdrop.classList.add('show');
+        document.body.classList.add('nav-open');
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.setAttribute('aria-label', 'Đóng menu');
+    }
+
+    function closeMenu() {
+        menu.classList.remove('open');
+        backdrop.classList.remove('show');
+        document.body.classList.remove('nav-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Mở menu');
+    }
+
+    toggle.addEventListener('click', function () {
+        var isOpen = menu.classList.contains('open');
+        if (isOpen) { closeMenu(); } else { openMenu(); }
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+    backdrop.addEventListener('click', closeMenu);
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeMenu();
+    });
+
+    menu.addEventListener('click', function (e) {
+        if (e.target.closest('a')) closeMenu();
+    });
+})();
+</script>
 </body>
 </html>

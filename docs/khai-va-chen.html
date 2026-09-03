@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="css/product.css">    <style></style>
@@ -17,9 +17,15 @@
 
 <header>
     <div class="container">
+        <button type="button" class="nav-toggle" id="navToggle" aria-label="Mở menu" aria-expanded="false" aria-controls="mobileMenu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+
         <div class="logo">
-            <a href="index.html" aria-label="Trà Chuyện">
-                <img src="https://lh3.googleusercontent.com/d/1m-0-hXczkfAv8wzQGyb55N3DJlhQTW3Z=w800" alt="Trà Chuyện">
+            <a href="index.html" aria-label="Tr� Chuy?n">
+                <img src="https://lh3.googleusercontent.com/d/1m-0-hXczkfAv8wzQGyb55N3DJlhQTW3Z=w800" alt="Tr� Chuy?n">
             </a>
         </div>
 
@@ -48,6 +54,26 @@
             </div>
         </nav>
     </div>
+
+        <!-- ====== MENU DI ĐỘNG (hamburger, mở từ trái) ====== -->
+        <div class="mobile-menu-backdrop" id="mobileMenuBackdrop" aria-hidden="true"></div>
+        <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Menu điều hướng">
+            <button type="button" class="mobile-menu-close" id="mobileMenuClose" aria-label="Đóng menu">
+                <i class="fas fa-times"></i>
+            </button>
+            <ul class="mobile-menu-list">
+                <li><a href="index.html" class="">Trang chủ</a></li>
+                <li><a href="san-pham-tra.html" class="">Sản phẩm trà</a></li>
+                <li><a href="hop-qua-tang.html" class="">Hộp quà tặng</a></li>
+                <li><a href="khai-va-chen.html" class="active">Gốm sứ</a></li>
+                <li><a href="am-tu-sa.html" class="">Ấm tử sa</a></li>
+                <li><a href="thong-tin-tra.html" class="">Thông tin về trà</a></li>
+            </ul>
+            <div class="mobile-menu-icons">
+                <a href="#" title="Tài khoản"><i class="fas fa-user"></i><span>Tài khoản</span></a>
+                <a href="#" title="Giỏ hàng" class="cart-link"><i class="fas fa-shopping-bag"></i><span>Giỏ hàng</span></a>
+            </div>
+        </div>
 </header>
 <!-- ========== TRANG DANH SÁCH SẢN PHẨM ========== -->
 <div class="container products-page">
@@ -446,6 +472,49 @@
                 : function (p) { return 'productdetal.html?id=' + p.id; }
         });
     })();
+</script>
+
+<!-- ====== MENU DI ĐỘNG (hamburger) ====== -->
+<script>
+(function () {
+    var toggle = document.getElementById('navToggle');
+    var menu = document.getElementById('mobileMenu');
+    var backdrop = document.getElementById('mobileMenuBackdrop');
+    var closeBtn = document.getElementById('mobileMenuClose');
+    if (!toggle || !menu || !backdrop) return;
+
+    function openMenu() {
+        menu.classList.add('open');
+        backdrop.classList.add('show');
+        document.body.classList.add('nav-open');
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.setAttribute('aria-label', 'Đóng menu');
+    }
+
+    function closeMenu() {
+        menu.classList.remove('open');
+        backdrop.classList.remove('show');
+        document.body.classList.remove('nav-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Mở menu');
+    }
+
+    toggle.addEventListener('click', function () {
+        var isOpen = menu.classList.contains('open');
+        if (isOpen) { closeMenu(); } else { openMenu(); }
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+    backdrop.addEventListener('click', closeMenu);
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeMenu();
+    });
+
+    menu.addEventListener('click', function (e) {
+        if (e.target.closest('a')) closeMenu();
+    });
+})();
 </script>
 <script src="js/static-listing.js"></script>
 </body>
