@@ -203,7 +203,6 @@
                         <option value="name" >Tên A-Z</option>
                     </select>
                 </div>
-                <button type="submit" class="filter-apply">Áp dụng</button>
             </form>
         </aside>
 
@@ -416,7 +415,7 @@
     listViewBtn.addEventListener('click', function() { applyView('list'); });
 </script>
 <script>
-// Cho phép bỏ chọn radio đã chọn (giá / dung tích) — chỉ chạy trên PHP live (bản tĩnh do static-listing.js lo)
+// Cho phép bỏ chọn radio đã chọn (giá / dung tích) + tự áp dụng khi đổi filter — chỉ chạy trên PHP live (bản tĩnh do static-listing.js lo)
 if (!document.documentElement.hasAttribute('data-static')) {
     (function () {
         var form = document.querySelector('.filter-sidebar');
@@ -429,7 +428,13 @@ if (!document.documentElement.hasAttribute('data-static')) {
         form.addEventListener('click', function (ev) {
             var t = ev.target;
             if (!t.matches('input[type="radio"][name="price_range"], input[type="radio"][name="capacity"]')) return;
-            if (wasChecked) { t.checked = false; wasChecked = false; }
+            if (wasChecked) { t.checked = false; wasChecked = false; form.submit(); return; }
+        });
+        // Auto-apply khi chạm radio / đổi sort (PHP live)
+        form.addEventListener('change', function (ev) {
+            if (ev.target.matches('select[name="sort"]') || ev.target.matches('input[name="price_range"]') || ev.target.matches('input[name="capacity"]')) {
+                form.submit();
+            }
         });
     })();
 }
