@@ -38,6 +38,7 @@ if (!isset($activeMenu))   $activeMenu = '';
         <li class="section-title">Quản lý</li>
         <li><a href="<?= e(url('/admin/product/list.php')) ?>" class="<?= $activeMenu === 'products' ? 'active' : '' ?>"><i class="fas fa-box"></i> Sản phẩm</a></li>
         <li><a href="<?= e(url('/admin/category/list.php')) ?>" class="<?= $activeMenu === 'categories' ? 'active' : '' ?>"><i class="fas fa-tags"></i> Danh mục</a></li>
+        <li><a href="<?= e(url('/admin/category/layout.php')) ?>" class="<?= $activeMenu === 'category-layout' ? 'active' : '' ?>"><i class="fas fa-layer-group"></i> Bố cục danh mục trà</a></li>
         <li><a href="<?= e(url('/admin/banner/index.php')) ?>" class="<?= $activeMenu === 'banners' ? 'active' : '' ?>"><i class="fas fa-images"></i> Banner trang chủ</a></li>
         <li><a href="<?= e(url('/admin/tea-info/edit.php')) ?>" class="<?= $activeMenu === 'tea-info' ? 'active' : '' ?>"><i class="fas fa-book-open"></i> Nội dung trang Thông tin</a></li>
         <li><a href="#" onclick="alert('Đơn hàng sẽ được phát triển trong giai đoạn sau');"><i class="fas fa-shopping-cart"></i> Đơn hàng</a></li>

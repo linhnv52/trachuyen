@@ -58,6 +58,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'updat
 }
 
 $siteLogo = getSetting('site_logo', 'https://drive.google.com/uc?export=view&id=1m-0-hXczkfAv8wzQGyb55N3DJlhQTW3Z');
+$videoError = '';
+$videoSuccess = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'update_video') {
+    try {
+        $videoUrl = trim($_POST['video_url'] ?? '');
+        if ($videoUrl === '' || !filter_var($videoUrl, FILTER_VALIDATE_URL) || !preg_match('/^https?:\/\//i', $videoUrl)) {
+            throw new RuntimeException('Link video không hợp lệ.');
+        }
+        if (preg_match('~drive\.google\.com/file/d/([^/]+)~i', $videoUrl, $matches)) {
+            $videoUrl = 'https://drive.google.com/file/d/' . $matches[1] . '/preview';
+        }
+        setSetting('homepage_video_url', $videoUrl);
+        $videoSuccess = 'Video trang chủ đã được cập nhật.';
+    } catch (Throwable $e) {
+        $videoError = $e->getMessage();
+    }
+}
+
+$homepageVideoUrl = getSetting('homepage_video_url', '');
 $pageTitle = 'Bảng điều khiển';
 $pageSubtitle = 'Tổng quan hoạt động của cửa hàng';
 $activeMenu = 'dashboard';
@@ -91,6 +111,11 @@ require __DIR__ . '/includes/header.php';
     .logo-message { margin:0 0 16px; padding:12px 14px; border-radius:8px; font-size:.9rem; }
     .logo-message.success { background:#eaf7ef; color:#176b3a; }
     .logo-message.error { background:#fff0f0; color:#a32222; }
+    .video-settings { margin:0 0 30px; padding:24px; background:#fff; border:1px solid var(--gray); border-radius:var(--radius); box-shadow:var(--shadow); }
+    .video-settings h2 { margin:0 0 6px; font-family:'Playfair Display',serif; color:var(--primary-dark); }
+    .video-settings p { margin:0 0 16px; color:var(--text-light); font-size:.9rem; }
+    .video-url-form { display:flex; flex-wrap:wrap; gap:12px; }
+    .video-url-form input { flex:1; min-width:260px; padding:10px; border:1px solid var(--gray); background:#fff; }
     @media (max-width: 700px) { .logo-settings { grid-template-columns:1fr; } }
 </style>
 
@@ -130,6 +155,18 @@ require __DIR__ . '/includes/header.php';
         if (this.value.trim()) document.getElementById('adminLogoPreview').src = this.value.trim();
     });
 </script>
+
+<section class="video-settings" aria-labelledby="video-settings-title">
+    <h2 id="video-settings-title">Video trang chủ</h2>
+    <p>Dán link video Google Drive. Hãy bật quyền chia sẻ “Bất kỳ ai có liên kết” để video hiển thị trên website.</p>
+    <?php if ($videoSuccess): ?><div class="logo-message success" role="status"><?= e($videoSuccess) ?></div><?php endif; ?>
+    <?php if ($videoError): ?><div class="logo-message error" role="alert"><?= e($videoError) ?></div><?php endif; ?>
+    <form method="post" class="video-url-form">
+        <input type="hidden" name="action" value="update_video">
+        <input type="url" name="video_url" placeholder="https://drive.google.com/file/d/.../view" value="<?= e($homepageVideoUrl) ?>" required>
+        <button type="submit" class="btn btn-primary"><i class="fas fa-video"></i> Lưu video</button>
+    </form>
+</section>
 
 <section class="stats-grid">
     <div class="stat-card">

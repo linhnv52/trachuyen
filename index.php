@@ -14,12 +14,19 @@ $catCounts = [];
 foreach ($countStmt->fetchAll() as $row) {
     $catCounts[(int)$row['category_id']] = (int)$row['c'];
 }
+$newProducts = db()->query('SELECT p.*, c.name AS category_name, c.slug AS category_slug
+                            FROM products p
+                            JOIN categories c ON c.id = p.category_id
+                            WHERE p.is_active = 1 AND p.badge = "new"
+                            ORDER BY p.created_at DESC, p.id DESC
+                            LIMIT 12')->fetchAll();
 $bestSellers = db()->query('SELECT p.*, c.name AS category_name, c.slug AS category_slug
                             FROM products p
                             JOIN categories c ON c.id = p.category_id
                             WHERE p.is_active = 1 AND p.badge = "hot"
                             ORDER BY p.rating_avg DESC, p.created_at DESC
                             LIMIT 12')->fetchAll();
+$homepageVideoUrl = getSetting('homepage_video_url', '');
 
 // Banner slider (quản lý từ admin); fallback ảnh mặc định nếu chưa có dữ liệu
 $banners = db()->query('SELECT image_url FROM banners WHERE is_active = 1 ORDER BY sort_order, id')->fetchAll(PDO::FETCH_COLUMN);
@@ -48,24 +55,53 @@ require __DIR__ . '/includes/header.php';
 
 <div class="container body-container">
 
-    <!-- ====== 1. DANH MỤC SẢN PHẨM ====== -->
-    <section class="section-category">
-        <h2 class="section-title">Danh mục sản phẩm</h2>
+    <!-- ====== 1. SẢN PHẨM MỚI ====== -->
+    <section class="section-new-products">
+        <h2 class="section-title">Sản phẩm mới</h2>
         <div class="grid-6col-2row">
-            <?php foreach ($displayCategories as $c): ?>
-                <a class="category-item" href="<?= e(categoryPageUrl($c['slug'])) ?>">
-                    <img src="<?= e(categoryImage($c['image_url'])) ?>" alt="<?= e($c['name']) ?>">
-                    <h3><?= e($c['name']) ?></h3>
-                    <p><?= $catCounts[$c['id']] ?? 0 ?> sản phẩm</p>
-                </a>
-            <?php endforeach; ?>
+            <?php if (!$newProducts): ?>
+                <p style="grid-column:1/-1; text-align:center; color:#8d6e63; padding:30px;">Chưa có sản phẩm mới.</p>
+            <?php else: foreach ($newProducts as $p): ?>
+                <div class="product-item" data-id="<?= (int)$p['id'] ?>">
+                    <div class="product-badge new">Mới</div>
+                    <a href="productdetal.php?id=<?= $p['id'] ?>">
+                        <img src="<?= e(productImage($p['image_url'])) ?>" alt="<?= e($p['name']) ?>">
+                        <h3><?= e($p['name']) ?></h3>
+                        <?php if (!empty($p['short_description'])): ?>
+                            <p class="product-short-description"><?= e($p['short_description']) ?></p>
+                        <?php endif; ?>
+                    </a>
+                </div>
+            <?php endforeach; endif; ?>
         </div>
         <div class="view-all">
-            <a href="product.php" class="btn-view-all">Xem tất cả danh mục →</a>
+            <a href="product.php" class="btn-view-all">Xem tất cả sản phẩm →</a>
         </div>
     </section>
 
-    <!-- ====== 2. TRƯNG BÀY ẢNH & VIDEO ====== -->
+    <!-- ====== 2. BỐ CỤC DANH MỤC TRÀ ====== -->
+    <section class="tea-category-layouts">
+        <div class="section-heading-row">
+            <h2 class="section-title">Khám phá các dòng trà</h2>
+        </div>
+        <div class="category-layout-list">
+            <?php foreach ($displayCategories as $i => $c): ?>
+                <article class="category-layout<?= $i % 2 ? ' is-reversed' : '' ?>">
+                    <a class="category-layout-image" href="<?= e(categoryPageUrl($c['slug'])) ?>">
+                        <img src="<?= e(categoryImage($c['image_url'])) ?>" alt="<?= e($c['name']) ?>" loading="lazy">
+                    </a>
+                    <div class="category-layout-copy">
+                        <p class="category-layout-kicker">Trà Chuyện</p>
+                        <h3><?= e($c['name']) ?></h3>
+                        <p><?= e($c['description'] ?: 'Những hương vị trà được tuyển chọn kỹ lưỡng, cân bằng giữa truyền thống và trải nghiệm hiện đại.') ?></p>
+                        <a class="category-layout-link" href="<?= e(categoryPageUrl($c['slug'])) ?>">Khám phá dòng trà <span>→</span></a>
+                    </div>
+                </article>
+            <?php endforeach; ?>
+        </div>
+    </section>
+
+    <!-- ====== 3. TRƯNG BÀY ẢNH & VIDEO ====== -->
     <section class="section-gallery">
         <div class="gallery-container">
             <div class="gallery-images">
@@ -77,22 +113,26 @@ require __DIR__ . '/includes/header.php';
 
             <div class="gallery-video">
                 <div class="video-wrapper">
+                    <?php if ($homepageVideoUrl): ?>
                     <iframe
-                        src="https://drive.google.com/file/d//preview"
+                        src="<?= e($homepageVideoUrl) ?>"
                         title="Video giới thiệu ấm tử sa"
                         frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen>
                     </iframe>
+                    <?php else: ?>
+                    <div class="video-empty">Video giới thiệu đang được cập nhật.</div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ====== 3. SẢN PHẨM BÁN CHẠY ====== -->
+    <!-- ====== 4. SẢN PHẨM BÁN CHẠY ====== -->
     <section class="section-best-seller">
         <h2 class="section-title">Sản phẩm bán chạy</h2>
-        <div class="grid-6col-2row">
+        <div class="grid-6col-2row best-seller-track" id="bestSellerTrack">
             <?php if (!$bestSellers): ?>
                 <p style="grid-column:1/-1; text-align:center; color:#8d6e63; padding:30px;">Chưa có sản phẩm bán chạy.</p>
             <?php else: foreach ($bestSellers as $p):
@@ -109,6 +149,9 @@ require __DIR__ . '/includes/header.php';
                     <a href="productdetal.php?id=<?= $p['id'] ?>">
                         <img src="<?= e($img) ?>" alt="<?= e($p['name']) ?>">
                         <h3><?= e($p['name']) ?></h3>
+                        <?php if (!empty($p['short_description'])): ?>
+                            <p class="product-short-description"><?= e($p['short_description']) ?></p>
+                        <?php endif; ?>
                     </a>
                     <div class="product-price">
                         <span class="current-price"><?= formatPrice($p['price']) ?>đ</span>
@@ -123,7 +166,7 @@ require __DIR__ . '/includes/header.php';
         </div>
     </section>
 
-    <!-- ====== 4. HÀNG DỊCH VỤ ====== -->
+    <!-- ====== 5. HÀNG DỊCH VỤ ====== -->
     <section class="services-row">
         <div class="service-item">
             <i class="fas fa-headset"></i>
@@ -187,6 +230,25 @@ $extraScript = <<<'HTML'
         sliderContainer.addEventListener('mouseleave', function() { startAutoPlay(); });
 
         startAutoPlay();
+
+        const bestSellerTrack = document.getElementById('bestSellerTrack');
+        if (bestSellerTrack && bestSellerTrack.children.length > 4) {
+            let bestSellerTimer;
+            const moveBestSeller = function () {
+                const item = bestSellerTrack.querySelector('.product-item');
+                if (!item) return;
+                const distance = item.getBoundingClientRect().width + 24;
+                if (bestSellerTrack.scrollLeft + bestSellerTrack.clientWidth >= bestSellerTrack.scrollWidth - 4) {
+                    bestSellerTrack.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    bestSellerTrack.scrollBy({ left: distance, behavior: 'smooth' });
+                }
+            };
+            const startBestSeller = function () { bestSellerTimer = setInterval(moveBestSeller, 4500); };
+            bestSellerTrack.addEventListener('mouseenter', function () { clearInterval(bestSellerTimer); });
+            bestSellerTrack.addEventListener('mouseleave', startBestSeller);
+            startBestSeller();
+        }
     });
 </script>
 HTML;

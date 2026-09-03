@@ -98,6 +98,7 @@ require __DIR__ . '/../includes/header.php';
         <?php endif; ?>
     </div>
     <div class="toolbar-right">
+        <a href="<?= e(url('/admin/category/layout.php')) ?>" class="btn btn-outline"><i class="fas fa-layer-group"></i> Bố cục trang chủ</a>
         <a href="<?= e(url('/admin/category/add.php')) ?>" class="btn btn-primary"><i class="fas fa-plus"></i> Thêm danh mục</a>
     </div>
 </form>

@@ -2590,6 +2590,163 @@ header > .container > nav ul {
     margin: 12px 0;
 }
 
+.section-best-seller .product-price {
+    display: none !important;
+}
+
+.product-short-description {
+    display: -webkit-box;
+    margin: 0;
+    color: var(--luxury-muted);
+    font-size: .76rem;
+    line-height: 1.55;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.best-seller-track {
+    display: flex;
+    grid-template-columns: none;
+    gap: 24px;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+
+.best-seller-track::-webkit-scrollbar {
+    display: none;
+}
+
+.best-seller-track .product-item {
+    flex: 0 0 calc((100% - 72px) / 4);
+}
+
+.section-best-seller .btn-add-cart {
+    display: none !important;
+}
+
+/* Homepage: New products and editorial tea-category layouts */
+.section-new-products .product-price,
+.section-new-products .btn-add-cart {
+    display: none !important;
+}
+
+.section-new-products .product-item {
+    min-width: 0;
+}
+
+.tea-category-layouts {
+    margin: 110px 0 100px;
+}
+
+.category-layout-list {
+    display: flex;
+    flex-direction: column;
+    gap: 72px;
+}
+
+.category-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr);
+    min-height: 480px;
+    background: #f7f3ef;
+}
+
+.category-layout.is-reversed .category-layout-image { order: 2; }
+.category-layout.is-reversed .category-layout-copy { order: 1; }
+
+.category-layout-image {
+    display: block;
+    min-height: 480px;
+    overflow: hidden;
+}
+
+.category-layout-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .7s ease;
+}
+
+.category-layout-image:hover img { transform: scale(1.03); }
+
+.category-layout-copy {
+    align-self: center;
+    padding: 56px clamp(28px, 5vw, 82px);
+}
+
+.category-layout-kicker {
+    margin: 0 0 16px;
+    color: #9b7653;
+    font-size: .72rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+}
+
+.category-layout-copy h3 {
+    margin: 0 0 18px;
+    color: #34271f;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.05;
+}
+
+.category-layout-copy > p:not(.category-layout-kicker) {
+    margin: 0 0 28px;
+    color: #786b61;
+    font-size: .98rem;
+    line-height: 1.8;
+}
+
+.category-layout-link {
+    display: inline-flex;
+    gap: 14px;
+    align-items: center;
+    color: #34271f;
+    border-bottom: 1px solid #34271f;
+    padding-bottom: 7px;
+    font-size: .8rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.category-layout-link span { transition: transform .2s ease; }
+.category-layout-link:hover span { transform: translateX(4px); }
+
+@media (max-width: 768px) {
+    .tea-category-layouts { margin: 72px 0 64px; }
+    .category-layout-list { gap: 32px; }
+    .category-layout,
+    .category-layout.is-reversed {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
+    .category-layout.is-reversed .category-layout-image,
+    .category-layout.is-reversed .category-layout-copy { order: initial; }
+    .category-layout-image { min-height: 280px; aspect-ratio: 4 / 3; }
+    .category-layout-copy { padding: 32px 24px 38px; }
+    .category-layout-copy h3 { font-size: 2.2rem; }
+}
+
+@media (max-width: 900px) {
+    .best-seller-track .product-item {
+        flex-basis: calc((100% - 48px) / 3);
+    }
+}
+
+@media (max-width: 768px) {
+    .best-seller-track {
+        gap: 14px;
+    }
+
+    .best-seller-track .product-item {
+        flex-basis: calc((100% - 14px) / 2);
+    }
+}
+
 .current-price {
     color: var(--luxury-ink);
     font-size: .94rem;
@@ -2798,6 +2955,18 @@ header > .container > nav ul {
     .footer {
         padding-top: 50px;
     }
+}
+
+.video-empty {
+    display: grid;
+    min-height: 280px;
+    place-items: center;
+    padding: 24px;
+    color: var(--luxury-muted);
+    background: var(--luxury-soft);
+    text-align: center;
+    font-size: .85rem;
+    letter-spacing: .04em;
 }
 
 @media (max-width: 420px) {
