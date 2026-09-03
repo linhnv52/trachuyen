@@ -247,8 +247,7 @@ require __DIR__ . '/header.php';
                     <?php foreach ($PRICE_BRACKETS as $_prKey => $_prRange): ?>
                         <label class="filter-option">
                             <input type="radio" name="price_range" value="<?= e($_prKey) ?>"
-                                   <?= $priceRange === $_prKey ? 'checked' : '' ?>
-                                   onchange="this.form.submit()">
+                                   <?= $priceRange === $_prKey ? 'checked' : '' ?>>
                             <?php if ($_prRange[0] === null): ?>
                                 Dưới <?= formatPrice($_prRange[1]) ?>
                             <?php elseif ($_prRange[1] === null): ?>
@@ -267,8 +266,7 @@ require __DIR__ . '/header.php';
                         <?php foreach ($capacityOptions as $capKey): ?>
                             <label class="filter-option">
                                 <input type="radio" name="capacity" value="<?= e($capKey) ?>"
-                                       <?= $capacity === $capKey ? 'checked' : '' ?>
-                                       onchange="this.form.submit()">
+                                       <?= $capacity === $capKey ? 'checked' : '' ?>>
                                 <?= e($CAPACITY_LABELS[$capKey]) ?>
                             </label>
                         <?php endforeach; ?>
@@ -280,13 +278,14 @@ require __DIR__ . '/header.php';
 
                 <div class="filter-group">
                     <h4 class="filter-title">Sắp xếp</h4>
-                    <select name="sort" onchange="this.form.submit()">
+                    <select name="sort">
                         <option value="default" <?= $sort === 'default' ? 'selected' : '' ?>>Mặc định</option>
                         <option value="price-asc" <?= $sort === 'price-asc' ? 'selected' : '' ?>>Giá tăng dần</option>
                         <option value="price-desc" <?= $sort === 'price-desc' ? 'selected' : '' ?>>Giá giảm dần</option>
                         <option value="name" <?= $sort === 'name' ? 'selected' : '' ?>>Tên A-Z</option>
                     </select>
                 </div>
+                <button type="submit" class="filter-apply">Áp dụng</button>
             </form>
         </aside>
 

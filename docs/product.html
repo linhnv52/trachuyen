@@ -177,32 +177,33 @@
                     <h4 class="filter-title">Giá</h4>
                                             <label class="filter-option">
                             <input type="radio" name="price_range" value="duoi-500"
-                                                                      onchange="this.form.submit()">
+                                   >
                                                             Dưới 500.000                                                    </label>
                                             <label class="filter-option">
                             <input type="radio" name="price_range" value="500-1m"
-                                                                      onchange="this.form.submit()">
+                                   >
                                                             500.000 → 1.000.000                                                    </label>
                                             <label class="filter-option">
                             <input type="radio" name="price_range" value="1m-2m"
-                                                                      onchange="this.form.submit()">
+                                   >
                                                             1.000.000 → 2.000.000                                                    </label>
                                             <label class="filter-option">
                             <input type="radio" name="price_range" value="tren-2m"
-                                                                      onchange="this.form.submit()">
+                                   >
                                                             Trên 2.000.000                                                    </label>
                                     </div>
 
                 
                 <div class="filter-group">
                     <h4 class="filter-title">Sắp xếp</h4>
-                    <select name="sort" onchange="this.form.submit()">
+                    <select name="sort">
                         <option value="default" selected>Mặc định</option>
                         <option value="price-asc" >Giá tăng dần</option>
                         <option value="price-desc" >Giá giảm dần</option>
                         <option value="name" >Tên A-Z</option>
                     </select>
                 </div>
+                <button type="submit" class="filter-apply">Áp dụng</button>
             </form>
         </aside>
 
