@@ -831,3 +831,7 @@
             gap: 10px;
             grid-auto-columns: calc((100% - (5 * 10px)) / 6);
         }
+
+        .products-page .products-grid:not(.list-view) .product-item {
+            text-align: center;
+        }
