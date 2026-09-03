@@ -195,10 +195,6 @@ require __DIR__ . '/header.php';
         <span class="current"><?= e($PL_breadcrumbLabel) ?></span>
     </div>
 
-    <div class="page-header">
-        <h1><?= $PL_title ?></h1>
-    </div>
-
     <?php if ($PL_showTabs): ?>
     <!-- ====== DANH MỤC (carousel 6 cột) ====== -->
     <div class="cat-carousel" id="catCarousel">
