@@ -790,6 +790,6 @@
             letter-spacing: -0.01em;
         }
 
-        .cat-carousel.has-overflow .category-item {
+        .products-page .cat-carousel .category-item {
             transform: scale(0.8);
         }
