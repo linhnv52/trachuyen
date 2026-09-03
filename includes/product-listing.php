@@ -163,7 +163,7 @@ function plProductCard(array $p): string
         $label = match ($p['badge']) { 'hot' => 'Hot', 'sale' => 'Sale', 'new' => 'Mới', default => '' };
         $badge = '<div class="product-badge ' . $cls . '">' . $label . '</div>';
     }
-    $img = $p['image_url'] ?: url('/img/placeholder.svg');
+    $img = productImage($p['image_url']);
     $price = $p['old_price']
         ? '<span class="current-price">' . formatPrice($p['price']) . 'đ</span><span class="old-price">' . formatPrice($p['old_price']) . 'đ</span>'
         : '<span class="current-price">' . formatPrice($p['price']) . 'đ</span>';

@@ -1,4 +1,4 @@
-﻿    <style>
+﻿
         /* ============================================ */
         /* CSS RIÃŠNG CHO TRANG CHI TIáº¾T Sáº¢N PHáº¨M */
         /* ============================================ */
@@ -418,4 +418,211 @@
                 gap: 12px;
             }
         }
-    </style>
+
+        /* ====== PHONG CÁCH CARTIER - Trang chi tiết sản phẩm ====== */
+        :root {
+            --cartier-red:   #c8102e;
+            --cartier-black: #141414;
+            --cartier-ink:   #1a1a1a;
+            --cartier-muted: #8a8a8a;
+            --cartier-line:  #e5e2dc;
+        }
+
+        .product-detail-page {
+            background-color: #ffffff;
+        }
+
+        .product-detail-name {
+            font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+            color: var(--cartier-black);
+        }
+
+        .product-detail-price {
+            border-color: var(--cartier-line);
+        }
+
+        .product-detail-price .current {
+            color: var(--cartier-black);
+            font-weight: 600;
+        }
+
+        .product-detail-price .old {
+            color: var(--cartier-muted);
+        }
+
+        .product-detail-price .discount {
+            background: var(--cartier-red);
+            border-radius: 2px;
+            color: #fff;
+        }
+
+        .product-detail-description {
+            color: var(--cartier-ink);
+        }
+
+        .product-detail-description h4 {
+            color: var(--cartier-black);
+        }
+
+        .product-meta {
+            border-color: var(--cartier-line);
+        }
+
+        .product-meta-item {
+            color: var(--cartier-ink);
+        }
+
+        .product-meta-item i {
+            color: var(--cartier-red);
+        }
+
+        .quantity-selector {
+            border-color: var(--cartier-line);
+            border-radius: 0;
+        }
+
+        .quantity-selector button {
+            background: var(--cartier-paper, #fff);
+            color: var(--cartier-ink);
+        }
+
+        .quantity-selector button:hover {
+            background: var(--cartier-off, #f7f5f1);
+        }
+
+        .quantity-selector input {
+            color: var(--cartier-ink);
+        }
+
+        .btn-add-to-cart {
+            background: var(--cartier-black);
+            color: #fff;
+            border-radius: 0;
+            letter-spacing: 0.06em;
+            transition: background 0.25s ease;
+        }
+
+        .btn-add-to-cart:hover {
+            background: var(--cartier-red);
+            transform: none;
+        }
+
+        .breadcrumb a,
+        .breadcrumb .current {
+            color: var(--cartier-ink);
+        }
+
+        .breadcrumb .current {
+            color: var(--cartier-red);
+        }
+
+        /* Card sản phẩm liên quan: sạch giống Cartier */
+        .related-products .product-item {
+            border: none;
+            box-shadow: none;
+            text-align: left;
+        }
+
+        .related-products .product-item:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .related-products .product-item h3 {
+            color: var(--cartier-ink);
+        }
+
+        .related-products .current-price {
+            color: var(--cartier-black);
+        }
+
+        .related-products .old-price {
+            color: var(--cartier-muted);
+        }
+
+        .related-products .btn-add-cart {
+            background: var(--cartier-ink);
+            border-radius: 0;
+        }
+
+        .related-products .btn-add-cart:hover {
+            background: var(--cartier-red);
+        }
+
+        /* Final shared luxury pass: product detail */
+        .product-detail-page {
+            max-width: 1280px;
+            padding: 44px 24px 92px;
+        }
+
+        .product-detail-grid {
+            grid-template-columns: minmax(0, 1.08fr) minmax(340px, .92fr);
+            gap: clamp(42px, 7vw, 96px);
+            align-items: start;
+        }
+
+        .main-image {
+            height: min(620px, 52vw);
+            min-height: 420px;
+            border: 0;
+            background: var(--cartier-off);
+            box-shadow: none;
+        }
+
+        .thumbnail-item {
+            border-width: 1px;
+            border-color: var(--cartier-line);
+        }
+
+        .product-detail-name {
+            color: var(--cartier-ink);
+            font-size: clamp(1.7rem, 3.3vw, 3rem);
+            font-weight: 500;
+            letter-spacing: .01em;
+            line-height: 1.12;
+            text-wrap: balance;
+        }
+
+        .product-detail-price .current {
+            color: var(--cartier-ink);
+            font-size: 1.45rem;
+        }
+
+        .product-detail-description {
+            max-width: 52ch;
+            color: var(--cartier-muted);
+            line-height: 1.8;
+        }
+
+        .btn-add-to-cart {
+            border-radius: 0;
+            background: var(--cartier-black);
+            letter-spacing: .1em;
+            text-transform: uppercase;
+        }
+
+        .btn-add-to-cart:hover {
+            background: var(--cartier-red);
+        }
+
+        @media (max-width: 768px) {
+            .product-detail-page {
+                padding: 28px 16px 64px;
+            }
+
+            .product-detail-grid {
+                grid-template-columns: 1fr;
+                gap: 36px;
+            }
+
+            .main-image {
+                height: 92vw;
+                min-height: 280px;
+            }
+
+            .product-detail-name {
+                font-size: 2rem;
+            }
+        }

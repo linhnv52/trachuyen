@@ -12,6 +12,10 @@ $q = mb_substr($q, 0, 60);
 $includeInactive = ($_GET['admin'] ?? '') === '1';
 
 $results = searchProducts($q, 8, $includeInactive);
+foreach ($results as &$result) {
+    $result['image_url'] = productImage($result['image_url'] ?? null);
+}
+unset($result);
 
 header('Content-Type: application/json; charset=utf-8');
 echo json_encode($results, JSON_UNESCAPED_UNICODE);

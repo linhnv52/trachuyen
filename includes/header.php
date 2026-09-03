@@ -36,7 +36,7 @@ $extraCssLinks = $extraCssLinks ?? '';
 
         <div class="logo">
             <a href="index.php" aria-label="Tr� Chuy?n">
-                <img src="https://lh3.googleusercontent.com/d/1m-0-hXczkfAv8wzQGyb55N3DJlhQTW3Z=w800" alt="Tr� Chuy?n">
+                <img src="<?= e(getSetting('site_logo', 'https://drive.google.com/uc?export=view&id=1m-0-hXczkfAv8wzQGyb55N3DJlhQTW3Z')) ?>" alt="Tr� Chuy?n">
             </a>
         </div>
 

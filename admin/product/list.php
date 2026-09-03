@@ -133,7 +133,7 @@ require __DIR__ . '/../includes/header.php';
                 <tr>
                     <td>
                         <div class="product-cell">
-                            <img src="<?= e($p['image_url'] ?: url('/img/placeholder.svg')) ?>" alt="">
+                            <img src="<?= e(productImage($p['image_url'])) ?>" alt="">
                             <div class="name"><?= e($p['name']) ?></div>
                         </div>
                     </td>

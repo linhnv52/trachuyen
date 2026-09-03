@@ -39,7 +39,7 @@ echo json_encode([
     'discount'           => $discount,
     'stock_quantity'     => (int)$product['stock_quantity'],
     'views'              => (int)$product['views'],
-    'image_url'          => $product['image_url'],
+    'image_url'          => productImage($product['image_url']),
     'badge'              => $product['badge'],
     'badge_label'        => $badgeLabel,
     'badge_class'        => $badgeClass,

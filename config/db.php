@@ -107,7 +107,34 @@ function categoryImage(?string $imageUrl): string
             return $placeholder;
         }
     }
-    return $imageUrl;
+    if (preg_match('/^https?:\/\//i', $imageUrl)) {
+        return $imageUrl;
+    }
+    return url('/' . ltrim($imageUrl, '/'));
+}
+
+/**
+ * Trả về ảnh sản phẩm an toàn cho giao diện công khai.
+ * Các URL placeholder mẫu bên ngoài thường không ổn định; không sửa dữ liệu DB,
+ * chỉ thay chúng bằng fallback cục bộ khi hiển thị.
+ */
+function productImage(?string $imageUrl): string
+{
+    $placeholder = url('/img/placeholder.svg');
+    $imageUrl = trim((string)$imageUrl);
+    if ($imageUrl === '' || str_contains($imageUrl, 'via.placeholder.com')) {
+        return $placeholder;
+    }
+    if (str_starts_with($imageUrl, '/') || str_starts_with($imageUrl, 'img/')) {
+        $path = __DIR__ . '/..' . ($imageUrl[0] === '/' ? $imageUrl : '/' . $imageUrl);
+        if (!file_exists($path)) {
+            return $placeholder;
+        }
+    }
+    if (preg_match('/^https?:\/\//i', $imageUrl)) {
+        return $imageUrl;
+    }
+    return url('/' . ltrim($imageUrl, '/'));
 }
 
 /* ---------- Settings key-value ---------- */

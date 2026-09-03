@@ -31,7 +31,7 @@ require __DIR__ . '/includes/header.php';
 ?>
 
 <!-- ========== SLIDER BANNER ========== -->
-<div class="container">
+<div class="container hero-slider-shell">
     <div class="slider-container" id="slider">
         <div class="slider-wrapper" id="sliderWrapper">
             <?php foreach ($banners as $i => $bannerUrl): ?>
@@ -102,7 +102,7 @@ require __DIR__ . '/includes/header.php';
                     $label = match ($p['badge']) { 'hot' => 'Hot', 'sale' => 'Sale', 'new' => 'Mới', default => '' };
                     $badge = '<div class="product-badge ' . $cls . '">' . $label . '</div>';
                 }
-                $img = $p['image_url'] ?: url('/img/placeholder.svg');
+                $img = productImage($p['image_url']);
                 ?>
                 <div class="product-item" data-id="<?= (int)$p['id'] ?>">
                     <?= $badge ?>

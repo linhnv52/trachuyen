@@ -38,7 +38,7 @@ if (!empty($product['badge'])) {
     $badge = '<div class="product-detail-badge ' . ($product['badge'] === 'sale' ? 'sale' : ($product['badge'] === 'new' ? 'new' : '')) . '">' . $badgeLabel . '</div>';
 }
 
-$mainImg = $product['image_url'] ?: url('/img/placeholder.svg');
+$mainImg = productImage($product['image_url']);
 $gallery = productGallery($product['gallery'] ?? null);
 $thumbs  = $gallery ? array_merge([$mainImg], $gallery) : [];
 $discount = $product['old_price'] && $product['old_price'] > $product['price']
@@ -134,7 +134,7 @@ require __DIR__ . '/includes/header.php';
         <h2 class="section-title">Sản phẩm liên quan</h2>
         <div class="grid-6col-2row">
             <?php foreach ($related as $rp):
-                $rImg = $rp['image_url'] ?: url('/img/placeholder.svg');
+                $rImg = productImage($rp['image_url']);
                 ?>
                 <div class="product-item" data-id="<?= (int)$rp['id'] ?>">
                     <a href="productdetal.php?id=<?= $rp['id'] ?>">

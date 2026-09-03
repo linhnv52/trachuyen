@@ -132,7 +132,7 @@ function fieldError(string $key): void
                 <label>Ảnh sản phẩm</label>
                 <?php if (!empty($v['image_url'])): ?>
                     <div class="image-preview">
-                        <img src="<?= e($v['image_url']) ?>" alt="Ảnh hiện tại">
+                        <img src="<?= e(productImage($v['image_url'])) ?>" alt="Ảnh hiện tại">
                     </div>
                     <input type="hidden" name="image_url" value="<?= e($v['image_url']) ?>">
                 <?php endif; ?>

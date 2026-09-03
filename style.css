@@ -1876,3 +1876,946 @@ body.modal-open {
         max-height: 280px;
     }
 }
+
+/* ==========================================================================
+   PHONG CÁCH CARTIER (luxury minimal) — lớp override ở cuối để giành quyền
+   Palette: trắng/off-white + đen + đỏ Cartier; khoảng trắng rộng, tiêu đề caps
+   ========================================================================== */
+:root {
+    --cartier-red:      #c8102e;
+    --cartier-black:    #141414;
+    --cartier-ink:      #1a1a1a;
+    --cartier-muted:    #8a8a8a;
+    --cartier-paper:    #ffffff;
+    --cartier-off:      #f7f5f1;
+    --cartier-line:     #e5e2dc;
+    --cartier-gold:     #9a7b3c;
+}
+
+/* ---------- Nền & base ---------- */
+body {
+    background-color: var(--cartier-paper);
+    color: var(--cartier-ink);
+}
+
+/* ---------- HEADER như Cartier: nền trắng, viền mảnh, menu caps cách chữ ---------- */
+header {
+    background-color: #ffffff;
+    box-shadow: none;
+    border-bottom: 1px solid var(--cartier-line);
+    padding: 18px 0 0;
+}
+
+.logo img {
+    max-height: 74px;
+}
+
+nav {
+    border-top: 1px solid var(--cartier-line);
+}
+
+nav ul li a {
+    color: var(--cartier-ink);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 0.82rem;
+    padding: 14px 0;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+    color: var(--cartier-red);
+    border-bottom-color: var(--cartier-red);
+}
+
+.nav-icons a {
+    color: var(--cartier-ink);
+}
+
+.nav-icons a:hover {
+    color: var(--cartier-red);
+}
+
+/* Nút hamburger: đen, hợp tông */
+.nav-toggle .bar {
+    background: var(--cartier-ink);
+}
+
+/* ---------- HERO SLIDER: full-width, mảnh, sang ---------- */
+.slider-container {
+    max-width: none;
+    width: 100%;
+    border-radius: 0;
+    margin: 0 auto 10px;
+    box-shadow: none;
+}
+
+.slide {
+    height: 460px;
+    background: var(--cartier-off);
+}
+
+.slider-btn {
+    background: rgba(20, 20, 20, 0.35);
+    color: #fff;
+    border-radius: 0;
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+}
+
+.slider-btn:hover {
+    background: var(--cartier-red);
+}
+
+.dots-container {
+    background: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
+
+.dots-container .dot {
+    background: rgba(20, 20, 20, 0.28);
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+}
+
+.dots-container .dot.active {
+    background: var(--cartier-red);
+}
+
+@media (max-width: 768px) {
+    .slide {
+        height: 240px;
+    }
+
+    .slider-btn.prev {
+        left: 8px;
+    }
+
+    .slider-btn.next {
+        right: 8px;
+    }
+}
+
+/* ---------- TIÊU ĐỀ SECTION kiểu Cartier: caps, cách chữ rộng ---------- */
+.section-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cartier-black);
+    font-weight: 500;
+    margin-bottom: 34px;
+    padding-bottom: 14px;
+    position: relative;
+}
+
+.section-title::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 48px;
+    height: 1px;
+    background: var(--cartier-red);
+}
+
+/* ---------- CARD danh mục & sản phẩm: sạch, bỏ hộp đậm ---------- */
+.category-item,
+.product-item {
+    background: var(--cartier-paper);
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    text-align: left;
+    padding-bottom: 16px;
+    transition: none;
+}
+
+.category-item:hover,
+.product-item:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.category-item img,
+.product-item img {
+    height: 200px;
+    background: var(--cartier-off);
+    transition: opacity 0.3s ease;
+}
+
+.category-item:hover img,
+.product-item:hover img {
+    opacity: 0.86;
+}
+
+.category-item h3,
+.product-item h3 {
+    color: var(--cartier-ink);
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    margin-top: 14px;
+}
+
+.category-item p {
+    color: var(--cartier-muted);
+}
+
+.product-item h3 {
+    height: auto;
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
+    font-size: 0.95rem;
+}
+
+/* ---------- GIÁ: đen cho giá, đỏ cho old-price nhấn ---------- */
+.current-price {
+    color: var(--cartier-black);
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: 0.02em;
+}
+
+.old-price {
+    color: var(--cartier-muted);
+}
+
+/* Nút thêm giỏ: viền mảnh + hover đỏ (lion tinh) */
+.btn-add-cart {
+    width: 42px;
+    height: 42px;
+    background: var(--cartier-ink);
+    color: #fff;
+    border-radius: 0;
+    transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.btn-add-cart:hover {
+    background: var(--cartier-red);
+    transform: none;
+}
+
+/* ---------- BADGE: đỏ Cartier thống nhất ---------- */
+.product-badge {
+    background: var(--cartier-red);
+    border-radius: 0;
+    color: #fff;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    padding: 5px 12px;
+    border-radius: 2px;
+}
+
+.product-badge.sale {
+    background: var(--cartier-red);
+}
+
+.product-badge.new {
+    background: var(--cartier-black);
+}
+
+/* ---------- NÚT XEM TẤT CẢ: mảnh, border + hover đỏ ---------- */
+.btn-view-all {
+    color: var(--cartier-black);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    padding: 11px 34px;
+    border: 1px solid var(--cartier-black);
+    border-radius: 0;
+    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.btn-view-all:hover {
+    background: var(--cartier-red);
+    border-color: var(--cartier-red);
+    color: #fff;
+}
+
+/* ---------- DỊCH VỤ: minimal ---------- */
+.services-row {
+    gap: 0;
+    border-top: 1px solid var(--cartier-line);
+    border-bottom: 1px solid var(--cartier-line);
+    margin: 10px 0 60px;
+}
+
+.service-item {
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 28px 12px;
+    border-left: 1px solid var(--cartier-line);
+}
+
+.service-item:first-child {
+    border-left: none;
+}
+
+.service-item i {
+    color: var(--cartier-red);
+    font-size: 1.55rem;
+}
+
+.service-item h3 {
+    color: var(--cartier-ink);
+    font-weight: 500;
+    font-size: 0.86rem;
+    letter-spacing: 0.04em;
+}
+
+/* ---------- GALLERY: clean, no card ---------- */
+.gallery-img-item,
+.gallery-video {
+    border: none;
+    box-shadow: none;
+}
+
+/* ---------- FOOTER: off-white, chữ đen ---------- */
+.footer {
+    background: var(--cartier-off);
+    color: var(--cartier-ink);
+    border-top: 1px solid var(--cartier-line);
+}
+
+.footer-heading {
+    color: var(--cartier-black);
+}
+
+.footer-text,
+.footer-slogan,
+.footer-desc,
+.footer-links a,
+.footer-copyright {
+    color: var(--cartier-ink);
+}
+
+.footer-logo-link {
+    color: var(--cartier-black);
+    letter-spacing: 0.08em;
+}
+
+/* ---------- MENU DI ĐỘNG: trắng sáng, chữ đen, hover đỏ ---------- */
+.mobile-menu {
+    background: #ffffff;
+    box-shadow: 6px 0 30px rgba(20, 20, 20, 0.18);
+}
+
+.mobile-menu-list li a {
+    color: var(--cartier-ink);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+}
+
+.mobile-menu-list li a:active,
+.mobile-menu-list li a.active {
+    color: var(--cartier-red);
+}
+
+.mobile-menu-icons a {
+    color: var(--cartier-ink);
+}
+
+.mobile-menu-icons a:active {
+    color: var(--cartier-red);
+}
+
+.mobile-menu-close {
+    color: var(--cartier-ink);
+    border-color: var(--cartier-line);
+    background: var(--cartier-off);
+}
+
+.mobile-menu-close:active {
+    background: rgba(200, 16, 46, 0.1);
+    color: var(--cartier-red);
+}
+
+/* ---------- RESPONSIVE CARTIER ---------- */
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 1.25rem;
+        letter-spacing: 0.12em;
+        margin-bottom: 24px;
+    }
+
+    .category-item h3 {
+        font-size: 1rem;
+    }
+
+    .product-item h3 {
+        font-size: 0.88rem;
+    }
+
+    .current-price {
+        font-size: 0.98rem;
+    }
+
+    .services-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .service-item:nth-child(2) {
+        border-left: none;
+    }
+
+    .service-item {
+        padding: 22px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .category-item img,
+    .product-item img {
+        height: 160px;
+    }
+}
+
+/* ---------- CARTIER-STYLE GLOBAL MENU ----------
+   The navigation is intentionally opened from the left at every breakpoint.
+   Existing PHP links and the close-on-action behaviour in footer.php remain unchanged. */
+header {
+    position: relative;
+}
+
+header > .container {
+    position: relative;
+}
+
+.nav-toggle {
+    display: flex;
+    left: 18px;
+    top: 38px;
+    width: 44px;
+    height: 44px;
+    border-radius: 0;
+}
+
+header nav {
+    display: none;
+}
+
+.mobile-menu {
+    width: min(88vw, 380px);
+    max-width: none;
+    padding: 28px 28px 36px;
+}
+
+.mobile-menu-list li a {
+    min-height: 56px;
+    padding: 17px 2px;
+}
+
+@media (max-width: 768px) {
+    .nav-toggle {
+        left: 10px;
+        top: 34px;
+    }
+}
+
+/* ==========================================================================
+   FINAL LUXURY COMMERCE PASS
+   UI-only overrides. PHP, SQL, URLs and existing interaction hooks untouched.
+   ========================================================================== */
+:root {
+    --luxury-red: #c8102e;
+    --luxury-ink: #161616;
+    --luxury-muted: #77736d;
+    --luxury-line: #dedbd5;
+    --luxury-paper: #fff;
+    --luxury-soft: #f7f6f3;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--luxury-paper);
+    color: var(--luxury-ink);
+    font-family: 'Be Vietnam Pro', Arial, sans-serif;
+}
+
+a,
+button,
+input {
+    -webkit-tap-highlight-color: transparent;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+    outline: 2px solid var(--luxury-red);
+    outline-offset: 3px;
+}
+
+header {
+    min-height: 124px;
+    padding: 16px 0 0;
+    background: var(--luxury-paper);
+    border-bottom: 1px solid var(--luxury-line);
+}
+
+header > .container {
+    max-width: 1360px;
+    min-height: 108px;
+}
+
+.logo {
+    margin: 0;
+    line-height: 0;
+}
+
+.logo img {
+    max-width: 700px;
+    max-height: 100px;
+}
+
+.nav-toggle {
+    left: 24px;
+    top: 50%;
+    width: 42px;
+    height: 42px;
+    padding: 9px 7px;
+    background: transparent;
+}
+
+.nav-toggle .bar {
+    width: 27px;
+    height: 1px;
+    background: var(--luxury-ink);
+}
+
+header > .container > nav {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    right: 24px;
+    transform: translateY(-50%);
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+header > .container > nav ul {
+    display: none;
+}
+
+.nav-icons {
+    gap: 18px;
+}
+
+.nav-icons a,
+.nav-icons .cart-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--luxury-ink);
+    font-size: 1rem;
+}
+
+.nav-icons a:hover {
+    color: var(--luxury-red);
+}
+
+.mobile-menu-backdrop {
+    background: rgba(18, 18, 18, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.mobile-menu {
+    width: min(88vw, 390px);
+    padding: 26px 30px 34px;
+    background: var(--luxury-paper);
+    box-shadow: 18px 0 44px rgba(20, 20, 20, 0.16);
+}
+
+.mobile-menu-close {
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--luxury-line);
+    border-radius: 0;
+    background: var(--luxury-paper);
+}
+
+.mobile-menu-list {
+    margin-top: 22px;
+}
+
+.mobile-menu-list li {
+    border-bottom: 1px solid var(--luxury-line);
+}
+
+.mobile-menu-list li a {
+    min-height: 58px;
+    padding: 18px 2px;
+    color: var(--luxury-ink);
+    font-size: .82rem;
+    font-weight: 500;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    transition: color .2s ease, padding-left .2s ease;
+}
+
+.mobile-menu-list li a:hover,
+.mobile-menu-list li a.active {
+    padding-left: 8px;
+    color: var(--luxury-red);
+}
+
+.mobile-menu-icons {
+    gap: 22px;
+    border-top-color: var(--luxury-line);
+}
+
+.mobile-menu-icons a {
+    color: var(--luxury-ink);
+    font-size: .78rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+.slider-container {
+    max-width: 1360px;
+    margin: 0 auto 84px;
+    background: var(--luxury-soft);
+}
+
+/* Banner hero full-bleed: the second slide and the rest of the carousel use
+   the full viewport width instead of the content container width. */
+.hero-slider-shell {
+    width: 100%;
+    max-width: none;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.hero-slider-shell .slider-container {
+    width: 100vw;
+    max-width: none;
+}
+
+.slide {
+    height: clamp(320px, 47vw, 620px);
+    background: var(--luxury-soft);
+}
+
+.slide img {
+    object-fit: cover;
+}
+
+.slider-btn {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border-radius: 0;
+    background: rgba(22, 22, 22, .72);
+    font-size: .85rem;
+}
+
+.dots-container {
+    bottom: 18px;
+}
+
+.body-container {
+    max-width: 1280px;
+    padding: 0 24px 80px;
+}
+
+.section-category,
+.section-gallery,
+.section-best-seller {
+    margin-bottom: 112px;
+}
+
+.section-title {
+    margin-bottom: 42px;
+    padding-bottom: 18px;
+    color: var(--luxury-ink);
+    font-size: clamp(1.25rem, 2vw, 1.7rem);
+    letter-spacing: .16em;
+    text-align: center;
+}
+
+.section-title::after {
+    width: 42px;
+    height: 1px;
+    background: var(--luxury-red);
+}
+
+.grid-6col-2row {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 46px 24px;
+}
+
+.category-item,
+.product-item {
+    min-width: 0;
+    padding-bottom: 14px;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    text-align: left;
+}
+
+.category-item img,
+.product-item img {
+    height: 250px;
+    background: var(--luxury-soft);
+    object-fit: cover;
+}
+
+.category-item h3,
+.product-item h3 {
+    margin: 17px 0 6px;
+    color: var(--luxury-ink);
+    font-size: .92rem;
+    font-weight: 500;
+    letter-spacing: .02em;
+}
+
+.category-item p {
+    color: var(--luxury-muted);
+    font-size: .75rem;
+    letter-spacing: .04em;
+}
+
+.product-item .product-price {
+    margin: 12px 0;
+}
+
+.current-price {
+    color: var(--luxury-ink);
+    font-size: .94rem;
+    font-weight: 600;
+}
+
+.old-price {
+    color: var(--luxury-muted);
+    font-size: .78rem;
+}
+
+.btn-add-cart {
+    width: 38px;
+    height: 38px;
+    border-radius: 0;
+    background: var(--luxury-ink);
+    transition: background .25s ease, transform .25s ease;
+}
+
+.btn-add-cart:hover {
+    background: var(--luxury-red);
+    transform: translateY(-2px);
+}
+
+.product-badge {
+    top: 12px;
+    left: 12px;
+    border-radius: 0;
+    background: var(--luxury-red);
+    font-size: .62rem;
+    letter-spacing: .1em;
+}
+
+.btn-view-all {
+    border-color: var(--luxury-ink);
+    border-radius: 0;
+    color: var(--luxury-ink);
+    font-size: .76rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.gallery-container {
+    gap: 24px;
+}
+
+.gallery-img-item img {
+    filter: saturate(.82);
+    transition: transform .5s ease, filter .5s ease;
+}
+
+.gallery-img-item:hover img {
+    filter: saturate(1);
+    transform: scale(1.035);
+}
+
+.gallery-video {
+    background: var(--luxury-ink);
+}
+
+.services-row {
+    margin: 0 0 24px;
+    border-top: 1px solid var(--luxury-line);
+    border-bottom: 1px solid var(--luxury-line);
+}
+
+.service-item {
+    min-height: 132px;
+    background: transparent;
+    border-left-color: var(--luxury-line);
+}
+
+.service-item i {
+    color: var(--luxury-red);
+    font-size: 1.35rem;
+}
+
+.service-item h3 {
+    color: var(--luxury-ink);
+    font-size: .75rem;
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.footer {
+    margin-top: 0;
+    padding: 70px 0 28px;
+    background: var(--luxury-soft);
+    border-top: 1px solid var(--luxury-line);
+    color: var(--luxury-ink);
+}
+
+.footer-heading,
+.footer-logo-link,
+.footer-slogan,
+.footer-text,
+.footer-tagline,
+.footer-links a,
+.footer-copyright,
+.footer-contact-item,
+.footer-address-link {
+    color: var(--luxury-ink);
+}
+
+.footer-heading {
+    font-size: .72rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+}
+
+.footer-heading::after {
+    background: var(--luxury-red);
+}
+
+.footer-slogan,
+.footer-tagline {
+    color: var(--luxury-muted);
+}
+
+.social-icon {
+    border-radius: 0;
+    background: var(--luxury-paper);
+    color: var(--luxury-ink);
+}
+
+@media (max-width: 900px) {
+    .grid-6col-2row {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .category-item img,
+    .product-item img {
+        height: 220px;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        min-height: 94px;
+        padding-top: 10px;
+    }
+
+    header > .container {
+        min-height: 82px;
+    }
+
+    .logo img {
+        max-width: min(230px, 60vw);
+        max-height: 66px;
+    }
+
+    .nav-toggle {
+        left: 8px;
+        top: 50%;
+    }
+
+    header > .container > nav {
+        right: 10px;
+    }
+
+    .body-container {
+        padding: 0 16px 54px;
+    }
+
+    .slider-container {
+        margin-bottom: 58px;
+    }
+
+    .slide {
+        height: 260px;
+    }
+
+    .section-category,
+    .section-gallery,
+    .section-best-seller {
+        margin-bottom: 72px;
+    }
+
+    .grid-6col-2row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 30px 14px;
+    }
+
+    .category-item img,
+    .product-item img {
+        height: 180px;
+    }
+
+    .gallery-container {
+        gap: 14px;
+    }
+
+    .gallery-video {
+        max-height: 420px;
+    }
+
+    .services-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .service-item:nth-child(odd) {
+        border-left: 0;
+    }
+
+    .footer {
+        padding-top: 50px;
+    }
+}
+
+@media (max-width: 420px) {
+    .nav-icons {
+        gap: 12px;
+    }
+
+    .nav-icons a {
+        font-size: .9rem;
+    }
+
+    .section-title {
+        font-size: 1.1rem;
+        letter-spacing: .12em;
+    }
+
+    .category-item img,
+    .product-item img {
+        height: 155px;
+    }
+}
