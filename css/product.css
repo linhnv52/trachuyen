@@ -492,8 +492,17 @@
                 gap: 15px;
             }
 
+            .products-page .cat-carousel .category-item {
+                transform: none;
+            }
+
+            .products-page .cat-track {
+                grid-auto-columns: calc((100% - (2 * 12px)) / 3);
+                gap: 12px;
+            }
+
             .category-item img {
-                height: 150px;
+                height: 170px;
             }
 
             .products-toolbar {
@@ -523,8 +532,13 @@
                 gap: 10px;
             }
 
+            .products-page .cat-track {
+                grid-auto-columns: calc((100% - 12px) / 2);
+                gap: 12px;
+            }
+
             .category-item img {
-                height: 120px;
+                height: 160px;
             }
 
             .category-item h3 {
