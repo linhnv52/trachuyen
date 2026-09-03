@@ -3346,3 +3346,9 @@ input, textarea, select, button {
     line-height: 1.45;
     color: #6b5b52;
 }
+
+.service-item img {
+    width: 46px;
+    height: 46px;
+    object-fit: contain;
+}

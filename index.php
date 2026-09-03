@@ -178,22 +178,22 @@ require __DIR__ . '/includes/header.php';
     <!-- ====== 5. HÀNG DỊCH VỤ ====== -->
     <section class="services-row">
         <div class="service-item">
-            <i class="fas fa-headset"></i>
+            <img src="img/tu van.png" alt="Tư vấn sản phẩm">
             <h3>Tư vấn sản phẩm</h3>
             <p>Tư vấn loại trà phù hợp làm quà tặng theo sở thích</p>
         </div>
         <div class="service-item">
-            <i class="fas fa-shield-alt"></i>
+            <img src="img/bao hiem.png" alt="Bảo hiểm rơi vỡ">
             <h3>Bảo hiểm rơi vỡ</h3>
             <p>Đóng gói túi chống sốc, đền bù nếu nứt vỡ khi vận chuyển</p>
         </div>
         <div class="service-item">
-            <i class="fas fa-box-open"></i>
+            <img src="img/kiem hang.png" alt="Được kiểm hàng">
             <h3>Được kiểm hàng</h3>
             <p>Được kiểm tra sản phẩm khi nhận hàng (không áp dụng với ĐỒ GỐM SỨ và ẤM TỬ SA)</p>
         </div>
         <div class="service-item">
-            <i class="fas fa-truck-fast"></i>
+            <img src="img/van chuyen.png" alt="Giao hàng nhanh chóng">
             <h3>Giao hàng nhanh chóng</h3>
             <p>Giao hàng toàn quốc từ 2 - 4 ngày</p>
         </div>
