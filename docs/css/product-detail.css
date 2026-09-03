@@ -1,4 +1,4 @@
-﻿    <style>
+﻿
         /* ============================================ */
         /* CSS RIÃŠNG CHO TRANG CHI TIáº¾T Sáº¢N PHáº¨M */
         /* ============================================ */
@@ -550,4 +550,79 @@
         .related-products .btn-add-cart:hover {
             background: var(--cartier-red);
         }
-    </style>
+
+        /* Final shared luxury pass: product detail */
+        .product-detail-page {
+            max-width: 1280px;
+            padding: 44px 24px 92px;
+        }
+
+        .product-detail-grid {
+            grid-template-columns: minmax(0, 1.08fr) minmax(340px, .92fr);
+            gap: clamp(42px, 7vw, 96px);
+            align-items: start;
+        }
+
+        .main-image {
+            height: min(620px, 52vw);
+            min-height: 420px;
+            border: 0;
+            background: var(--cartier-off);
+            box-shadow: none;
+        }
+
+        .thumbnail-item {
+            border-width: 1px;
+            border-color: var(--cartier-line);
+        }
+
+        .product-detail-name {
+            color: var(--cartier-ink);
+            font-size: clamp(1.7rem, 3.3vw, 3rem);
+            font-weight: 500;
+            letter-spacing: .01em;
+            line-height: 1.12;
+            text-wrap: balance;
+        }
+
+        .product-detail-price .current {
+            color: var(--cartier-ink);
+            font-size: 1.45rem;
+        }
+
+        .product-detail-description {
+            max-width: 52ch;
+            color: var(--cartier-muted);
+            line-height: 1.8;
+        }
+
+        .btn-add-to-cart {
+            border-radius: 0;
+            background: var(--cartier-black);
+            letter-spacing: .1em;
+            text-transform: uppercase;
+        }
+
+        .btn-add-to-cart:hover {
+            background: var(--cartier-red);
+        }
+
+        @media (max-width: 768px) {
+            .product-detail-page {
+                padding: 28px 16px 64px;
+            }
+
+            .product-detail-grid {
+                grid-template-columns: 1fr;
+                gap: 36px;
+            }
+
+            .main-image {
+                height: 92vw;
+                min-height: 280px;
+            }
+
+            .product-detail-name {
+                font-size: 2rem;
+            }
+        }
