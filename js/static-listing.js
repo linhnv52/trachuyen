@@ -36,9 +36,20 @@
     var PRICE_BRACKETS = {
         'duoi-500': [null, 500000],
         '500-1m':   [500000, 1000000],
-        '1m-1.5m':  [1000000, 1500000],
-        '1.5m-2m':  [1500000, 2000000],
+        '1m-2m':    [1000000, 2000000],
         'tren-2m':  [2000000, null]
+    };
+
+    // Mốc dung tích (radio) — key => {min, max}, ranh giới bao (inclusive), khớp PHP
+    //  lt-150  : capacity <= 149
+    //  150-250 : 150 <= capacity <= 250
+    //  250-350 : 251 <= capacity <= 350
+    //  gt-350  : capacity >= 351
+    var CAPACITY_BRACKETS = {
+        'lt-150':   { min: null, max: 149 },
+        '150-250':  { min: 150,  max: 250 },
+        '250-350':  { min: 251,  max: 350 },
+        'gt-350':   { min: 351,  max: null }
     };
 
     function formatPrice(n) { return Number(n || 0).toLocaleString('vi-VN'); }
@@ -114,7 +125,8 @@
         var pr = PRICE_BRACKETS[priceRange] || null;
         var minPrice = pr ? (pr[0] || '') : '';
         var maxPrice = pr ? (pr[1] || '') : '';
-        var cap = uint(paramValue(params, 'capacity', '') || '');
+        var cap = paramValue(params, 'capacity', '') || '';
+        var capB = CAPACITY_BRACKETS[cap] || null;
         var fixedId = 0;
         if (config.fixedSlug && categoriesMap[config.fixedSlug]) fixedId = categoriesMap[config.fixedSlug].id;
         var catId = fixedId;
@@ -130,7 +142,12 @@
             }
             if (minPrice !== '' && Number(p.price) < Number(minPrice)) return false;
             if (maxPrice !== '' && Number(p.price) > Number(maxPrice)) return false;
-            if (cap && capacitiesByProduct[p.id] !== cap) return false;
+            if (capB) {
+                var v = capacitiesByProduct[p.id];
+                if (v == null) return false;
+                if (capB.min !== null && v < capB.min) return false;
+                if (capB.max !== null && v > capB.max) return false;
+            }
             return true;
         });
 
@@ -216,7 +233,7 @@
             r.checked = r.value === priceRange;
         });
         form.querySelectorAll('input[name="capacity"]').forEach(function (rb) {
-            rb.checked = uint(rb.value) === uint(cap);
+            rb.checked = rb.value === cap;
         });
     }
 
@@ -253,8 +270,8 @@
             var overrides = { page: '' };
             overrides.price_range = data.get('price_range') || '';
             overrides.sort = data.get('sort') || 'default';
-            var cap = uint(data.get('capacity') || '');
-            overrides.capacity = cap ? cap : '';
+            var cap = data.get('capacity') || '';
+            overrides.capacity = CAPACITY_BRACKETS[cap] ? cap : '';
             updateQuery(overrides);
         };
         form.addEventListener('submit', function (ev) { ev.preventDefault(); doSubmit(); });

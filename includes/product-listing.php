@@ -36,8 +36,7 @@ $perPage    = 8;
 $PRICE_BRACKETS = [
     'duoi-500'  => [null, 500000],
     '500-1m'    => [500000, 1000000],
-    '1m-1.5m'   => [1000000, 1500000],
-    '1.5m-2m'   => [1500000, 2000000],
+    '1m-2m'     => [1000000, 2000000],
     'tren-2m'   => [2000000, null],
 ];
 $priceRange = trim((string)($_GET['price_range'] ?? ''));
@@ -48,9 +47,21 @@ $bracket  = $priceRange !== '' ? $PRICE_BRACKETS[$priceRange] : null;
 $minPrice = $bracket ? ($bracket[0] !== null ? (string)$bracket[0] : '') : '';
 $maxPrice = $bracket ? ($bracket[1] !== null ? (string)$bracket[1] : '') : '';
 
-// Lọc dung tích (chỉ trang Ấm Tử Sa) — dung tích là 1 giá trị ml
+// Lọc dung tích theo mốc khoảng (chỉ trang Ấm Tử Sa) — key => [min, max] (null = không chặn)
+$CAPACITY_BRACKETS = [
+    'lt-150'   => [null, 150],
+    '150-250'  => [150, 250],
+    '250-350'  => [250, 350], // [min, max]; SQL dùng min lệch (>) để loại giá trị ở biên trên mốc trước
+    'gt-350'   => [350, null],
+];
+$CAPACITY_LABELS = [
+    'lt-150'   => 'Dưới 150ml',
+    '150-250'  => '150 - 250ml',
+    '250-350'  => '250 - 350ml',
+    'gt-350'   => 'Trên 350ml',
+];
 $capacity = trim((string)($_GET['capacity'] ?? ''));
-if ($capacity !== '' && !ctype_digit($capacity)) {
+if (!isset($CAPACITY_BRACKETS[$capacity])) {
     $capacity = '';
 }
 $showCapacityFilter = ($PL_fixedSlug === 'am-tu-sa');
@@ -120,7 +131,19 @@ $listFilters = [
     'active_only' => true,
 ];
 if ($showCapacityFilter && $capacity) {
-    $listFilters['capacity'] = $capacity;
+    // Dung tích là số nguyên ml. Mapping rõ ràng theo từng mốc:
+    //  lt-150  : < 150              => capacity <= 149
+    //  150-250 : 150..250           => 150 <= capacity <= 250
+    //  250-350 : >250 và <=350      => 251 <= capacity <= 350
+    //  gt-350  : > 350              => capacity >= 351
+    $capRange = match ($capacity) {
+        'lt-150'   => [null, 149],
+        '150-250'  => [150, 250],
+        '250-350'  => [251, 350],
+        'gt-350'   => [351, null],
+    };
+    $listFilters['capacity_min'] = $capRange[0];
+    $listFilters['capacity_max'] = $capRange[1];
 }
 if ($categoryId !== 0) {
     $listFilters['category_id'] = $categoryId;
@@ -134,13 +157,8 @@ $products    = $result['items'];
 $total       = $result['total'];
 $totalPages  = max(1, (int)ceil($total / $perPage));
 
-// Các mức dung tích có sẵn (chỉ trang Ấm Tử Sa)
-$capacityOptions = [];
-if ($showCapacityFilter) {
-    $capStmt = db()->prepare('SELECT DISTINCT capacity FROM products WHERE category_id = ? AND capacity IS NOT NULL AND is_active = 1 ORDER BY capacity');
-    $capStmt->execute([$fixedCategoryId]);
-    $capacityOptions = array_map(fn ($r) => (int)$r['capacity'], $capStmt->fetchAll());
-}
+// Các mốc dung tích (chỉ trang Ấm Tử Sa) — 4 khoảng cố định
+$capacityOptions = $showCapacityFilter ? array_keys($CAPACITY_BRACKETS) : [];
 
 function plBuildUrl(string $baseFile, array $overrides): string
 {
@@ -246,12 +264,12 @@ require __DIR__ . '/header.php';
                 <div class="filter-group">
                     <h4 class="filter-title">Dung tích</h4>
                     <?php if ($capacityOptions): ?>
-                        <?php foreach ($capacityOptions as $cap): ?>
+                        <?php foreach ($capacityOptions as $capKey): ?>
                             <label class="filter-option">
-                                <input type="radio" name="capacity" value="<?= (int)$cap ?>"
-                                       <?= (string)$capacity === (string)$cap ? 'checked' : '' ?>
+                                <input type="radio" name="capacity" value="<?= e($capKey) ?>"
+                                       <?= $capacity === $capKey ? 'checked' : '' ?>
                                        onchange="this.form.submit()">
-                                <?= (int)$cap ?>ml
+                                <?= e($CAPACITY_LABELS[$capKey]) ?>
                             </label>
                         <?php endforeach; ?>
                     <?php else: ?>
