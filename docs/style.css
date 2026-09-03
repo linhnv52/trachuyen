@@ -2230,10 +2230,47 @@ nav ul li a.active {
     background: var(--cartier-off);
 }
 
-.mobile-menu-close:active {
-    background: rgba(200, 16, 46, 0.1);
-    color: var(--cartier-red);
-}
+        .mobile-menu-close:active {
+            background: rgba(200, 16, 46, 0.1);
+            color: var(--cartier-red);
+        }
+
+        /* Keep the static GitHub Pages build aligned with the PHP header. */
+        header,
+        header > .container {
+            position: relative;
+        }
+
+        .nav-toggle {
+            display: flex;
+            left: 18px;
+            top: 38px;
+            width: 44px;
+            height: 44px;
+            border-radius: 0;
+        }
+
+        header nav {
+            display: none;
+        }
+
+        .mobile-menu {
+            width: min(88vw, 380px);
+            max-width: none;
+            padding: 28px 28px 36px;
+        }
+
+        .mobile-menu-list li a {
+            min-height: 56px;
+            padding: 17px 2px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-toggle {
+                left: 10px;
+                top: 34px;
+            }
+        }
 
 /* ---------- RESPONSIVE CARTIER ---------- */
 @media (max-width: 768px) {
