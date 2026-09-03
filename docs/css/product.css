@@ -451,6 +451,35 @@
 
             .products-sidebar {
                 position: static;
+                background: #f1f1f1;
+                border-color: #e0e0e0;
+            }
+
+            .filter-group {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+
+            .filter-title {
+                flex-basis: 100%;
+            }
+
+            .filter-group .filter-option {
+                flex: 1 1 auto;
+                flex-direction: column;
+                justify-content: center;
+                gap: 3px;
+                padding: 7px 6px;
+                text-align: center;
+                border: 1px solid #e0d6cc;
+                background: #fff;
+                font-size: 0.75rem;
+            }
+
+            .filter-group .filter-option input {
+                width: 14px;
+                height: 14px;
             }
 
             .products-grid {
