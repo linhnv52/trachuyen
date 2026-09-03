@@ -41,7 +41,7 @@ require __DIR__ . '/includes/header.php';
 
 <!-- ========== SLIDER BANNER ========== -->
 <div class="container hero-slider-shell">
-    <div class="slider-container" id="slider">
+    <div class="hero-carousel" id="slider">
         <div class="slider-wrapper" id="sliderWrapper">
             <?php foreach ($banners as $i => $bannerUrl): ?>
                 <div class="slide slide-<?= ($i % 5) + 1 ?>"><img src="<?= e($bannerUrl) ?>" alt=""></div>

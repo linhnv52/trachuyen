@@ -2338,6 +2338,7 @@ body {
     background: var(--luxury-paper);
     color: var(--luxury-ink);
     font-family: 'Be Vietnam Pro', Arial, sans-serif;
+    overflow-x: hidden;
 }
 
 a,
@@ -2495,9 +2496,43 @@ header > .container > nav ul {
     padding-left: 0;
 }
 
-.hero-slider-shell .slider-container {
-    width: 100vw;
+.hero-carousel {
+    position: relative;
+    overflow: hidden;
+    background: var(--luxury-soft);
+    margin: 0 auto 84px;
+}
+
+.hero-slider-shell .hero-carousel {
+    width: 100%;
     max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.hero-carousel .slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-slider-shell .slider-wrapper {
+    width: 100%;
+}
+
+/* Slider tự chuyển ảnh; không hiển thị nút mũi tên hai bên. */
+.hero-slider-shell .slider-btn {
+    display: none !important;
+}
+
+.hero-slider-shell .dots-container {
+    display: none !important;
+}
+
+.hero-slider-shell .slide {
+    flex: 0 0 100%;
+    min-width: 100%;
 }
 
 .slide {
@@ -2520,6 +2555,11 @@ header > .container > nav ul {
 
 .dots-container {
     bottom: 18px;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    padding: 0;
+    background: transparent;
 }
 
 .body-container {
@@ -3085,13 +3125,17 @@ header > .container {
 
     .hero-slider-shell {
         overflow: hidden;
+        width: 100%;
     }
 
-    .hero-slider-shell .slider-container {
-        width: 100vw;
+    .hero-slider-shell .hero-carousel {
+        width: 100%;
         height: 240px;
         min-height: 0;
         margin-bottom: 46px;
+        margin-left: 0;
+        margin-right: 0;
+        border-radius: 0;
     }
 
     .hero-slider-shell .slide {
@@ -3105,6 +3149,16 @@ header > .container {
         object-fit: cover;
         object-position: center;
     }
+
+    .hero-slider-shell .dots-container {
+        bottom: 12px;
+    }
+
+    .hero-slider-shell .dot {
+        width: 7px;
+        height: 7px;
+        margin: 0 4px;
+    }
 }
 
 @media (max-width: 380px) {
@@ -3117,7 +3171,7 @@ header > .container {
         max-width: calc(100vw - 120px);
     }
 
-    .hero-slider-shell .slider-container,
+    .hero-slider-shell .hero-carousel,
     .hero-slider-shell .slide {
         height: 210px;
     }

@@ -1,50 +1,110 @@
-# Trà Chuyện
+# Tra Chuyen
 
-Website bán trà "Trà Chuyện" — Giai đoạn 1: trưng bày sản phẩm + quản trị sản phẩm.
+Website ban tra su dung PHP 8, MySQL/MariaDB va Apache.
 
-## Công nghệ
-- PHP 8 + MySQL 8 (PDO)
-- Front-end: HTML/CSS/JS thuần (giữ nguyên giao diện có sẵn)
+## Cai dat tren may Windows moi
 
-## Cài đặt & chạy
-1. Bật **Laragon** (Apache + MySQL).
-2. Import database: file `database.sql` vào MySQL (`trachuyen_db`). Lần đầu, tạo tài khoản admin trong bảng `admin_users` (hash mật khẩu bằng `password_hash`, không dùng mật khẩu mặc định).
-   - Nếu DB đã có sẵn, chỉ cần chạy phần seed + tạo bảng `admin_users` trong `database.sql`.
-3. Truy cập:
-   - Trang chủ: http://trachuyen.test (hoặc http://localhost:8080 nếu chạy `php -S localhost:8080`)
-   - Trang sản phẩm: http://trachuyen.test/product.php
-   - Admin: http://trachuyen.test/admin/login.php
+### Phan mem can cai
 
-## Cấu hình DB
-Sửa các hằng số trong `config/db.php` nếu cần (host, user, pass).
+- Laragon Full: Apache, MySQL/MariaDB va PHP 8.1+.
+- Git for Windows.
+- Visual Studio Code (khong bat buoc).
 
-## Cấu trúc thư mục
-```
-config/db.php            Kết nối DB + helper
-index.php                Trang chủ (danh mục + bán chạy từ DB)
-product.php              Danh sách sản phẩm (tìm kiếm/lọc/sắp xếp/phân trang)
-productdetal.php         Chi tiết sản phẩm
-includes/                Header/footer dùng chung
-admin/login.php          Đăng nhập admin
-admin/index.php          Dashboard
-admin/product/list.php   Danh sách sản phẩm (quản lý)
-admin/product/add.php    Thêm sản phẩm
-admin/product/update.php Sửa sản phẩm
-admin/product/model.php  CRUD + upload ảnh
-admin/product/_form.php  Form dùng chung
-database.sql             Schema + dữ liệu mẫu
-img/products/            Ảnh sản phẩm upload
-```
+### Tai source
 
-## Bản tĩnh (GitHub Pages)
-Để phục vụ qua GitHub Pages (chỉ hỗ trợ tĩnh), chạy lệnh sinh bản tĩnh vào `docs/`:
+Mo PowerShell:
 
-```
-php tools/build-static.php
-```
+    cd C:\laragon\www
+    git clone -b main https://github.com/linhnv52/trachuyen.git TraChuyenProduct
+    cd TraChuyenProduct
 
-Lệnh này đọc DB (cần MySQL đang chạy), xuất `docs/data/products.json` + render 7 trang chính và từng trang sản phẩm thành `docs/*.html`. Bật GitHub Pages với source là thư mục `/docs`.
+Mo Laragon va bam Start All de khoi dong Apache va MySQL. Neu source nam trong C:\laragon\www\TraChuyenProduct, Laragon thuong tao domain http://trachuyenproduct.test. Co the dung virtual host trachuyen.test neu document root tro dung vao thu muc chua index.php.
 
-## Ghi chú
-- Các file `.html` cũ (`index.html`, `product.html`, `product-detail.html`, `admin.html`) là bản giao diện tĩnh tham khảo; bản chạy thật là các file `.php`.
-- Giai đoạn sau: giỏ hàng, đặt hàng, tài khoản khách, quản lý danh mục/đơn hàng.
+### Import database
+
+Mo http://localhost/phpmyadmin, chon Import, chon file database.sql, sau do bam Go. File nay tu tao database trachuyen_db va cac bang can thiet.
+
+Hoac dung MySQL CLI:
+
+    mysql -h 127.0.0.1 -u root -p < database.sql
+
+Kiem tra config/db.php:
+
+    DB_HOST = 127.0.0.1
+    DB_NAME = trachuyen_db
+    DB_USER = root
+    DB_PASS =
+
+Neu MySQL co mat khau, sua DB_PASS. PHP can bat cac extension pdo_mysql, mbstring, fileinfo, gd va json.
+
+### Tao tai khoan admin
+
+Tao hash mat khau:
+
+    php -r "echo password_hash('MatKhauMoi', PASSWORD_DEFAULT), PHP_EOL;"
+
+Copy hash ket qua va chay SQL:
+
+    USE trachuyen_db;
+    INSERT INTO admin_users (username, password_hash, full_name)
+    VALUES ('admin', 'DAN_HASH_VAO_DAY', 'Quan tri vien');
+
+Dang nhap tai http://trachuyen.test/admin/login.php.
+
+### Chay website
+
+Voi Apache/Laragon:
+
+    http://trachuyen.test/index.php
+    http://trachuyen.test/product.php
+    http://trachuyen.test/admin/login.php
+
+Neu khong dung Apache, co the chay PHP built-in server:
+
+    cd C:\laragon\www\TraChuyenProduct
+    php -S localhost:8080
+
+Sau do mo http://localhost:8080/index.php.
+
+### Thu muc upload
+
+Cac thu muc sau can ton tai va co quyen ghi:
+
+    img/products/
+    img/categories/
+    img/banners/
+    img/logo/
+    img/videos/
+
+### Cap nhat code
+
+    cd C:\laragon\www\TraChuyenProduct
+    git pull origin main
+
+Tai lai trinh duyet bang Ctrl + F5. Khong can import lai database neu chi cap nhat UI, CSS hoac PHP.
+
+### Build GitHub Pages
+
+GitHub Pages chi chay ban HTML tinh, khong chay admin va database. Khi can build:
+
+    cd C:\laragon\www\TraChuyenProduct
+    php tools/build-static.php
+    git add docs
+    git commit -m "build: update static site"
+    git push origin main
+
+GitHub Pages can cau hinh source la branch main, thu muc /docs.
+
+### Loi thuong gap
+
+- Loi database: kiem tra MySQL dang chay va cau hinh trong config/db.php.
+- Loi 404 domain .test: kiem tra Apache virtual host va document root.
+- Anh khong hien thi: kiem tra duong dan va quyen doc thu muc img.
+- Upload loi: kiem tra quyen ghi va upload_max_filesize/post_max_size trong php.ini.
+- Loi gads-scrapper.js hoac gserp-scrapper.js: thuong do extension trinh duyet, khong phai source website.
+
+## Cong nghe
+
+- PHP 8 + MySQL/MariaDB + PDO
+- HTML/CSS/JavaScript thuan
+- GitHub Pages cho ban HTML tinh
