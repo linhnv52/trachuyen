@@ -15,6 +15,8 @@ define('CATEGORY_UPLOAD_DIR', __DIR__ . '/../img/categories/');
 define('CATEGORY_UPLOAD_URL', 'img/categories/');
 define('BANNER_UPLOAD_DIR', __DIR__ . '/../img/banners/');
 define('BANNER_UPLOAD_URL', 'img/banners/');
+define('VIDEO_UPLOAD_DIR', __DIR__ . '/../img/videos/');
+define('VIDEO_UPLOAD_URL', 'img/videos/');
 
 function db(): PDO
 {
@@ -162,4 +164,30 @@ function setSetting(string $key, string $value): void
     $stmt = db()->prepare('INSERT INTO settings (skey, svalue) VALUES (?, ?)
                            ON DUPLICATE KEY UPDATE svalue = VALUES(svalue)');
     $stmt->execute([$key, $value]);
+}
+
+/**
+ * Chuẩn hóa link video dùng trên trang chủ.
+ * Google Drive không cho nhúng trang preview bằng iframe từ domain khác,
+ * nên chuyển sang URL tải trực tiếp để dùng với thẻ video HTML5.
+ */
+function normalizeVideoUrl(string $videoUrl): string
+{
+    $videoUrl = trim($videoUrl);
+    if ($videoUrl === '') {
+        return '';
+    }
+
+    if (preg_match('~drive\.google\.com/file/d/([^/?#]+)~i', $videoUrl, $matches)) {
+        return 'https://drive.google.com/uc?export=download&id=' . rawurlencode($matches[1]);
+    }
+    if (preg_match('~drive\.google\.com/[^?#]*[?&]id=([^&#]+)~i', $videoUrl, $matches)) {
+        return 'https://drive.google.com/uc?export=download&id=' . rawurlencode($matches[1]);
+    }
+
+    if (preg_match('~(?:youtu\.be/|youtube\.com/(?:watch\?v=|shorts/|embed/))([^?&#/]+)~i', $videoUrl, $matches)) {
+        return 'https://www.youtube.com/embed/' . rawurlencode($matches[1]);
+    }
+
+    return $videoUrl;
 }

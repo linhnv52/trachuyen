@@ -27,6 +27,8 @@ $bestSellers = db()->query('SELECT p.*, c.name AS category_name, c.slug AS categ
                             ORDER BY p.rating_avg DESC, p.created_at DESC
                             LIMIT 12')->fetchAll();
 $homepageVideoUrl = getSetting('homepage_video_url', '');
+$homepageVideoUrl = $homepageVideoUrl ? normalizeVideoUrl($homepageVideoUrl) : '';
+$homepageVideoIsFile = str_starts_with($homepageVideoUrl, 'img/videos/');
 
 // Banner slider (quản lý từ admin); fallback ảnh mặc định nếu chưa có dữ liệu
 $banners = db()->query('SELECT image_url FROM banners WHERE is_active = 1 ORDER BY sort_order, id')->fetchAll(PDO::FETCH_COLUMN);
@@ -114,6 +116,12 @@ require __DIR__ . '/includes/header.php';
             <div class="gallery-video">
                 <div class="video-wrapper">
                     <?php if ($homepageVideoUrl): ?>
+                    <?php if ($homepageVideoIsFile): ?>
+                    <video controls playsinline preload="metadata" title="Video giới thiệu ấm tử sa">
+                        <source src="<?= e($homepageVideoUrl) ?>">
+                        Trình duyệt không hỗ trợ phát video.
+                    </video>
+                    <?php else: ?>
                     <iframe
                         src="<?= e($homepageVideoUrl) ?>"
                         title="Video giới thiệu ấm tử sa"
@@ -121,6 +129,7 @@ require __DIR__ . '/includes/header.php';
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen>
                     </iframe>
+                    <?php endif; ?>
                     <?php else: ?>
                     <div class="video-empty">Video giới thiệu đang được cập nhật.</div>
                     <?php endif; ?>

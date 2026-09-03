@@ -67,9 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'updat
         if ($videoUrl === '' || !filter_var($videoUrl, FILTER_VALIDATE_URL) || !preg_match('/^https?:\/\//i', $videoUrl)) {
             throw new RuntimeException('Link video không hợp lệ.');
         }
-        if (preg_match('~drive\.google\.com/file/d/([^/]+)~i', $videoUrl, $matches)) {
-            $videoUrl = 'https://drive.google.com/file/d/' . $matches[1] . '/preview';
-        }
+        $videoUrl = normalizeVideoUrl($videoUrl);
         setSetting('homepage_video_url', $videoUrl);
         $videoSuccess = 'Video trang chủ đã được cập nhật.';
     } catch (Throwable $e) {
@@ -158,12 +156,12 @@ require __DIR__ . '/includes/header.php';
 
 <section class="video-settings" aria-labelledby="video-settings-title">
     <h2 id="video-settings-title">Video trang chủ</h2>
-    <p>Dán link video Google Drive. Hãy bật quyền chia sẻ “Bất kỳ ai có liên kết” để video hiển thị trên website.</p>
+    <p>Nên dùng link YouTube (có thể đặt Không công khai). Google Drive thường chặn nhúng video từ website khác; nếu dùng Drive, file phải được chia sẻ công khai và vẫn có thể không phát được do chính sách của Google.</p>
     <?php if ($videoSuccess): ?><div class="logo-message success" role="status"><?= e($videoSuccess) ?></div><?php endif; ?>
     <?php if ($videoError): ?><div class="logo-message error" role="alert"><?= e($videoError) ?></div><?php endif; ?>
     <form method="post" class="video-url-form">
         <input type="hidden" name="action" value="update_video">
-        <input type="url" name="video_url" placeholder="https://drive.google.com/file/d/.../view" value="<?= e($homepageVideoUrl) ?>" required>
+        <input type="url" name="video_url" placeholder="https://www.youtube.com/watch?v=..." value="<?= e($homepageVideoUrl) ?>" required>
         <button type="submit" class="btn btn-primary"><i class="fas fa-video"></i> Lưu video</button>
     </form>
 </section>
