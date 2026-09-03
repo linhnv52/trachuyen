@@ -2834,7 +2834,7 @@ header > .container {
 }
 
 .logo img {
-    max-height: 62px;
+    max-height: 72px;
 }
 
 .product-badge,
@@ -2857,6 +2857,6 @@ header > .container {
     }
 
     .logo img {
-        max-height: 48px;
+        max-height: 54px;
     }
 }
