@@ -2139,8 +2139,6 @@ nav ul li a.active {
 /* ---------- DỊCH VỤ: minimal ---------- */
 .services-row {
     gap: 0;
-    border-top: 1px solid var(--cartier-line);
-    border-bottom: 1px solid var(--cartier-line);
     margin: 10px 0 60px;
 }
 
@@ -2149,11 +2147,6 @@ nav ul li a.active {
     box-shadow: none;
     border-radius: 0;
     padding: 28px 12px;
-    border-left: 1px solid var(--cartier-line);
-}
-
-.service-item:first-child {
-    border-left: none;
 }
 
 .service-item i {
@@ -2257,10 +2250,6 @@ nav ul li a.active {
 
     .services-row {
         grid-template-columns: repeat(2, 1fr);
-    }
-
-    .service-item:nth-child(2) {
-        border-left: none;
     }
 
     .service-item {
@@ -2858,14 +2847,11 @@ header > .container > nav ul {
 
 .services-row {
     margin: 0 0 24px;
-    border-top: 1px solid var(--luxury-line);
-    border-bottom: 1px solid var(--luxury-line);
 }
 
 .service-item {
     min-height: 132px;
     background: transparent;
-    border-left-color: var(--luxury-line);
 }
 
 .service-item i {
@@ -2993,12 +2979,8 @@ header > .container > nav ul {
         max-height: 420px;
     }
 
-    .services-row {
+.services-row {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .service-item:nth-child(odd) {
-        border-left: 0;
     }
 
     .footer {
@@ -3339,16 +3321,21 @@ input, textarea, select, button {
     }
 }
 
+.service-item h3 {
+    color: #c8102e;
+    font-size: 1.05rem;
+}
+
 .service-item p {
     margin: 0;
     text-align: center;
-    font-size: 0.8rem;
+    font-size: 0.88rem;
     line-height: 1.45;
     color: #6b5b52;
 }
 
 .service-item img {
-    width: 46px;
-    height: 46px;
+    width: 54px;
+    height: 54px;
     object-fit: contain;
 }
