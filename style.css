@@ -3338,3 +3338,11 @@ input, textarea, select, button {
         max-width: calc(100vw - 120px);
     }
 }
+
+.service-item p {
+    margin: 0;
+    text-align: center;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: #6b5b52;
+}

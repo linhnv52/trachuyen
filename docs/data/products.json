@@ -15,7 +15,7 @@
             "category_name": "Trà Đen",
             "category_slug": "tra-den",
             "stock_quantity": 1222,
-            "views": 30,
+            "views": 31,
             "capacity": null,
             "description": "Uống không ngon",
             "detail_url": "tra-khong-xanh.html"
@@ -35,7 +35,7 @@
             "category_name": "Trà xanh việt",
             "category_slug": "tra-xanh-viet",
             "stock_quantity": 13,
-            "views": 33,
+            "views": 34,
             "capacity": null,
             "description": "",
             "detail_url": "tra-thai-nguyen-2.html"
@@ -55,7 +55,7 @@
             "category_name": "Trà xanh việt",
             "category_slug": "tra-xanh-viet",
             "stock_quantity": 18,
-            "views": 35,
+            "views": 36,
             "capacity": null,
             "description": "",
             "detail_url": "tra-thai-nguyen.html"
@@ -75,7 +75,7 @@
             "category_name": "Trà Xanh",
             "category_slug": "tra-xanh",
             "stock_quantity": 25,
-            "views": 52,
+            "views": 53,
             "capacity": null,
             "description": "Trà xanh Thái Nguyên đặc biệt, hái từ những búp non đầu mùa, vị chát dịu hậu ngọt sâu.",
             "detail_url": "tra-xanh-thai-nguyen-ac-biet.html"
@@ -95,7 +95,7 @@
             "category_name": "Trà Xanh",
             "category_slug": "tra-xanh",
             "stock_quantity": 18,
-            "views": 29,
+            "views": 30,
             "capacity": null,
             "description": "Trà xanh Tân Cương hương thơm nhẹ, vị chát đậm đà đặc trưng vùng trung du.",
             "detail_url": "tra-xanh-tan-cuong.html"
@@ -115,7 +115,7 @@
             "category_name": "Trà Xanh",
             "category_slug": "tra-xanh",
             "stock_quantity": 12,
-            "views": 34,
+            "views": 35,
             "capacity": null,
             "description": "Trà xanh Shan Tuyết từ những cây chè cổ thụ vùng cao, hương cốm thoảng, vị đượm.",
             "detail_url": "tra-xanh-shan-tuyet.html"
@@ -135,7 +135,7 @@
             "category_name": "Trà Xanh",
             "category_slug": "tra-xanh",
             "stock_quantity": 20,
-            "views": 31,
+            "views": 32,
             "capacity": null,
             "description": "Trà xanh ướp hương sen tự nhiên, thơm nhẹ, dễ uống, thích hợp phái nữ.",
             "detail_url": "tra-xanh-huong-sen.html"
@@ -155,7 +155,7 @@
             "category_name": "Trà Xanh",
             "category_slug": "tra-xanh",
             "stock_quantity": 30,
-            "views": 35,
+            "views": 36,
             "capacity": null,
             "description": "Trà xanh Mộc Châu cao nguyên, vị thanh mát, hương cỏ nội.",
             "detail_url": "tra-xanh-moc-chau.html"
@@ -175,7 +175,7 @@
             "category_name": "Trà Đen",
             "category_slug": "tra-den",
             "stock_quantity": 15,
-            "views": 29,
+            "views": 30,
             "capacity": null,
             "description": "Trà đen Shan Tuyết vị đậm đà, hậu ngọt, phù hợp pha sữa hoặc uống nguyên chất.",
             "detail_url": "tra-den-shan-tuyet.html"
@@ -195,7 +195,7 @@
             "category_name": "Trà Đen",
             "category_slug": "tra-den",
             "stock_quantity": 22,
-            "views": 30,
+            "views": 31,
             "capacity": null,
             "description": "Hồng trà kim tuyền Đà Lạt, cánh trà vàng óng, nước pha màu hổ phách đẹp.",
             "detail_url": "hong-tra-kim-tuyen.html"
@@ -215,7 +215,7 @@
             "category_name": "Trà Ô Long",
             "category_slug": "tra-o-long",
             "stock_quantity": 20,
-            "views": 29,
+            "views": 30,
             "capacity": null,
             "description": "Trà ô long Đài Loan trồng ở độ cao 1000m, hương hoa quả thanh thoát, hậu vị dài.",
             "detail_url": "tra-o-long-dai-loan-cao-son.html"
@@ -235,7 +235,7 @@
             "category_name": "Trà Ô Long",
             "category_slug": "tra-o-long",
             "stock_quantity": 16,
-            "views": 29,
+            "views": 30,
             "capacity": null,
             "description": "Trà ô long sắt vàng, cánh trà xoắn chặt, nước vàng sánh, vị đậm.",
             "detail_url": "tra-o-long-sat-vang.html"
@@ -255,7 +255,7 @@
             "category_name": "Trà Ô Long",
             "category_slug": "tra-o-long",
             "stock_quantity": 10,
-            "views": 29,
+            "views": 30,
             "capacity": null,
             "description": "Trà ô long tẩm ướp nhân sâm Hàn Quốc, bổ dưỡng, hậu ngọt nhẹ.",
             "detail_url": "tra-o-long-nhan-sam.html"
@@ -275,7 +275,7 @@
             "category_name": "Trà Thảo Mộc",
             "category_slug": "tra-thao-moc",
             "stock_quantity": 22,
-            "views": 28,
+            "views": 29,
             "capacity": null,
             "description": "Trà thảo mộc hoa hồng, hỗ trợ ngủ ngon, thư giãn tinh thần.",
             "detail_url": "tra-thao-moc-hoa-hong.html"
@@ -295,7 +295,7 @@
             "category_name": "Trà Thảo Mộc",
             "category_slug": "tra-thao-moc",
             "stock_quantity": 25,
-            "views": 28,
+            "views": 29,
             "capacity": null,
             "description": "Trà gừng mật ong ấm bụng, giải cảm, tăng sức đề kháng.",
             "detail_url": "tra-thao-moc-gung-mat-ong.html"
@@ -315,7 +315,7 @@
             "category_name": "Ấm Tử Sa",
             "category_slug": "am-tu-sa",
             "stock_quantity": 8,
-            "views": 44,
+            "views": 45,
             "capacity": 200,
             "description": "Ấm tử sa Nghi Hưng chế tác thủ công bởi nghệ nhân lành nghề, chất đất nguyên khoáng, giữ nhiệt tốt.",
             "detail_url": "am-tu-sa-nghi-hung-co-phong.html"
@@ -335,7 +335,7 @@
             "category_name": "Ấm Tử Sa",
             "category_slug": "am-tu-sa",
             "stock_quantity": 10,
-            "views": 28,
+            "views": 29,
             "capacity": 300,
             "description": "Bộ ấm chén tử sa đồng bộ, tinh xảo, thích hợp thưởng trà hàng ngày.",
             "detail_url": "bo-am-chen-tu-sa.html"
@@ -355,7 +355,7 @@
             "category_name": "Bộ Trà Cụ",
             "category_slug": "bo-tra-cu",
             "stock_quantity": 10,
-            "views": 36,
+            "views": 37,
             "capacity": 200,
             "description": "Bộ trà cụ gốm sứ Bát Tràng cao cấp, men ngọc, sang trọng.",
             "detail_url": "bo-tra-cu-gom-su-cao-cap.html"
@@ -375,7 +375,7 @@
             "category_name": "Bộ Trà Cụ",
             "category_slug": "bo-tra-cu",
             "stock_quantity": 5,
-            "views": 29,
+            "views": 30,
             "capacity": 250,
             "description": "Khay trà gỗ sưa tự nhiên, vân gỗ đẹp, chống thấm tốt.",
             "detail_url": "khay-tra-go-sua-tu-nhien.html"
@@ -395,7 +395,7 @@
             "category_name": "Hộp Quà Tặng",
             "category_slug": "hop-qua-tang",
             "stock_quantity": 15,
-            "views": 28,
+            "views": 29,
             "capacity": null,
             "description": "Hộp quà tặng trà Thái Nguyên cao cấp, kèm túi lụa, thiệp chúc.",
             "detail_url": "hop-qua-tang-tra-thai-nguyen.html"
@@ -415,7 +415,7 @@
             "category_name": "Hộp Quà Tặng",
             "category_slug": "hop-qua-tang",
             "stock_quantity": 12,
-            "views": 35,
+            "views": 36,
             "capacity": null,
             "description": "Set quà trà đen shan tuyết với hộp gỗ sang trọng.",
             "detail_url": "set-qua-tra-den-shan-tuyet.html"
@@ -435,7 +435,7 @@
             "category_name": "Phụ Kiện Trà",
             "category_slug": "phu-kien-tra",
             "stock_quantity": 30,
-            "views": 29,
+            "views": 30,
             "capacity": null,
             "description": "Cốc trà thủy tinh dung nham, chịu nhiệt tốt, bắt mắt.",
             "detail_url": "coc-tra-thuy-tinh-dung-nham.html"
@@ -455,7 +455,7 @@
             "category_name": "Phụ Kiện Trà",
             "category_slug": "phu-kien-tra",
             "stock_quantity": 40,
-            "views": 31,
+            "views": 32,
             "capacity": null,
             "description": "Bộ phụ kiện pha trà: kẹp chén, muỗng, bàn lọc, thìa.",
             "detail_url": "phu-kien-pha-tra-cao-cap.html"
