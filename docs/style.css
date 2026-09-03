@@ -2272,6 +2272,32 @@ nav ul li a.active {
             }
         }
 
+        /* Compact header keeps the brand visible without wasting viewport space. */
+        header {
+            min-height: 96px;
+            padding-top: 10px;
+        }
+
+        header > .container {
+            min-height: 84px;
+        }
+
+        .logo img {
+            max-width: 700px;
+            max-height: 72px;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                min-height: 78px;
+                padding-top: 6px;
+            }
+
+            header > .container {
+                min-height: 68px;
+            }
+        }
+
 /* ---------- RESPONSIVE CARTIER ---------- */
 @media (max-width: 768px) {
     .section-title {

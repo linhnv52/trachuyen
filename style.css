@@ -2354,15 +2354,15 @@ input:focus-visible {
 }
 
 header {
-    min-height: 124px;
-    padding: 16px 0 0;
+    min-height: 96px;
+    padding: 10px 0 0;
     background: var(--luxury-paper);
     border-bottom: 1px solid var(--luxury-line);
 }
 
 header > .container {
     max-width: 1360px;
-    min-height: 108px;
+    min-height: 84px;
 }
 
 .logo {
@@ -2372,7 +2372,7 @@ header > .container {
 
 .logo img {
     max-width: 700px;
-    max-height: 100px;
+    max-height: 72px;
 }
 
 .nav-toggle {
@@ -2729,12 +2729,12 @@ header > .container > nav ul {
 
 @media (max-width: 768px) {
     header {
-        min-height: 94px;
-        padding-top: 10px;
+        min-height: 78px;
+        padding-top: 6px;
     }
 
     header > .container {
-        min-height: 82px;
+        min-height: 68px;
     }
 
     .logo img {
