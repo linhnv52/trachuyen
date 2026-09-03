@@ -795,6 +795,6 @@
         }
 
         .products-page .cat-track {
-            gap: 14px;
-            grid-auto-columns: calc((100% - (5 * 14px)) / 6);
+            gap: 10px;
+            grid-auto-columns: calc((100% - (5 * 10px)) / 6);
         }
