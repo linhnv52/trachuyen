@@ -76,7 +76,7 @@
             var k = decodeURIComponent(pair[0]);
             var v = decodeURIComponent((pair[1] || '').replace(/\+/g, ' '));
             if (k === 'capacity[]') {
-                continue; // cũ (checkbox) — bỏ
+                return; // bỏ tham số cũ (checkbox)
             } else if (p[k] !== undefined) {
                 p[k] = [].concat(p[k], v);
             } else {
