@@ -79,7 +79,7 @@ function fieldError(string $key): void
                 <select name="category_id" required>
                     <option value="">-- Chọn danh mục --</option>
                     <?php foreach ($categories as $c): ?>
-                        <option value="<?= $c['id'] ?>" <?= (string)($v['category_id'] ?? '') === (string)$c['id'] ? 'selected' : '' ?>><?= e($c['name']) ?></option>
+                        <option value="<?= $c['id'] ?>" data-slug="<?= e($c['slug']) ?>" <?= (string)($v['category_id'] ?? '') === (string)$c['id'] ? 'selected' : '' ?>><?= e($c['name']) ?></option>
                     <?php endforeach; ?>
                 </select>
                 <?php fieldError('category_id'); ?>
@@ -111,12 +111,10 @@ function fieldError(string $key): void
                 <input type="number" name="stock_quantity" value="<?= e($v['stock_quantity'] ?? '0') ?>" min="0">
             </div>
 
-            <?php if ($_isTeaUtensil): ?>
-            <div class="form-group">
+            <div class="form-group" id="capacityField" style="<?= $_isTeaUtensil ? '' : 'display:none;' ?>">
                 <label>Dung tích (ml)</label>
                 <input type="number" name="capacity" value="<?= e($v['capacity'] ?? '') ?>" min="1" placeholder="VD: 200">
             </div>
-            <?php endif; ?>
 
             <div class="form-group full">
                 <label>Mô tả ngắn</label>
@@ -239,5 +237,21 @@ function fieldError(string $key): void
                 gPreview.appendChild(box);
             });
         });
+    });
+
+    // Hiện trường dung tích ngay khi chọn danh mục Ấm Tử Sa hoặc Bộ Trà Cụ.
+    document.addEventListener('DOMContentLoaded', function() {
+        const categorySelect = document.querySelector('select[name="category_id"]');
+        const capacityField = document.getElementById('capacityField');
+        if (!categorySelect || !capacityField) return;
+        const capacitySlugs = ['am-tu-sa', 'bo-tra-cu'];
+        const updateCapacityField = function() {
+            const selected = categorySelect.options[categorySelect.selectedIndex];
+            const show = selected && capacitySlugs.includes(selected.dataset.slug || '');
+            capacityField.style.display = show ? '' : 'none';
+            if (!show) capacityField.querySelector('input').value = '';
+        };
+        categorySelect.addEventListener('change', updateCapacityField);
+        updateCapacityField();
     });
 </script>

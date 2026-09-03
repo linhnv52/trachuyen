@@ -622,7 +622,39 @@
                 min-height: 280px;
             }
 
-            .product-detail-name {
+.product-detail-name {
                 font-size: 2rem;
             }
+        }
+
+        /* ====== FONT INTER (TT Norms-like) toàn trang + nén letter-spacing ====== */
+        .product-detail-page,
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            letter-spacing: -0.02em;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Inter', system-ui, sans-serif;
+            letter-spacing: -0.015em;
+        }
+
+        .product-detail-name,
+        .related-title,
+        .breadcrumb a,
+        .breadcrumb .current,
+        .btn-add-to-cart,
+        .product-detail-description h4 {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        .btn-add-to-cart,
+        .product-detail-description h4 {
+            letter-spacing: 0.03em;
+        }
+
+        .product-detail-price .current,
+        .product-detail-price .old,
+        .product-meta-item {
+            letter-spacing: -0.01em;
         }

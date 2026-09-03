@@ -3186,3 +3186,155 @@ header > .container {
 .mobile-menu-icons {
     display: none !important;
 }
+
+/* ==========================================================================
+   FONT INTER (TT Norms-like) toàn site + nén letter-spacing
+   — lớp override ở cuối để giành quyền trên mọi rule trước đó
+   ========================================================================== */
+body {
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    letter-spacing: -0.02em;
+}
+
+/* Đưa toàn bộ tiêu đề/danh mục về Inter (bỏ Fraunces & Playfair lạ) */
+h1, h2, h3, h4, h5, h6,
+.display-font {
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    letter-spacing: -0.015em;
+}
+
+/* Đổi từng selector từng dùng Fraunces */
+.logo,
+.logo a,
+.section-title,
+.tea-info-heading,
+.tea-info-title,
+.product-modal-name,
+.product-detail-title,
+.cart-modal-title,
+.no-products h3,
+.page-header h1,
+.category-layout-copy h3,
+.footer-heading,
+.footer-logo-link,
+.mobile-menu-list li a,
+.related-title {
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* Nav: nén khoảng cách chữ, giữ caps */
+nav ul li a {
+    letter-spacing: 0.07em;
+}
+
+/* Section title Cartier: nén còn 0.08em */
+.section-title {
+    letter-spacing: 0.08em;
+}
+
+/* Nút/badge: nén nhẹ */
+.product-badge,
+.filter-title,
+.btn-view-all,
+.btn-add-to-cart {
+    letter-spacing: 0.03em;
+}
+
+/* Các khối letter-spacing khác (0.5px / 0.14em / 0.18em / 0.12em...) nén xuống */
+.category-item h3,
+.product-item h3,
+.service-item h3,
+.current-price {
+    letter-spacing: -0.01em;
+}
+
+/* Font fallback tiếng Việt: giữ Inter có dấu, không lệch */
+input, textarea, select, button {
+    letter-spacing: inherit;
+}
+
+/* Xử lý các heading còn giữ letter-spacing cũ */
+@media (min-width: 769px) {
+    .cart-modal-title,
+    .product-modal-name,
+    .tea-info-heading {
+        letter-spacing: -0.015em;
+    }
+}
+
+/* ==========================================================================
+   FOOTER: nền #a37349 + toàn bộ chữ trắng
+   LOGO HEADER: to hơn 20%
+   — lớp override ở cuối để giành quyền trên mọi rule trước đó
+   ========================================================================== */
+.footer {
+    background: #a37349;
+    color: #ffffff;
+    border-top: none;
+}
+
+/* Toàn bộ chữ trong footer về trắng */
+.footer-heading,
+.footer-logo-link,
+.footer-slogan,
+.footer-text,
+.footer-tagline,
+.footer-desc,
+.footer-links a,
+.footer-links a:hover,
+.footer-copyright,
+.footer-contact-item,
+.footer-address-link,
+.footer-address-link:hover,
+.footer-phone,
+.footer-phone:hover {
+    color: #ffffff;
+}
+
+/* Icon liên hệ + gạch chân heading + viền phân chia theo nền mới */
+.footer-contact-item i,
+.footer-phone i {
+    color: #ffffff;
+}
+
+.footer-heading::after {
+    background: #ffffff;
+}
+
+.footer-top,
+.footer-bottom {
+    border-color: rgba(255, 255, 255, 0.22);
+}
+
+.footer-bottom {
+    border-top-color: rgba(255, 255, 255, 0.22);
+}
+
+/* Social icons: giữ nền trắng, icon màu #a37349 */
+.social-icon {
+    background: #ffffff;
+    color: #a37349;
+}
+
+.social-icon:hover {
+    opacity: 0.85;
+}
+
+/* LOGO HEADER to hơn 20% */
+.logo img {
+    max-height: 89px;
+}
+
+@media (max-width: 768px) {
+    .logo img {
+        max-height: 79px;
+        max-width: min(230px, 60vw);
+    }
+}
+
+@media (max-width: 420px) {
+    .logo img {
+        max-height: 86px;
+        max-width: calc(100vw - 120px);
+    }
+}
