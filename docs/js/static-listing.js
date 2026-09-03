@@ -278,6 +278,20 @@
         form.addEventListener('change', function (ev) {
             if (ev.target.matches('select[name="sort"]') || ev.target.matches('input[name="capacity"]') || ev.target.matches('input[name="price_range"]')) doSubmit();
         });
+
+        // Cho phép bỏ chọn radio đã chọn (giá / dung tích) bằng cách bấm lại
+        var wasChecked = false;
+        form.addEventListener('mousedown', function (ev) {
+            var t = ev.target;
+            if (t.matches('input[type="radio"][name="price_range"], input[type="radio"][name="capacity"]')) {
+                wasChecked = t.checked; // trạng thái TRƯỚC khi trình duyệt toggle
+            }
+        }, true);
+        form.addEventListener('click', function (ev) {
+            var t = ev.target;
+            if (!t.matches('input[type="radio"][name="price_range"], input[type="radio"][name="capacity"]')) return;
+            if (wasChecked) { t.checked = false; wasChecked = false; doSubmit(); }
+        });
     }
 
     fetch('data/products.json')

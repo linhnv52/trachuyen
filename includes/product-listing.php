@@ -388,5 +388,24 @@ $extraScript = <<<'HTML'
     gridViewBtn.addEventListener('click', function() { applyView('grid'); });
     listViewBtn.addEventListener('click', function() { applyView('list'); });
 </script>
+<script>
+// Cho phép bỏ chọn radio đã chọn (giá / dung tích) — chỉ chạy trên PHP live (bản tĩnh do static-listing.js lo)
+if (!document.documentElement.hasAttribute('data-static')) {
+    (function () {
+        var form = document.querySelector('.filter-sidebar');
+        if (!form) return;
+        var wasChecked = false;
+        form.addEventListener('mousedown', function (ev) {
+            var t = ev.target;
+            if (t.matches('input[type="radio"][name="price_range"], input[type="radio"][name="capacity"]')) wasChecked = t.checked;
+        }, true);
+        form.addEventListener('click', function (ev) {
+            var t = ev.target;
+            if (!t.matches('input[type="radio"][name="price_range"], input[type="radio"][name="capacity"]')) return;
+            if (wasChecked) { t.checked = false; wasChecked = false; }
+        });
+    })();
+}
+</script>
 HTML;
 require __DIR__ . '/footer.php';

@@ -273,6 +273,25 @@
     gridViewBtn.addEventListener('click', function() { applyView('grid'); });
     listViewBtn.addEventListener('click', function() { applyView('list'); });
 </script>
+<script>
+// Cho phép bỏ chọn radio đã chọn (giá / dung tích) — chỉ chạy trên PHP live (bản tĩnh do static-listing.js lo)
+if (!document.documentElement.hasAttribute('data-static')) {
+    (function () {
+        var form = document.querySelector('.filter-sidebar');
+        if (!form) return;
+        var wasChecked = false;
+        form.addEventListener('mousedown', function (ev) {
+            var t = ev.target;
+            if (t.matches('input[type="radio"][name="price_range"], input[type="radio"][name="capacity"]')) wasChecked = t.checked;
+        }, true);
+        form.addEventListener('click', function (ev) {
+            var t = ev.target;
+            if (!t.matches('input[type="radio"][name="price_range"], input[type="radio"][name="capacity"]')) return;
+            if (wasChecked) { t.checked = false; wasChecked = false; }
+        });
+    })();
+}
+</script>
 <!-- Bản tĩnh (GitHub Pages): bổ sung cấu hình trang + breakpoint -->
 <script type="application/json" id="pageConfig">{"baseFile":"hop-qua-tang.html","fixedSlug":"hop-qua-tang","groupIds":[],"showTabs":false,"perPage":8}</script>
 
