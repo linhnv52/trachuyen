@@ -1876,3 +1876,401 @@ body.modal-open {
         max-height: 280px;
     }
 }
+
+/* ==========================================================================
+   PHONG CÁCH CARTIER (luxury minimal) — lớp override ở cuối để giành quyền
+   Palette: trắng/off-white + đen + đỏ Cartier; khoảng trắng rộng, tiêu đề caps
+   ========================================================================== */
+:root {
+    --cartier-red:      #c8102e;
+    --cartier-black:    #141414;
+    --cartier-ink:      #1a1a1a;
+    --cartier-muted:    #8a8a8a;
+    --cartier-paper:    #ffffff;
+    --cartier-off:      #f7f5f1;
+    --cartier-line:     #e5e2dc;
+    --cartier-gold:     #9a7b3c;
+}
+
+/* ---------- Nền & base ---------- */
+body {
+    background-color: var(--cartier-paper);
+    color: var(--cartier-ink);
+}
+
+/* ---------- HEADER như Cartier: nền trắng, viền mảnh, menu caps cách chữ ---------- */
+header {
+    background-color: #ffffff;
+    box-shadow: none;
+    border-bottom: 1px solid var(--cartier-line);
+    padding: 18px 0 0;
+}
+
+.logo img {
+    max-height: 74px;
+}
+
+nav {
+    border-top: 1px solid var(--cartier-line);
+}
+
+nav ul li a {
+    color: var(--cartier-ink);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 0.82rem;
+    padding: 14px 0;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+    color: var(--cartier-red);
+    border-bottom-color: var(--cartier-red);
+}
+
+.nav-icons a {
+    color: var(--cartier-ink);
+}
+
+.nav-icons a:hover {
+    color: var(--cartier-red);
+}
+
+/* Nút hamburger: đen, hợp tông */
+.nav-toggle .bar {
+    background: var(--cartier-ink);
+}
+
+/* ---------- HERO SLIDER: full-width, mảnh, sang ---------- */
+.slider-container {
+    max-width: none;
+    width: 100%;
+    border-radius: 0;
+    margin: 0 auto 10px;
+    box-shadow: none;
+}
+
+.slide {
+    height: 460px;
+    background: var(--cartier-off);
+}
+
+.slider-btn {
+    background: rgba(20, 20, 20, 0.35);
+    color: #fff;
+    border-radius: 0;
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+}
+
+.slider-btn:hover {
+    background: var(--cartier-red);
+}
+
+.dots-container {
+    background: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
+
+.dots-container .dot {
+    background: rgba(20, 20, 20, 0.28);
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+}
+
+.dots-container .dot.active {
+    background: var(--cartier-red);
+}
+
+@media (max-width: 768px) {
+    .slide {
+        height: 240px;
+    }
+
+    .slider-btn.prev {
+        left: 8px;
+    }
+
+    .slider-btn.next {
+        right: 8px;
+    }
+}
+
+/* ---------- TIÊU ĐỀ SECTION kiểu Cartier: caps, cách chữ rộng ---------- */
+.section-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cartier-black);
+    font-weight: 500;
+    margin-bottom: 34px;
+    padding-bottom: 14px;
+    position: relative;
+}
+
+.section-title::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 48px;
+    height: 1px;
+    background: var(--cartier-red);
+}
+
+/* ---------- CARD danh mục & sản phẩm: sạch, bỏ hộp đậm ---------- */
+.category-item,
+.product-item {
+    background: var(--cartier-paper);
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    text-align: left;
+    padding-bottom: 16px;
+    transition: none;
+}
+
+.category-item:hover,
+.product-item:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.category-item img,
+.product-item img {
+    height: 200px;
+    background: var(--cartier-off);
+    transition: opacity 0.3s ease;
+}
+
+.category-item:hover img,
+.product-item:hover img {
+    opacity: 0.86;
+}
+
+.category-item h3,
+.product-item h3 {
+    color: var(--cartier-ink);
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    margin-top: 14px;
+}
+
+.category-item p {
+    color: var(--cartier-muted);
+}
+
+.product-item h3 {
+    height: auto;
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
+    font-size: 0.95rem;
+}
+
+/* ---------- GIÁ: đen cho giá, đỏ cho old-price nhấn ---------- */
+.current-price {
+    color: var(--cartier-black);
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: 0.02em;
+}
+
+.old-price {
+    color: var(--cartier-muted);
+}
+
+/* Nút thêm giỏ: viền mảnh + hover đỏ (lion tinh) */
+.btn-add-cart {
+    width: 42px;
+    height: 42px;
+    background: var(--cartier-ink);
+    color: #fff;
+    border-radius: 0;
+    transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.btn-add-cart:hover {
+    background: var(--cartier-red);
+    transform: none;
+}
+
+/* ---------- BADGE: đỏ Cartier thống nhất ---------- */
+.product-badge {
+    background: var(--cartier-red);
+    border-radius: 0;
+    color: #fff;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    padding: 5px 12px;
+    border-radius: 2px;
+}
+
+.product-badge.sale {
+    background: var(--cartier-red);
+}
+
+.product-badge.new {
+    background: var(--cartier-black);
+}
+
+/* ---------- NÚT XEM TẤT CẢ: mảnh, border + hover đỏ ---------- */
+.btn-view-all {
+    color: var(--cartier-black);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    padding: 11px 34px;
+    border: 1px solid var(--cartier-black);
+    border-radius: 0;
+    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.btn-view-all:hover {
+    background: var(--cartier-red);
+    border-color: var(--cartier-red);
+    color: #fff;
+}
+
+/* ---------- DỊCH VỤ: minimal ---------- */
+.services-row {
+    gap: 0;
+    border-top: 1px solid var(--cartier-line);
+    border-bottom: 1px solid var(--cartier-line);
+    margin: 10px 0 60px;
+}
+
+.service-item {
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 28px 12px;
+    border-left: 1px solid var(--cartier-line);
+}
+
+.service-item:first-child {
+    border-left: none;
+}
+
+.service-item i {
+    color: var(--cartier-red);
+    font-size: 1.55rem;
+}
+
+.service-item h3 {
+    color: var(--cartier-ink);
+    font-weight: 500;
+    font-size: 0.86rem;
+    letter-spacing: 0.04em;
+}
+
+/* ---------- GALLERY: clean, no card ---------- */
+.gallery-img-item,
+.gallery-video {
+    border: none;
+    box-shadow: none;
+}
+
+/* ---------- FOOTER: off-white, chữ đen ---------- */
+.footer {
+    background: var(--cartier-off);
+    color: var(--cartier-ink);
+    border-top: 1px solid var(--cartier-line);
+}
+
+.footer-heading {
+    color: var(--cartier-black);
+}
+
+.footer-text,
+.footer-slogan,
+.footer-desc,
+.footer-links a,
+.footer-copyright {
+    color: var(--cartier-ink);
+}
+
+.footer-logo-link {
+    color: var(--cartier-black);
+    letter-spacing: 0.08em;
+}
+
+/* ---------- MENU DI ĐỘNG: trắng sáng, chữ đen, hover đỏ ---------- */
+.mobile-menu {
+    background: #ffffff;
+    box-shadow: 6px 0 30px rgba(20, 20, 20, 0.18);
+}
+
+.mobile-menu-list li a {
+    color: var(--cartier-ink);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+}
+
+.mobile-menu-list li a:active,
+.mobile-menu-list li a.active {
+    color: var(--cartier-red);
+}
+
+.mobile-menu-icons a {
+    color: var(--cartier-ink);
+}
+
+.mobile-menu-icons a:active {
+    color: var(--cartier-red);
+}
+
+.mobile-menu-close {
+    color: var(--cartier-ink);
+    border-color: var(--cartier-line);
+    background: var(--cartier-off);
+}
+
+.mobile-menu-close:active {
+    background: rgba(200, 16, 46, 0.1);
+    color: var(--cartier-red);
+}
+
+/* ---------- RESPONSIVE CARTIER ---------- */
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 1.25rem;
+        letter-spacing: 0.12em;
+        margin-bottom: 24px;
+    }
+
+    .category-item h3 {
+        font-size: 1rem;
+    }
+
+    .product-item h3 {
+        font-size: 0.88rem;
+    }
+
+    .current-price {
+        font-size: 0.98rem;
+    }
+
+    .services-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .service-item:nth-child(2) {
+        border-left: none;
+    }
+
+    .service-item {
+        padding: 22px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .category-item img,
+    .product-item img {
+        height: 160px;
+    }
+}

@@ -537,4 +537,155 @@ font-size: 2.5rem;
                 padding: 0 8px;
             }
         }
+
+        /* ====== PHONG CÁCH CARTIER - Trang danh sách sản phẩm ====== */
+        :root {
+            --cartier-red:   #c8102e;
+            --cartier-black: #141414;
+            --cartier-ink:   #1a1a1a;
+            --cartier-muted: #8a8a8a;
+            --cartier-line:  #e5e2dc;
+        }
+
+        .products-page {
+            background-color: #ffffff;
+        }
+
+        .breadcrumb a,
+        .breadcrumb .current {
+            color: var(--cartier-ink);
+        }
+
+        .breadcrumb .current {
+            color: var(--cartier-red);
+        }
+
+        .page-header h1 {
+            color: var(--cartier-black);
+            letter-spacing: 0.02em;
+            font-weight: 500;
+        }
+
+        .page-header p,
+        .result-count,
+        .result-count span {
+            color: var(--cartier-muted);
+        }
+
+        /* Filter: viền mảnh, chữ đen */
+        .filter-title {
+            color: var(--cartier-black);
+            border-color: var(--cartier-line);
+        }
+
+        .filter-option {
+            color: var(--cartier-ink);
+        }
+
+        .filter-option input {
+            border-color: var(--cartier-black);
+        }
+
+        .filter-option input:checked {
+            background: var(--cartier-red);
+            border-color: var(--cartier-red);
+        }
+
+        .filter-apply {
+            background: var(--cartier-black);
+            color: #fff;
+            border-radius: 0;
+            letter-spacing: 0.05em;
+            font-family: 'Be Vietnam Pro', sans-serif;
+        }
+
+        .filter-apply:hover {
+            background: var(--cartier-red);
+        }
+
+        .filter-price input[type="number"],
+        .filter-sidebar select {
+            border-color: var(--cartier-line);
+            color: var(--cartier-ink);
+            border-radius: 0;
+        }
+
+        .filter-price input[type="number"]:focus,
+        .filter-sidebar select:focus {
+            border-color: var(--cartier-red);
+        }
+
+        .price-sep,
+        .filter-empty {
+            color: var(--cartier-muted);
+        }
+
+        /* Pagination: black/red */
+        .pagination a,
+        .pagination span {
+            color: var(--cartier-ink);
+            border-color: var(--cartier-line);
+        }
+
+        .pagination a:hover,
+        .pagination a.active {
+            background: var(--cartier-black);
+            border-color: var(--cartier-black);
+            color: #fff;
+        }
+
+        /* Card sản phẩm & danh mục trên trang danh sách: sạch giống Cartier */
+        .category-item,
+        .product-item {
+            border: none;
+            box-shadow: none;
+            text-align: left;
+        }
+
+        .category-item:hover,
+        .product-item:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .category-item h3,
+        .product-item h3 {
+            color: var(--cartier-ink);
+        }
+
+        .current-price {
+            color: var(--cartier-black);
+        }
+
+        .old-price {
+            color: var(--cartier-muted);
+        }
+
+        .btn-add-cart {
+            background: var(--cartier-ink);
+            border-radius: 0;
+        }
+
+        .btn-add-cart:hover {
+            background: var(--cartier-red);
+            transform: none;
+        }
+
+        .cat-arrow {
+            background: var(--cartier-ink);
+            border-radius: 0;
+        }
+
+        .cat-arrow:hover {
+            background: var(--cartier-red);
+        }
+
+        .product-badge {
+            background: var(--cartier-red);
+            border-radius: 2px;
+        }
+
+        .product-badge.new {
+            background: var(--cartier-black);
+        }
     </style>
