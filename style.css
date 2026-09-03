@@ -3089,14 +3089,14 @@ header > .container {
 
     .hero-slider-shell .slider-container {
         width: 100vw;
-        height: min(64vh, 500px);
-        min-height: 330px;
+        height: 240px;
+        min-height: 0;
         margin-bottom: 46px;
     }
 
     .hero-slider-shell .slide {
-        height: min(64vh, 500px);
-        min-height: 330px;
+        height: 240px;
+        min-height: 0;
     }
 
     .hero-slider-shell .slide img {
@@ -3115,6 +3115,11 @@ header > .container {
 
     .logo img {
         max-width: calc(100vw - 120px);
+    }
+
+    .hero-slider-shell .slider-container,
+    .hero-slider-shell .slide {
+        height: 210px;
     }
 
     .nav-icons {
