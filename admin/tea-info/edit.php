@@ -6,28 +6,28 @@ require_once __DIR__ . '/../product/model.php';
 
 $admin = current_admin();
 $pageTitle = 'Chỉnh sửa mục THÔNG TIN VỀ TRÀ';
-$pageSubtitle = 'Sửa danh sách bài viết và nội dung hướng dẫn pha trà';
+$pageSubtitle = 'Soạn danh sách bài viết (2 cột) và nội dung Pha Nham Trà hiện khi bấm vào bài có từ nham trà';
 $activeMenu = 'tea-info';
 
 /**
  * Mặc định cho từng vùng soạn thảo (dùng khi chưa lưu trong settings).
  */
 $defaults = [
-    // ===== DANH SÁCH BÀI VIẾT =====
+    // ===== DANH SÁCH BÀI VIẾT (mỗi dòng: Tiêu đề|Nội dung bài) =====
     'art_vc_title'  => 'Về chúng tôi',
-    'art_vc_items'  => "TRÀ
-Danh sách các loại trà
-Từ Đại Danh Nham
-Vũ Di Nham Trà",
+    'art_vc_items'  => "TRÀ|
+Danh sách các loại trà|
+Từ Đại Danh Nham|
+Vũ Di Nham Trà|",
 
     'art_gs_title'  => 'Gốm sứ',
-    'art_gs_items'  => "Các loại Gốm sứ TQ
-Lịch sử Gốm sứ TQ",
+    'art_gs_items'  => "Các loại Gốm sứ TQ|
+Lịch sử Gốm sứ TQ|",
 
     'art_as_title'  => 'Ấm Tử Sa',
-    'art_as_items'  => "Các loại đất tử sa
-Các dạng ấm tử sa
-Cách khai ấm tử sa",
+    'art_as_items'  => "Các loại đất tử sa|
+Các dạng ấm tử sa|
+Cách khai ấm tử sa|",
 
     // ===== PHA NHAM TRÀ (WUYI ROCK TEA) =====
     'brew_title' => 'Pha Nham Trà (Wuyi Rock Tea)',
@@ -232,17 +232,17 @@ require __DIR__ . '/../includes/header.php';
             <div class="article-row">
                 <div class="article-col">
                     <h3>Về chúng tôi</h3>
-                    <span class="hint">Mỗi dòng là một mục trong bài. Dòng đầu (in đậm) là tiêu đề bài.</span>
+                    <span class="hint">Mỗi dòng = 1 bài. Viết theo dạng: Tiêu đề|Nội dung bài (ngăn cách bằng dấu gạch đứng |). Phần trước | là tiêu đề hiện ở cột trái, phần sau | là nội dung hiện ở cột phải khi bấm vào.</span>
                     <textarea name="art_vc_items"><?= e($values['art_vc_items']) ?></textarea>
                 </div>
                 <div class="article-col">
                     <h3>Gốm sứ</h3>
-                    <span class="hint">Mỗi dòng là một mục trong bài. Dòng đầu (in đậm) là tiêu đề bài.</span>
+                    <span class="hint">Mỗi dòng = 1 bài. Viết theo dạng: Tiêu đề|Nội dung bài (ngăn cách bằng dấu gạch đứng |). Phần trước | là tiêu đề hiện ở cột trái, phần sau | là nội dung hiện ở cột phải khi bấm vào.</span>
                     <textarea name="art_gs_items"><?= e($values['art_gs_items']) ?></textarea>
                 </div>
                 <div class="article-col">
                     <h3>Ấm Tử Sa</h3>
-                    <span class="hint">Mỗi dòng là một mục trong bài. Dòng đầu (in đậm) là tiêu đề bài.</span>
+                    <span class="hint">Mỗi dòng = 1 bài. Viết theo dạng: Tiêu đề|Nội dung bài (ngăn cách bằng dấu gạch đứng |). Phần trước | là tiêu đề hiện ở cột trái, phần sau | là nội dung hiện ở cột phải khi bấm vào.</span>
                     <textarea name="art_as_items"><?= e($values['art_as_items']) ?></textarea>
                 </div>
             </div>

@@ -18,7 +18,6 @@
         .display-font,
         .section-title,
         .page-header h1,
-        .tea-info-heading,
         .product-modal-name,
         .product-detail-title,
         .cart-modal-title,
@@ -1207,99 +1206,111 @@ nav ul li a.active {
 .social-icon.instagram { color: #e1306c; }
 .social-icon.gmap { color: #4285f4; }
 
-/* ---------- THÔNG TIN VỀ TRÀ · DANH SÁCH BÀI VIẾT + PHA NHAM TRÀ ---------- */
-.tea-article {
-    background: #fff6ea;
-    border-radius: 14px;
-    padding: 28px 32px;
-    margin-bottom: 44px;
+/* ---------- THÔNG TIN VỀ TRÀ · 2 CỘT (DANH SÁCH BÀI | NỘI DUNG) ---------- */
+.tea-info-split {
+    display: grid;
+    grid-template-columns: 30% 70%;
+    gap: 28px;
+    align-items: start;
 }
 
-.tea-article__title {
+/* ===== Cột trái: danh sách bài viết ===== */
+.tea-info-nav {
+    background: #fff6ea;
+    border: 1px solid #f0e3d2;
+    border-radius: 14px;
+    padding: 22px 20px;
+    position: sticky;
+    top: 20px;
+}
+
+.tea-info-nav__title {
     color: #573100;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
-    margin: 0 0 20px;
+    letter-spacing: 0.03em;
+    margin: 0 0 14px;
     padding-bottom: 10px;
     border-bottom: 2px solid rgba(87, 49, 0, 0.22);
 }
 
-.tea-article__grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-}
-
-.tea-article__col h4 {
+.tea-info-nav__group {
     color: #573100;
-    font-size: 1.05rem;
+    font-size: 0.92rem;
     font-weight: 700;
-    margin: 0 0 12px;
-    padding-bottom: 8px;
+    margin: 16px 0 8px;
+    padding-bottom: 6px;
     border-bottom: 1px solid rgba(87, 49, 0, 0.18);
 }
 
-.tea-article__col ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.tea-article__col li {
-    margin-bottom: 8px;
-    padding-left: 16px;
-    position: relative;
-    color: #000;
+.tea-nav-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 10px 12px;
+    margin-bottom: 4px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: transparent;
+    color: #3e2723;
     font-size: 0.98rem;
+    font-weight: 500;
+    font-family: 'Be Vietnam Pro', system-ui, sans-serif;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
 
-.tea-article__col li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0.62em;
-    width: 7px;
-    height: 7px;
-    background: #b8860b;
+.tea-nav-btn:hover {
+    background: #fdf2e1;
+    color: #573100;
 }
 
-.tea-article__col li.strong {
-    font-weight: 700;
+.tea-nav-btn.active {
+    background: #573100;
+    border-color: #573100;
+    color: #fff;
 }
 
-.tea-brew {
-    margin-bottom: 44px;
+/* ===== Cột phải: nội dung bài được chọn ===== */
+.tea-info-panel {
+    background: #ffffff;
+    border: 1px solid #eee7e0;
+    border-radius: 14px;
+    padding: 30px 34px;
+    min-height: 320px;
 }
 
-.tea-brew__title {
+.tea-art__title {
     color: #573100;
     font-size: 1.6rem;
     font-weight: 700;
-    margin: 0 0 12px;
+    margin: 0 0 18px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #b8860b;
 }
 
-.tea-brew__desc {
+.tea-art__desc {
     color: #000;
     font-size: 1rem;
-    max-width: 780px;
-    margin: 0 0 28px;
+    line-height: 1.8;
+    margin: 0 0 18px;
 }
 
-.tea-brew__steps {
+.tea-art__steps {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 22px;
+    margin-top: 6px;
 }
 
-.tea-brew__step {
+.tea-art__step {
     display: flex;
     align-items: flex-start;
     gap: 16px;
 }
 
-.tea-brew__num {
+.tea-art__num {
     flex-shrink: 0;
     width: 38px;
     height: 38px;
@@ -1312,194 +1323,37 @@ nav ul li a.active {
     justify-content: center;
 }
 
-.tea-brew__step h4 {
+.tea-art__step h4 {
     color: #573100;
     font-size: 1.1rem;
     font-weight: 700;
     margin: 0 0 6px;
 }
 
-.tea-brew__step p {
+.tea-art__step p {
     color: #000;
     font-size: 0.98rem;
+    line-height: 1.75;
     margin: 0;
 }
 
-/* ---------- TRANG THÔNG TIN VỀ TRÀ ---------- */
-.tea-info-section {
-    margin-bottom: 40px;
-}
-
-.tea-info-heading {
-    font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
-    font-size: 1.4rem;
-    color: #3e2723;
-    margin-bottom: 18px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #b8860b;
-    display: inline-block;
-}
-
-.tea-info-heading i {
-    color: #b8860b;
-    margin-right: 8px;
-}
-
-.tea-type-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 16px;
-}
-
-.tea-type-card {
-    background: #faf6f1;
-    border: 1px solid #eee7e0;
-    border-radius: 12px;
-    padding: 20px;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.tea-type-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(62, 39, 35, 0.12);
-}
-
-.tea-type-card h4 {
-    color: #3e2723;
-    font-size: 1.05rem;
-    margin-bottom: 10px;
-}
-
-.tea-type-card p {
-    font-size: 0.9rem;
-    line-height: 1.65;
-    color: #6d5544;
-    margin-bottom: 12px;
-}
-
-.tea-type-card a {
-    color: #b8860b;
-    font-weight: 500;
-    font-size: 0.9rem;
-    text-decoration: none;
-}
-
-.tea-type-card a:hover {
-    text-decoration: underline;
-}
-
-.tea-info-list,
-.tea-info-steps {
-    padding-left: 22px;
-    max-width: 850px;
-}
-
-.tea-info-list li,
-.tea-info-steps li {
-    font-size: 0.95rem;
-    line-height: 1.75;
-    color: #5d4636;
-    margin-bottom: 8px;
-}
-
-.tea-info-list li::marker {
-    color: #b8860b;
-}
-
-.tea-info-steps li::marker {
-    color: #b8860b;
-    font-weight: 700;
-}
-
-/* ====== LAYOUT 2 CỘT: DANH MỤC | NỘI DUNG ====== */
-.tea-info-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    background: #faf6f1;
-    border: 1px solid #eee7e0;
-    border-radius: 12px;
-    padding: 16px;
-    position: sticky;
-    top: 20px;
-}
-
-.tea-nav-btn {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    padding: 14px 16px;
-    border: 2px solid transparent;
-    border-radius: 10px;
-    background: #fff;
-    color: #5d4037;
-    font-size: 1rem;
-    font-weight: 600;
-    font-family: 'Be Vietnam Pro', system-ui, sans-serif;
-    cursor: pointer;
-    text-align: left;
-    transition: all 0.25s;
-}
-
-.tea-nav-btn i {
-    color: #b8860b;
-    width: 20px;
-    text-align: center;
-}
-
-.tea-nav-btn:hover {
-    border-color: #b8860b;
-    transform: translateX(3px);
-}
-
-.tea-nav-btn.active {
-    background: #b8860b;
-    border-color: #b8860b;
-    color: #fff;
-}
-
-.tea-nav-btn.active i {
-    color: #fff;
-}
-
-.tea-info-panel {
-    display: none;
-}
-
-.tea-info-panel.active {
-    display: block;
-}
-
-.tea-info-panel .tea-info-section:last-child {
-    margin-bottom: 0;
-}
-
+/* ---------- TRANG THÔNG TIN VỀ TRÀ · RESPONSIVE ---------- */
 @media (max-width: 768px) {
-    .tea-article {
-        padding: 22px 18px;
-    }
-
-    .tea-article__grid {
+    .tea-info-split {
         grid-template-columns: 1fr;
         gap: 20px;
     }
 
-    .tea-brew__title {
-        font-size: 1.3rem;
-    }
-
     .tea-info-nav {
-        flex-direction: row;
-        overflow-x: auto;
         position: static;
-        padding: 10px;
     }
 
-    .tea-nav-btn {
-        flex: 0 0 auto;
-        width: auto;
-        justify-content: center;
+    .tea-info-panel {
+        padding: 22px 18px;
+    }
+
+    .tea-art__title {
+        font-size: 1.3rem;
     }
 }
 
@@ -3240,8 +3094,6 @@ h1, h2, h3, h4, h5, h6,
 .logo,
 .logo a,
 .section-title,
-.tea-info-heading,
-.tea-info-title,
 .product-modal-name,
 .product-detail-title,
 .cart-modal-title,
@@ -3289,8 +3141,7 @@ input, textarea, select, button {
 /* Xử lý các heading còn giữ letter-spacing cũ */
 @media (min-width: 769px) {
     .cart-modal-title,
-    .product-modal-name,
-    .tea-info-heading {
+    .product-modal-name {
         letter-spacing: -0.015em;
     }
 }

@@ -79,210 +79,66 @@
 <div class="container body-container tea-info-page">
     <h2 class="section-title">THÔNG TIN VỀ TRÀ</h2>
 
-    <!-- ====== DANH SÁCH BÀI VIẾT ====== -->
-    <section class="tea-article">
-        <h3 class="tea-article__title">Danh sách bài viết</h3>
-        <div class="tea-article__grid">
-            <div class="tea-article__col">
-                <h4>Về chúng tôi</h4>
-                <ul>
-                                            <li class="strong">TRÀ</li>
-                                            <li>Danh sách các loại trà</li>
-                                            <li>Từ Đại Danh Nham</li>
-                                            <li>Vũ Di Nham Trà</li>
-                                    </ul>
-            </div>
-            <div class="tea-article__col">
-                <h4>Gốm sứ</h4>
-                <ul>
-                                            <li class="strong">Các loại Gốm sứ TQ</li>
-                                            <li>Lịch sử Gốm sứ TQ</li>
-                                    </ul>
-            </div>
-            <div class="tea-article__col">
-                <h4>Ấm Tử Sa</h4>
-                <ul>
-                                            <li class="strong">Các loại đất tử sa</li>
-                                            <li>Các dạng ấm tử sa</li>
-                                            <li>Cách khai ấm tử sa</li>
-                                    </ul>
-            </div>
-        </div>
-    </section>
+    <!-- ====== 2 CỘT: DANH SÁCH BÀI VIẾT | NỘI DUNG ====== -->
+    <div class="tea-info-split">
 
-    <!-- ====== PHA NHAM TRÀ (WUYI ROCK TEA) ====== -->
-    <section class="tea-brew">
-        <h3 class="tea-brew__title">Pha Nham Trà (Wuyi Rock Tea)</h3>
-        <p class="tea-brew__desc">là một nghệ thuật, và để trà đạt chất lượng tốt nhất, từng chi tiết đều rất quan trọng. Dưới đây là 6 điều bạn cần lưu ý khi pha nham trà và cách chọn trà chất lượng.</p>
-        <div class="tea-brew__steps">
-                                                <div class="tea-brew__step">
-                        <span class="tea-brew__num">1</span>
-                        <div>
-                            <h4>Chọn Trà Nham Tốt</h4>
-                                                            <p>Chi tiết về cách chọn trà: hãy ưu tiên những búp trà được hái từ vùng núi đá (nham) có độ cao, hái những búp non, đều và còn nguyên vẹn. Trà nham thật có hương thơm đá quyến rũ, vị đậm, hậu ngọt và khi pha nước trà trong, màu đẹp. Tránh trà quá vụn hoặc có mùi lạ.</p>
-                                                    </div>
-                    </div>
-                                                                <div class="tea-brew__step">
-                        <span class="tea-brew__num">2</span>
-                        <div>
-                            <h4>Sử Dụng Nước Sôi 100°C</h4>
-                                                            <p>Chi tiết về nhiệt độ nước: nham trà cần nước thật sôi (khoảng 100°C) để đánh thức và chiết xuất trọn vẹn hương vị đặc trưng. Nước sôi đúng độ sẽ giúp lá trà nở đều, tránh vị chát gắt hoặc nước trà nhạt, thiếu hậu vị.</p>
-                                                    </div>
-                    </div>
-                                                                <div class="tea-brew__step">
-                        <span class="tea-brew__num">3</span>
-                        <div>
-                            <h4>Cách rót nước</h4>
-                                                            <p>Chi tiết về cách rót nước: rót nước theo vòng tròn quanh thành ấm để trà ngấm đều, sau đó đậy nắp ngắn và rót nước thấp, dứt khoát để tránh làm nguội nước. Các lần pha sau có thể kéo dài thời gian ngâm nhẹ để giữ hương vị cân bằng từ lần đầu đến lần cuối.</p>
-                                                    </div>
-                    </div>
-                                    </div>
-    </section>
-
-    <!-- ====== DANH MỤC | NỘI DUNG ====== -->
+        <!-- Cột trái (30%): danh sách bài viết -->
         <aside class="tea-info-nav">
-            <button type="button" class="tea-nav-btn active" data-cat="tra"><i class="fas fa-leaf"></i> TRÀ</button>
-            <button type="button" class="tea-nav-btn" data-cat="gomsu"><i class="fas fa-mug-saucer"></i> GỐM SỨ</button>
-            <button type="button" class="tea-nav-btn" data-cat="amtusa"><i class="fas fa-wine-bottle"></i> ẤM TỬ SA</button>
-        </aside>
+            <h3 class="tea-info-nav__title">Danh sách bài viết</h3>
+                                                <h4 class="tea-info-nav__group">Về chúng tôi</h4>
+                                <button type="button" class="tea-nav-btn"
+                        data-body=""
+                        >TRÀ</button>
+                                            <button type="button" class="tea-nav-btn"
+                        data-body=""
+                        >Danh sách các loại trà</button>
+                                            <button type="button" class="tea-nav-btn"
+                        data-body="là một nghệ thuật, và để trà đạt chất lượng tốt nhất, từng chi tiết đều rất quan trọng. Dưới đây là 6 điều bạn cần lưu ý khi pha nham trà và cách chọn trà chất lượng.
 
-        <!-- Cột phải: nội dung -->
-        <div class="tea-info-content">
+Chọn Trà Nham Tốt:
+Chi tiết về cách chọn trà: hãy ưu tiên những búp trà được hái từ vùng núi đá (nham) có độ cao, hái những búp non, đều và còn nguyên vẹn. Trà nham thật có hương thơm đá quyến rũ, vị đậm, hậu ngọt và khi pha nước trà trong, màu đẹp. Tránh trà quá vụn hoặc có mùi lạ.
 
-            <!-- ====== PANEL TRÀ ====== -->
-            <section class="tea-info-panel active" data-panel="tra">
-                <div class="tea-info-section">
-                    <h3 class="tea-info-heading"><i class="fas fa-mug-hot"></i> Các loại trà phổ biến</h3>
-                    <div class="tea-type-grid">
-                                                    <div class="tea-type-card">
-                                <h4>Trà Xanh</h4>
-                                <p>Không lên men, giữ trọn vị chát dịu và hương thơm tươi mát. Giàu chất chống oxy hoá, tốt cho sức khoẻ.</p>
-                                <a href="san-pham-tra.html?category=tra-xanh">Xem sản phẩm →</a>
-                            </div>
-                                                    <div class="tea-type-card">
-                                <h4>Trà Đen</h4>
-                                <p>Lên men hoàn toàn, nước pha đỏ ruby, vị đậm đà hậu ngọt. Phù hợp uống sáng hoặc pha sữa.</p>
-                                <a href="san-pham-tra.html?category=tra-den">Xem sản phẩm →</a>
-                            </div>
-                                                    <div class="tea-type-card">
-                                <h4>Trà Ô Long</h4>
-                                <p>Bán phần lên men, cân bằng giữa hương trà xanh và vị trà đen. Được ưa chuộng trong trà đạo.</p>
-                                <a href="san-pham-tra.html?category=tra-o-long">Xem sản phẩm →</a>
-                            </div>
-                                                    <div class="tea-type-card">
-                                <h4>Trà Thảo Mộc</h4>
-                                <p>Từ hoa cúc, hoa nhài, atisô... không chứa caffeine, nhẹ nhàng thư giãn, thích hợp uống buổi tối.</p>
-                                <a href="san-pham-tra.html?category=tra-thao-moc">Xem sản phẩm →</a>
-                            </div>
-                                                    <div class="tea-type-card">
-                                <h4>Trà xanh việt</h4>
-                                <p>Hương vị đậm chất Việt từ Thái Nguyên, Hà Giang, Mộc Châu — búp trà non tuyển chọn kỹ lưỡng.</p>
-                                <a href="san-pham-tra.html?category=tra-xanh-viet">Xem sản phẩm →</a>
-                            </div>
-                                            </div>
-                </div>
+Sử Dụng Nước Sôi 100°C:
+Chi tiết về nhiệt độ nước: nham trà cần nước thật sôi (khoảng 100°C) để đánh thức và chiết xuất trọn vẹn hương vị đặc trưng. Nước sôi đúng độ sẽ giúp lá trà nở đều, tránh vị chát gắt hoặc nước trà nhạt, thiếu hậu vị.
 
-                <div class="tea-info-section">
-                    <h3 class="tea-info-heading"><i class="fas fa-magnifying-glass"></i> Cách chọn trà ngon</h3>
-                    <ul class="tea-info-list">
-                                                    <li><strong>Nhìn:</strong> búp trà đều, gọn, màu tự nhiên sáng; tránh trà quá đen hoặc có bụi mịn bất thường.</li>
-                                                    <li><strong>Ngửi:</strong> hương thơm sạch, dịu đặc trưng; trà có mùi ẩm mốc hay khét là trà kém chất lượng.</li>
-                                                    <li><strong>Sờ:</strong> trà khô ráo, sần nhẹ tay, không vón cục ẩm.</li>
-                                                    <li><strong>Thử pha:</strong> nước trà trong, hương toả lâu, vị chát thanh rồi chuyển hậu ngọt là trà tốt.</li>
-                                            </ul>
-                </div>
+Cách rót nước:
+Chi tiết về cách rót nước: rót nước theo vòng tròn quanh thành ấm để trà ngấm đều, sau đó đậy nắp ngắn và rót nước thấp, dứt khoát để tránh làm nguội nước. Các lần pha sau có thể kéo dài thời gian ngâm nhẹ để giữ hương vị cân bằng từ lần đầu đến lần cuối."
+                         data-nham="1">Từ Đại Danh Nham</button>
+                                            <button type="button" class="tea-nav-btn"
+                        data-body="là một nghệ thuật, và để trà đạt chất lượng tốt nhất, từng chi tiết đều rất quan trọng. Dưới đây là 6 điều bạn cần lưu ý khi pha nham trà và cách chọn trà chất lượng.
 
-                <div class="tea-info-section">
-                    <h3 class="tea-info-heading"><i class="fas fa-fire-flame-simple"></i> Nghệ thuật pha trà cơ bản</h3>
-                    <ol class="tea-info-steps">
-                                                    <li><strong>Tráng ấm, chén:</strong> bằng nước sôi để ấm pha đạt nhiệt độ chuẩn.</li>
-                                                    <li><strong>Cho trà vào ấm:</strong> lượng khoảng 5–7g cho ấm 100–150ml tuỳ loại trà.</li>
-                                                    <li><strong>Trải trà (唤醒):</strong> đổ nước sôi đầu tiên ngay, rót đi để đánh thức trà.</li>
-                                                    <li><strong>Cấp nước:</strong> trà xanh ~80°C, ô long &amp; trà đen ~95°C; các lần sau tăng dần.</li>
-                                                    <li><strong>Rót hết nước:</strong> ra khay hầu (chén lớn) rồi mới chia chén, tránh để trà ngâm quá lâu.</li>
-                                            </ol>
-                </div>
+Chọn Trà Nham Tốt:
+Chi tiết về cách chọn trà: hãy ưu tiên những búp trà được hái từ vùng núi đá (nham) có độ cao, hái những búp non, đều và còn nguyên vẹn. Trà nham thật có hương thơm đá quyến rũ, vị đậm, hậu ngọt và khi pha nước trà trong, màu đẹp. Tránh trà quá vụn hoặc có mùi lạ.
 
-                <div class="tea-info-section">
-                    <h3 class="tea-info-heading"><i class="fas fa-box-open"></i> Bảo quản trà đúng cách</h3>
-                    <ul class="tea-info-list">
-                                                    <li>Đựng trong hộp kín, không ánh sáng, khô ráo; tốt nhất dùng hộp thiếc hoặc gốm sứ có nắp.</li>
-                                                    <li>Tránh xa thực phẩm có mùi mạnh (gia vị, cà phê) vì trà dễ hút mùi.</li>
-                                                    <li>Nhiệt độ phòng mát là đủ với đa số trà; trà xanh nên dùng trong 6 tháng để giữ vị tươi.</li>
-                                                    <li>Dùng muỗng khô sạch khi lấy trà, không lấy trà bằng tay ướt.</li>
-                                            </ul>
-                </div>
-            </section>
+Sử Dụng Nước Sôi 100°C:
+Chi tiết về nhiệt độ nước: nham trà cần nước thật sôi (khoảng 100°C) để đánh thức và chiết xuất trọn vẹn hương vị đặc trưng. Nước sôi đúng độ sẽ giúp lá trà nở đều, tránh vị chát gắt hoặc nước trà nhạt, thiếu hậu vị.
 
-            <!-- ====== PANEL GỐM SỨ ====== -->
-            <section class="tea-info-panel" data-panel="gomsu">
-                <div class="tea-info-section">
-                    <h3 class="tea-info-heading"><i class="fas fa-mug-saucer"></i> Giới thiệu bộ trà cụ gốm sứ</h3>
-                    <ul class="tea-info-list">
-                                                    <li>Gốm sứ là chất liệu truyền thống làm ấm, chén, khay hầu trong nghệ thuật thưởng trà.</li>
-                                                    <li>Men sứ bóng giúp dễ vệ sinh, không giữ mùi trà giữa các lần pha.</li>
-                                                    <li>Bộ trà cụ gốm sứ phù hợp cả trà xanh, trà ô long lẫn trà thảo mộc.</li>
-                                                    <li>Mỗi chén tra men, khải, hộp trà đều được tuyển chọn kỹ để tôn vị trà.</li>
-                                            </ul>
-                </div>
+Cách rót nước:
+Chi tiết về cách rót nước: rót nước theo vòng tròn quanh thành ấm để trà ngấm đều, sau đó đậy nắp ngắn và rót nước thấp, dứt khoát để tránh làm nguội nước. Các lần pha sau có thể kéo dài thời gian ngâm nhẹ để giữ hương vị cân bằng từ lần đầu đến lần cuối."
+                         data-nham="1">Vũ Di Nham Trà</button>
+                                                <h4 class="tea-info-nav__group">Gốm sứ</h4>
+                                <button type="button" class="tea-nav-btn"
+                        data-body=""
+                        >Các loại Gốm sứ TQ</button>
+                                            <button type="button" class="tea-nav-btn"
+                        data-body=""
+                        >Lịch sử Gốm sứ TQ</button>
+                                                <h4 class="tea-info-nav__group">Ấm Tử Sa</h4>
+                                <button type="button" class="tea-nav-btn"
+                        data-body=""
+                        >Các loại đất tử sa</button>
+                                            <button type="button" class="tea-nav-btn"
+                        data-body=""
+                        >Các dạng ấm tử sa</button>
+                                            <button type="button" class="tea-nav-btn"
+                        data-body=""
+                        >Cách khai ấm tử sa</button>
+                    </aside>
 
-                <div class="tea-info-section">
-                    <h3 class="tea-info-heading"><i class="fas fa-hand-holding-droplet"></i> Cách sử dụng bộ trà cụ</h3>
-                    <ol class="tea-info-steps">
-                                                    <li>Tráng nóng ấm và chén bằng nước sôi trước khi pha để giữ nhiệt ổn định.</li>
-                                                    <li>Cho trà vào ấm theo tỉ lệ phù hợp với dung tích ấm (khoảng 1/3 thể tích).</li>
-                                                    <li>Rót nước theo nhiệt độ từng loại trà, đậy nắp đúng chuẩn để hương trà toả đều.</li>
-                                                    <li>Rót hết nước ra khay hầu rồi chia đều vào từng chén ngay khi vừa ngấm.</li>
-                                                    <li>Sau khi dùng, hứng nước trà còn lại và tráng lại bộ trà cụ bằng nước sôi.</li>
-                                            </ol>
-                </div>
+        <!-- Cột phải (70%): nội dung bài được chọn -->
+        <div class="tea-info-panel"></div>
 
-                <div class="tea-info-section">
-                    <h3 class="tea-info-heading"><i class="fas fa-soap"></i> Vệ sinh &amp; bảo quản bộ trà cụ</h3>
-                    <ul class="tea-info-list">
-                                                    <li>Rửa bằng nước sôi hoặc nước ấm, tránh xà phòng mùi mạnh làm ám hương.</li>
-                                                    <li>Không dùng bàn chải cứng để tránh trầy men; lau khô bằng khăn mềm.</li>
-                                                    <li>Cất nơi khô ráo, tránh va đập làm sứt mẻ.</li>
-                                                    <li>Nếu lâu ngày bị ố, ngâm nước ấm nhẹ rồi tráng lại bằng nước sôi.</li>
-                                            </ul>
-                </div>
-            </section>
-
-            <!-- ====== PANEL ẤM TỬ SA ====== -->
-            <section class="tea-info-panel" data-panel="amtusa">
-                <div class="tea-info-section">
-                    <h3 class="tea-info-heading"><i class="fas fa-wine-bottle"></i> Giới thiệu ấm tử sa</h3>
-                    <ul class="tea-info-list">
-                                                    <li>Ấm tử sa Nghi Hưng nung từ đất sét giàu khoáng, giữ nhiệt tốt và không gắt vị trà.</li>
-                                                    <li>Chất đất xốp nhẹ giúp ấm &#039;dưỡng&#039; theo thời gian, tăng hương vị cho từng lần pha.</li>
-                                                    <li>Ấm tử sa lý tưởng cho trà ô long, trà đen và bán phát (bán lên men).</li>
-                                                    <li>Mỗi ấm nên dành riêng cho một loại trà để giữ nét đặc trưng của loại trà đó.</li>
-                                            </ul>
-                </div>
-
-                <div class="tea-info-section">
-                    <h3 class="tea-info-heading"><i class="fas fa-hand-holding-droplet"></i> Cách sử dụng &amp; dưỡng ấm</h3>
-                    <ol class="tea-info-steps">
-                                                    <li>Trước lần đầu dùng, rửa sạch ấm rồi tráng bằng nước sôi để đánh thức chất đất.</li>
-                                                    <li>Pha trà với nhiệt độ phù hợp; không ngâm trà lâu trong ấm để tránh đắng chát.</li>
-                                                    <li>Sau khi pha, rót hết nước trà ra khay hầu thay vì để lại trong ấm.</li>
-                                                    <li>Không rửa ấm tử sa bằng xà phòng; chỉ dùng nước sôi tráng và hong khô.</li>
-                                                    <li>Dùng lâu, để ấm tự hong khô nơi thoáng gió để lớp &#039;bao tương&#039; lên đều và đẹp.</li>
-                                            </ol>
-                </div>
-
-                <div class="tea-info-section">
-                    <h3 class="tea-info-heading"><i class="fas fa-triangle-exclamation"></i> Lưu ý khi dùng ấm tử sa</h3>
-                    <ul class="tea-info-list">
-                                                    <li>Tránh vệ sinh ấm trong khi ấm còn nóng để không bị nứt do sốc nhiệt.</li>
-                                                    <li>Không dùng chung ấm cho nhiều loại trà có hương vị khác biệt mạnh.</li>
-                                                    <li>Tránh đặt ấm nơi ẩm ướt, bám bụi lâu ngày.</li>
-                                                    <li>Khi chưa dùng, cất ấm ở nơi khô, nếu cần tráng lại với nước sôi trước khi pha.</li>
-                                            </ul>
-                </div>
-            </section>
-
-        </div>
+    </div>
 </div>
 
 <footer class="footer">
@@ -343,22 +199,64 @@
 
 <script>
     (function () {
-        var cats = ['tra', 'gomsu', 'amtusa'];
-        var btns = Array.prototype.slice.call(document.querySelectorAll('.tea-nav-btn'));
-        var panels = Array.prototype.slice.call(document.querySelectorAll('.tea-info-panel'));
+        var navBtns = Array.prototype.slice.call(document.querySelectorAll('.tea-info-nav .tea-nav-btn'));
+        var panel = document.querySelector('.tea-info-panel');
 
-        function activate(cat) {
-            btns.forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-cat') === cat); });
-            panels.forEach(function (p) { p.classList.toggle('active', p.getAttribute('data-panel') === cat); });
+        function esc(s) {
+            return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         }
 
-        btns.forEach(function (b) {
-            b.addEventListener('click', function () { activate(b.getAttribute('data-cat')); });
+        function renderArticle(btn) {
+            var title = btn.textContent.trim();
+            var nham = btn.getAttribute('data-nham') === '1';
+            var body = btn.getAttribute('data-body') || '';
+
+            navBtns.forEach(function (b) { b.classList.toggle('active', b === btn); });
+
+            var html = '<article class="tea-art">';
+            if (nham) {
+                html += '<h3 class="tea-art__title">' + esc(title) + '</h3>';
+                var lines = body.split(/\n{2,}/).filter(function (l) { return l.trim() !== ''; });
+                if (lines.length) {
+                    // Dòng đầu là mô tả, các dòng sau là bước "Tiêu đề:Nội dung"
+                    html += '<p class="tea-art__desc">' + esc(lines.shift()) + '</p>';
+                    html += '<div class="tea-art__steps">';
+                    lines.forEach(function (l, i) {
+                        var pos = l.indexOf(':');
+                        var stepTitle, stepBody;
+                        if (pos > -1) {
+                            stepTitle = l.slice(0, pos);
+                            stepBody = l.slice(pos + 1);
+                        } else {
+                            stepTitle = 'Bước ' + (i + 1);
+                            stepBody = l;
+                        }
+                        html += '<div class="tea-art__step">'
+                            + '<span class="tea-art__num">' + (i + 1) + '</span>'
+                            + '<div><h4>' + esc(stepTitle) + '</h4>'
+                            + '<p>' + esc(stepBody.trim()) + '</p></div></div>';
+                    });
+                    html += '</div>';
+                }
+            } else {
+                html += '<h3 class="tea-art__title">' + esc(title) + '</h3>';
+                var paras = body.split(/\n{2,}/).filter(function (l) { return l.trim() !== ''; });
+                if (paras.length) {
+                    html += paras.map(function (p) { return '<p class="tea-art__desc">' + esc(p) + '</p>'; }).join('');
+                }
+            }
+            html += '</article>';
+            panel.innerHTML = html;
+        }
+
+        navBtns.forEach(function (b) {
+            b.addEventListener('click', function () { renderArticle(b); });
         });
 
-        var params = new URLSearchParams(window.location.search);
-        var cat = params.get('cat');
-        if (cats.indexOf(cat) !== -1) activate(cat);
+        // Mặc định hiện bài đầu tiên
+        if (navBtns.length) {
+            renderArticle(navBtns[0]);
+        }
     })();
 </script>
 <!-- Bản tĩnh (GitHub Pages): bổ sung cấu hình trang + breakpoint -->
