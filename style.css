@@ -1250,12 +1250,13 @@ nav ul li a.active {
     border: 1px solid #573100;
     border-radius: 8px;
     color: #fff;
-    font-size: 0.98rem;
+    font-size: 1.1rem;
     font-weight: 500;
     font-family: 'Be Vietnam Pro', system-ui, sans-serif;
     padding: 10px 12px;
     margin: 16px 0 8px;
     letter-spacing: 0;
+    text-transform: uppercase;
 }
 
 .tea-nav-btn {
@@ -1387,7 +1388,7 @@ nav ul li a.active {
 
     .tea-info-nav__group {
         flex: 0 0 auto;
-        font-size: 0.78rem;
+        font-size: 0.85rem;
         font-weight: 500;
         margin: 0;
         padding: 8px 12px;
@@ -3591,8 +3592,9 @@ input, textarea, select, button {
         background: #573100;
         border-radius: 8px;
         color: #fff;
-        font-size: .88rem;
+        font-size: 1rem;
         cursor: pointer;
+        text-transform: uppercase;
     }
 
     .tea-info-page .tea-info-nav__group::after {
