@@ -3651,3 +3651,8 @@ input, textarea, select, button {
         letter-spacing: 0.04em;
     }
 }
+
+/* Trang thông tin trà: bài mở đầu "TRÀ" to hơn (khớp nhóm). */
+.tea-info-nav .tea-nav-btn:first-of-type {
+    font-size: 1.1rem;
+}
