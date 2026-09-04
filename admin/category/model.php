@@ -181,3 +181,19 @@ function categoryProductCounts(): array
     }
     return $map;
 }
+
+/**
+ * Các danh mục hợp lệ để chọn làm cha: cùng gốc nhóm (rootId + toàn bộ con cháu),
+ * loại bỏ các id trong $excludeIds (chính nó và đời con để chống vòng lặp).
+ * Dùng cho dropdown form và kiểm tra server-side.
+ */
+function categoryParentOptions(int $rootId, array $excludeIds = []): array
+{
+    $all = getAllCategories(true);
+    $allowedIds = categoryWithDescendantIds($rootId, $all);
+    $exclude = array_flip(array_map('intval', $excludeIds));
+    return array_values(array_filter($all, static function (array $c) use ($allowedIds, $exclude): bool {
+        $id = (int)$c['id'];
+        return in_array($id, $allowedIds, true) && !isset($exclude[$id]);
+    }));
+}

@@ -1,7 +1,7 @@
 <?php
 /**
  * Form danh mục dùng chung cho add.php / update.php
- * Cần khai báo trước: $category (array|null), $errors (array), $old (array), $parentCategories (array)
+ * Cần khai báo trước: $category (array|null), $errors (array), $old (array), $parentCategories (array các cha hợp lệ)
  */
 $v = $old;
 $errors = $errors ?? [];
@@ -58,6 +58,24 @@ function categoryFieldError(string $key): void
             <label>Slug (đường dẫn thân thiện)</label>
             <input type="text" name="slug" value="<?= e($v['slug'] ?? '') ?>" placeholder="Tự sinh từ tên nếu để trống">
             <?php categoryFieldError('slug'); ?>
+        </div>
+
+        <div class="form-group">
+            <label>Danh mục cha <span class="required">*</span></label>
+            <?php if ($parentCategories): ?>
+                <select name="parent_id" required>
+                    <option value="" disabled <?= (string)($v['parent_id'] ?? '') === '' ? 'selected' : '' ?>>-- Chọn danh mục cha --</option>
+                    <?php foreach ($parentCategories as $pc): ?>
+                        <option value="<?= (int)$pc['id'] ?>" <?= (string)($v['parent_id'] ?? '') === (string)$pc['id'] ? 'selected' : '' ?>>
+                            <?= e($pc['name']) ?> (<?= e($pc['slug']) ?>)
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            <?php else: ?>
+                <input type="hidden" name="parent_id" value="">
+                <div style="font-size:0.8rem; color:var(--text-light);">Đây là danh mục gốc (cấp trang) — không có danh mục cha.</div>
+            <?php endif; ?>
+            <?php categoryFieldError('parent_id'); ?>
         </div>
 
         <div class="form-group">

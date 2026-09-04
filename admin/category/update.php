@@ -15,7 +15,13 @@ if (!$category) {
     redirect(url('/admin/category/list.php'));
 }
 
-$parentCategories = array_values(array_filter(getAllCategories(true), fn($c) => (int)$c['id'] !== $id));
+$allCategories = getAllCategories(true);
+$isSectionRoot = $category['parent_id'] === null;
+$excludeIds = $isSectionRoot ? [] : categoryWithDescendantIds((int)$category['id'], $allCategories);
+$rootCategory = categoryRoot((int)$category['id'], $allCategories);
+$parentCategories = (!$isSectionRoot && $rootCategory !== null)
+    ? categoryParentOptions((int)$rootCategory['id'], $excludeIds)
+    : [];
 $errors = [];
 $old = $_POST ?: $category;
 
@@ -27,6 +33,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['name'] = 'Vui lòng nhập tên danh mục.';
     }
 
+    $parentId = null;
+    if (!$isSectionRoot && $rootCategory !== null) {
+        $parentId = (int)($_POST['parent_id'] ?? 0);
+        $allowedParentIds = array_map('intval', array_column(categoryParentOptions((int)$rootCategory['id'], $excludeIds), 'id'));
+        if (!$parentId || !in_array($parentId, $allowedParentIds, true)) {
+            $errors['parent_id'] = 'Vui lòng chọn danh mục cha hợp lệ (không phải chính nó hoặc danh mục con của nó).';
+        }
+    }
+
     if (!$errors) {
         try {
             $imageUrl = uploadCategoryImage($_FILES['image'] ?? [], $category['image_url']);
@@ -35,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'slug'        => trim($_POST['slug'] ?? ''),
                 'description' => trim($_POST['description'] ?? ''),
                 'image_url'   => $imageUrl,
-                'parent_id'   => $category['parent_id'],
+                'parent_id'   => $isSectionRoot ? $category['parent_id'] : $parentId,
                 'is_active'   => $_POST['is_active'] ?? 0,
                 'sort_order'  => $_POST['sort_order'] ?? 0,
             ];

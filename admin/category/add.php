@@ -17,12 +17,15 @@ $pageSubtitle = 'Tạo danh mục mới trong nhóm ' . $sectionTitles[$section]
 $categoryFormAction = url('/admin/category/add.php?section=' . urlencode($section));
 $activeMenu = 'categories';
 
-$parentCategories = getAllCategories();
 $sectionRootIds = ensureCategorySectionRoots();
-$sectionParentId = $sectionRootIds[$section];
+$sectionParentId = (int)$sectionRootIds[$section];
+$parentCategories = categoryParentOptions($sectionParentId);
 $errors = [];
 $old = $_POST;
 $old['section'] = $section;
+if (!isset($old['parent_id']) || $old['parent_id'] === '') {
+    $old['parent_id'] = $sectionParentId;
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_csrf();
@@ -33,6 +36,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['name'] = 'Vui lòng nhập tên danh mục.';
     }
 
+    $parentId = (int)($_POST['parent_id'] ?? 0);
+    $allowedParentIds = array_map('intval', array_column(categoryParentOptions($sectionParentId), 'id'));
+    if (!$parentId || !in_array($parentId, $allowedParentIds, true)) {
+        $errors['parent_id'] = 'Vui lòng chọn danh mục cha trong nhóm ' . $sectionTitles[$section] . '.';
+    }
+
     if (!$errors) {
         try {
             $imageUrl = uploadCategoryImage($_FILES['image'] ?? [], $_POST['image_url'] ?? null);
@@ -41,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'slug'        => $slug,
                 'description' => trim($_POST['description'] ?? ''),
                 'image_url'   => $imageUrl,
-                'parent_id'   => $sectionParentId,
+                'parent_id'   => $parentId,
                 'is_active'   => $_POST['is_active'] ?? 0,
                 'sort_order'  => $_POST['sort_order'] ?? 0,
             ];
