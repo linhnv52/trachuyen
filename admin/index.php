@@ -8,6 +8,7 @@ $logoError = '';
 $logoSuccess = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'update_logo') {
+    require_csrf();
     try {
         $saveMode = $_POST['save_mode'] ?? '';
         $file = $_FILES['logo'] ?? [];
@@ -62,6 +63,7 @@ $videoError = '';
 $videoSuccess = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'update_video') {
+    require_csrf();
     try {
         $videoUrl = trim($_POST['video_url'] ?? '');
         if ($videoUrl === '' || !filter_var($videoUrl, FILTER_VALIDATE_URL) || !preg_match('/^https?:\/\//i', $videoUrl)) {
@@ -127,11 +129,13 @@ require __DIR__ . '/includes/header.php';
         <?php if ($logoSuccess): ?><div class="logo-message success" role="status"><?= e($logoSuccess) ?></div><?php endif; ?>
         <?php if ($logoError): ?><div class="logo-message error" role="alert"><?= e($logoError) ?></div><?php endif; ?>
         <form method="post" enctype="multipart/form-data" class="logo-picker logo-file-form">
+            <?= csrf_field() ?>
             <input type="hidden" name="action" value="update_logo">
             <input type="file" name="logo" id="adminLogoInput" accept="image/jpeg,image/png,image/webp,image/svg+xml">
             <button type="submit" name="save_mode" value="file" class="btn btn-primary"><i class="fas fa-upload"></i> Lưu tệp</button>
         </form>
         <form method="post" class="logo-picker logo-url-form">
+            <?= csrf_field() ?>
             <input type="hidden" name="action" value="update_logo">
             <input type="url" name="logo_url" id="adminLogoUrl" placeholder="https://.../logo.png" autocomplete="url" value="<?= e(str_starts_with($siteLogo, 'http') ? $siteLogo : '') ?>">
             <button type="submit" name="save_mode" value="url" class="btn btn-secondary"><i class="fas fa-link"></i> Lưu link</button>
@@ -160,6 +164,7 @@ require __DIR__ . '/includes/header.php';
     <?php if ($videoSuccess): ?><div class="logo-message success" role="status"><?= e($videoSuccess) ?></div><?php endif; ?>
     <?php if ($videoError): ?><div class="logo-message error" role="alert"><?= e($videoError) ?></div><?php endif; ?>
     <form method="post" class="video-url-form">
+        <?= csrf_field() ?>
         <input type="hidden" name="action" value="update_video">
         <input type="url" name="video_url" placeholder="https://www.youtube.com/watch?v=..." value="<?= e($homepageVideoUrl) ?>" required>
         <button type="submit" class="btn btn-primary"><i class="fas fa-video"></i> Lưu video</button>

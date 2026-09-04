@@ -13,6 +13,7 @@ $errors = [];
 $old = $_POST;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_csrf();
     $name = trim($_POST['name'] ?? '');
     $slug = trim($_POST['slug'] ?? '');
 

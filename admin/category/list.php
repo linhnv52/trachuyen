@@ -10,6 +10,7 @@ $activeMenu = 'categories';
 
 $flash = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_csrf();
     if (isset($_POST['delete_id'])) {
         $category = getCategoryById((int)$_POST['delete_id']);
         if ($category) {
@@ -146,12 +147,14 @@ require __DIR__ . '/../includes/header.php';
                             <a class="btn-icon edit" href="<?= e(url('/admin/category/update.php?id=' . $c['id'])) ?>" title="Sửa"><i class="fas fa-edit"></i></a>
                             <a class="btn-icon view" href="<?= e(url('/product.php?category=' . $c['slug'])) ?>" target="_blank" title="Xem trên web"><i class="fas fa-eye"></i></a>
                             <form method="post" style="display:inline;" onsubmit="return confirmHideShow(this, <?= $c['is_active'] ? 1 : 0 ?>, '<?= addslashes($c['name']) ?>');">
+                                <?= csrf_field() ?>
                                 <input type="hidden" name="toggle_id" value="<?= $c['id'] ?>">
                                 <button type="submit" class="btn-icon <?= $c['is_active'] ? 'hide' : 'show' ?>" title="<?= $c['is_active'] ? 'Tạm ẩn' : 'Hiện' ?>">
                                     <i class="fas <?= $c['is_active'] ? 'fa-eye-slash' : 'fa-eye' ?>"></i>
                                 </button>
                             </form>
                             <form method="post" style="display:inline;" onsubmit="return confirmDelete(this, 'Xóa danh mục \'<?= addslashes($c['name']) ?>\'?');">
+                                <?= csrf_field() ?>
                                 <input type="hidden" name="delete_id" value="<?= $c['id'] ?>">
                                 <button type="submit" class="btn-icon delete" title="Xóa"><i class="fas fa-trash"></i></button>
                             </form>

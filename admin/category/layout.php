@@ -10,6 +10,7 @@ $activeMenu = 'category-layout';
 $flash = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_csrf();
     $categoryId = (int)($_POST['category_id'] ?? 0);
     $category = getCategoryById($categoryId);
     if (!$category) {
@@ -67,6 +68,7 @@ require __DIR__ . '/../includes/header.php';
             <img src="<?= e(categoryImage($category['image_url'])) ?>" alt="<?= e($category['name']) ?>">
         </div>
         <form method="post" enctype="multipart/form-data">
+            <?= csrf_field() ?>
             <input type="hidden" name="category_id" value="<?= (int)$category['id'] ?>">
             <h2><?= e($category['name']) ?></h2>
             <label for="description-<?= (int)$category['id'] ?>">Mô tả hiển thị</label>

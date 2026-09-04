@@ -11,6 +11,7 @@ $activeMenu = 'banners';
 $flash = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_csrf();
     try {
         $action = $_POST['action'] ?? '';
 
@@ -75,6 +76,7 @@ require __DIR__ . '/../includes/header.php';
                  style="width:100%; height:130px; object-fit:cover; border-radius:8px; background:#f5f0eb;">
 
             <form method="post" enctype="multipart/form-data" style="display:flex; flex-direction:column; gap:10px;">
+                <?= csrf_field() ?>
                 <input type="hidden" name="action" value="save">
                 <input type="hidden" name="id" value="<?= (int)$b['id'] ?>">
 
@@ -97,6 +99,7 @@ require __DIR__ . '/../includes/header.php';
             </form>
 
             <form method="post" onsubmit="return confirm('Xóa banner #<?= (int)$b['id'] ?>?');">
+                <?= csrf_field() ?>
                 <input type="hidden" name="action" value="delete">
                 <input type="hidden" name="id" value="<?= (int)$b['id'] ?>">
                 <button type="submit" class="btn btn-danger btn-sm" style="width:100%;">
@@ -117,6 +120,7 @@ require __DIR__ . '/../includes/header.php';
     <div class="table-container" style="padding:16px; display:flex; flex-direction:column; gap:12px; border-style:dashed;">
         <h3 style="margin:0; font-size:1rem;"><i class="fas fa-plus"></i> Thêm banner mới</h3>
         <form method="post" enctype="multipart/form-data" style="display:flex; flex-direction:column; gap:10px;">
+            <?= csrf_field() ?>
             <input type="hidden" name="action" value="add">
 
             <input type="file" name="image" accept="image/*" required style="font-size:0.85rem;">

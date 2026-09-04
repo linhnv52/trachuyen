@@ -53,6 +53,34 @@
             e.target.src = '/img/placeholder.svg';
         }
     }, true);
+
+    // Cập nhật website một nút
+    var __csrfToken = <?= json_encode(csrf_token(), JSON_UNESCAPED_SLASHES) ?>;
+    function rebuildWebsite() {
+        var btn = document.getElementById('rebuildWebsiteBtn');
+        if (!btn || btn.classList.contains('busy')) return;
+        btn.classList.add('busy');
+        var original = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Đang cập nhật...';
+        btn.disabled = true;
+        var data = new FormData();
+        data.append('csrf_token', __csrfToken);
+        fetch('<?= url('/admin/rebuild.php') ?>', {
+            method: 'POST',
+            credentials: 'same-origin',
+            body: data
+        }).then(function (res) {
+            return res.json().catch(function () { return { ok: false, message: 'Phản hồi không hợp lệ.' }; });
+        }).then(function (result) {
+            showToast((result && result.message) || 'Đã hoàn tất.', (result && result.ok) ? 'success' : 'error');
+        }).catch(function () {
+            showToast('Không thể kết nối tới máy chủ.', 'error');
+        }).finally(function () {
+            btn.classList.remove('busy');
+            btn.innerHTML = original;
+            btn.disabled = false;
+        });
+    }
 </script>
 <script src="<?= url('/js/smart-search.js') ?>"></script>
 <script>

@@ -12,6 +12,25 @@ foreach ($teaDefaults as $key => $val) {
     $tea[$key] = getSetting($key, $val);
 }
 
+// Cấu trúc mới: Danh sách bài viết + Pha Nham Trà (admin tea-info/edit.php)
+$teaNewDefaults = [
+    'art_vc_items' => "TRÀ\nDanh sách các loại trà\nTừ Đại Danh Nham\nVũ Di Nham Trà",
+    'art_gs_items' => "Các loại Gốm sứ TQ\nLịch sử Gốm sứ TQ",
+    'art_as_items' => "Các loại đất tử sa\nCác dạng ấm tử sa\nCách khai ấm tử sa",
+    'brew_title'   => 'Pha Nham Trà (Wuyi Rock Tea)',
+    'brew_desc'    => 'là một nghệ thuật, và để trà đạt chất lượng tốt nhất, từng chi tiết đều rất quan trọng. Dưới đây là 6 điều bạn cần lưu ý khi pha nham trà và cách chọn trà chất lượng.',
+    'brew_1_title' => 'Chọn Trà Nham Tốt',
+    'brew_1_desc'  => 'Chi tiết về cách chọn trà: hãy ưu tiên những búp trà được hái từ vùng núi đá (nham) có độ cao, hái những búp non, đều và còn nguyên vẹn. Trà nham thật có hương thơm đá quyến rũ, vị đậm, hậu ngọt và khi pha nước trà trong, màu đẹp. Tránh trà quá vụn hoặc có mùi lạ.',
+    'brew_2_title' => 'Sử Dụng Nước Sôi 100°C',
+    'brew_2_desc'  => 'Chi tiết về nhiệt độ nước: nham trà cần nước thật sôi (khoảng 100°C) để đánh thức và chiết xuất trọn vẹn hương vị đặc trưng. Nước sôi đúng độ sẽ giúp lá trà nở đều, tránh vị chát gắt hoặc nước trà nhạt, thiếu hậu vị.',
+    'brew_3_title' => 'Cách rót nước',
+    'brew_3_desc'  => 'Chi tiết về cách rót nước: rót nước theo vòng tròn quanh thành ấm để trà ngấm đều, sau đó đậy nắp ngắn và rót nước thấp, dứt khoát để tránh làm nguội nước. Các lần pha sau có thể kéo dài thời gian ngâm nhẹ để giữ hương vị cân bằng từ lần đầu đến lần cuối.',
+];
+$info = [];
+foreach ($teaNewDefaults as $key => $val) {
+    $info[$key] = getSetting($key, $val);
+}
+
 /** Tách dòng bỏ dòng rỗng */
 function teaLines(string $text): array
 {
@@ -46,10 +65,59 @@ require __DIR__ . '/includes/header.php';
 <div class="container body-container tea-info-page">
     <h2 class="section-title">THÔNG TIN VỀ TRÀ</h2>
 
-    <!-- ====== LAYOUT 2 CỘT: DANH MỤC | NỘI DUNG ====== -->
-    <div class="tea-info-split">
+    <!-- ====== DANH SÁCH BÀI VIẾT ====== -->
+    <section class="tea-article">
+        <h3 class="tea-article__title">Danh sách bài viết</h3>
+        <div class="tea-article__grid">
+            <div class="tea-article__col">
+                <h4>Về chúng tôi</h4>
+                <ul>
+                    <?php foreach (teaLines($info['art_vc_items']) as $i => $item): ?>
+                        <li<?= $i === 0 ? ' class="strong"' : '' ?>><?= e($item) ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+            <div class="tea-article__col">
+                <h4>Gốm sứ</h4>
+                <ul>
+                    <?php foreach (teaLines($info['art_gs_items']) as $i => $item): ?>
+                        <li<?= $i === 0 ? ' class="strong"' : '' ?>><?= e($item) ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+            <div class="tea-article__col">
+                <h4>Ấm Tử Sa</h4>
+                <ul>
+                    <?php foreach (teaLines($info['art_as_items']) as $i => $item): ?>
+                        <li<?= $i === 0 ? ' class="strong"' : '' ?>><?= e($item) ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
+    </section>
 
-        <!-- Cột trái: danh mục -->
+    <!-- ====== PHA NHAM TRÀ (WUYI ROCK TEA) ====== -->
+    <section class="tea-brew">
+        <h3 class="tea-brew__title"><?= e($info['brew_title']) ?></h3>
+        <p class="tea-brew__desc"><?= e($info['brew_desc']) ?></p>
+        <div class="tea-brew__steps">
+            <?php for ($n = 1; $n <= 3; $n++): ?>
+                <?php if (trim($info["brew_{$n}_title"]) !== ''): ?>
+                    <div class="tea-brew__step">
+                        <span class="tea-brew__num"><?= $n ?></span>
+                        <div>
+                            <h4><?= e($info["brew_{$n}_title"]) ?></h4>
+                            <?php if (trim($info["brew_{$n}_desc"]) !== ''): ?>
+                                <p><?= e($info["brew_{$n}_desc"]) ?></p>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            <?php endfor; ?>
+        </div>
+    </section>
+
+    <!-- ====== DANH MỤC | NỘI DUNG ====== -->
         <aside class="tea-info-nav">
             <button type="button" class="tea-nav-btn active" data-cat="tra"><i class="fas fa-leaf"></i> TRÀ</button>
             <button type="button" class="tea-nav-btn" data-cat="gomsu"><i class="fas fa-mug-saucer"></i> GỐM SỨ</button>
@@ -165,7 +233,6 @@ require __DIR__ . '/includes/header.php';
             </section>
 
         </div>
-    </div>
 </div>
 
 <?php

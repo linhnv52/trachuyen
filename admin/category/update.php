@@ -20,6 +20,7 @@ $errors = [];
 $old = $_POST ?: $category;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_csrf();
     $name = trim($_POST['name'] ?? '');
 
     if ($name === '') {

@@ -60,6 +60,7 @@ function fieldError(string $key): void
 
 <div class="form-card">
     <form method="post" enctype="multipart/form-data" onsubmit="prepareForm()">
+        <?= csrf_field() ?>
         <div class="form-grid">
 
             <div class="form-group">

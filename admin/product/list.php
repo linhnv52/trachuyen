@@ -10,6 +10,7 @@ $activeMenu = 'products';
 
 $flash = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_csrf();
     if (isset($_POST['delete_id'])) {
         $product = getProductById((int)$_POST['delete_id'], true);
         if ($product) {
@@ -156,12 +157,14 @@ require __DIR__ . '/../includes/header.php';
                             <a class="btn-icon edit" href="<?= e(url('/admin/product/update.php?id=' . $p['id'])) ?>" title="Sửa"><i class="fas fa-edit"></i></a>
                             <a class="btn-icon view" href="<?= e(url('/productdetal.php?id=' . $p['id'])) ?>" target="_blank" title="Xem"><i class="fas fa-eye"></i></a>
                             <form method="post" style="display:inline;" onsubmit="return confirmHideShow(this, <?= $p['is_active'] ? 1 : 0 ?>, '<?= addslashes($p['name']) ?>');">
+                                <?= csrf_field() ?>
                                 <input type="hidden" name="toggle_id" value="<?= $p['id'] ?>">
                                 <button type="submit" class="btn-icon <?= $p['is_active'] ? 'hide' : 'show' ?>" title="<?= $p['is_active'] ? 'Tạm ẩn' : 'Hiện' ?>">
                                     <i class="fas <?= $p['is_active'] ? 'fa-eye-slash' : 'fa-eye' ?>"></i>
                                 </button>
                             </form>
                             <form method="post" style="display:inline;" onsubmit="return confirmDelete(this, 'Xóa sản phẩm \'<?= addslashes($p['name']) ?>\'?');">
+                                <?= csrf_field() ?>
                                 <input type="hidden" name="delete_id" value="<?= $p['id'] ?>">
                                 <button type="submit" class="btn-icon delete" title="Xóa"><i class="fas fa-trash"></i></button>
                             </form>

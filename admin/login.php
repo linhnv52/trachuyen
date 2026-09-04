@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/includes/csrf.php';
 
 if (!empty($_SESSION['admin_id'])) {
     redirect(url('/admin/index.php'));
@@ -8,22 +9,26 @@ if (!empty($_SESSION['admin_id'])) {
 
 $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = trim($_POST['username'] ?? '');
-    $password = $_POST['password'] ?? '';
-
-    if ($username === '' || $password === '') {
-        $error = 'Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.';
+    if (!verify_csrf($_POST['csrf_token'] ?? null)) {
+        $error = 'Phiên đăng nhập không hợp lệ. Vui lòng thử lại.';
     } else {
-        $stmt = db()->prepare('SELECT * FROM admin_users WHERE username = ? LIMIT 1');
-        $stmt->execute([$username]);
-        $admin = $stmt->fetch();
+        $username = trim($_POST['username'] ?? '');
+        $password = $_POST['password'] ?? '';
 
-        if ($admin && password_verify($password, $admin['password_hash'])) {
-            session_regenerate_id(true);
-            $_SESSION['admin_id'] = (int)$admin['id'];
-            redirect(url('/admin/index.php'));
+        if ($username === '' || $password === '') {
+            $error = 'Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.';
         } else {
-            $error = 'Tên đăng nhập hoặc mật khẩu không đúng.';
+            $stmt = db()->prepare('SELECT * FROM admin_users WHERE username = ? LIMIT 1');
+            $stmt->execute([$username]);
+            $admin = $stmt->fetch();
+
+            if ($admin && password_verify($password, $admin['password_hash'])) {
+                session_regenerate_id(true);
+                $_SESSION['admin_id'] = (int)$admin['id'];
+                redirect(url('/admin/index.php'));
+            } else {
+                $error = 'Tên đăng nhập hoặc mật khẩu không đúng.';
+            }
         }
     }
 }
@@ -159,6 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <form method="post" action="<?= e(url('/admin/login.php')) ?>">
+            <?= csrf_field() ?>
             <div class="form-group">
                 <label for="username">Tên đăng nhập</label>
                 <div class="input-wrap">

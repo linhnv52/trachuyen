@@ -62,6 +62,9 @@ if (!isset($activeMenu))   $activeMenu = '';
             </div>
         </div>
         <div class="header-actions">
+            <button type="button" class="rebuild-btn" id="rebuildWebsiteBtn" onclick="rebuildWebsite()">
+                <i class="fas fa-sync-alt"></i><span class="button-label"> Cập nhật website</span>
+            </button>
             <div class="admin-avatar" title="<?= e($admin['full_name'] ?? 'Admin') ?>">
                 <i class="fas fa-user-shield"></i>
             </div>

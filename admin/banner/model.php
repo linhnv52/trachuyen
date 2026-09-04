@@ -45,7 +45,21 @@ function updateBanner(int $id, array $data): void
 
 function deleteBanner(int $id): void
 {
+    $stmt = db()->prepare('SELECT image_url FROM banners WHERE id = ?');
+    $stmt->execute([$id]);
+    $row = $stmt->fetch();
+
     db()->prepare('DELETE FROM banners WHERE id = ?')->execute([$id]);
+
+    if ($row && !empty($row['image_url']) && is_string($row['image_url'])) {
+        $dir = realpath(BANNER_UPLOAD_DIR);
+        if ($dir !== false) {
+            $full = realpath($dir . '/' . basename($row['image_url']));
+            if ($full !== false && str_starts_with($full, $dir . DIRECTORY_SEPARATOR) && is_file($full)) {
+                @unlink($full);
+            }
+        }
+    }
 }
 
 /**

@@ -46,6 +46,7 @@ function categoryFieldError(string $key): void
 
 <div class="form-card">
     <form method="post" enctype="multipart/form-data" onsubmit="prepareCategoryForm()">
+        <?= csrf_field() ?>
         <div class="form-group">
             <label>Tên danh mục <span class="required">*</span></label>
             <input type="text" name="name" value="<?= e($v['name'] ?? '') ?>" required placeholder="VD: Trà Xanh Việt">

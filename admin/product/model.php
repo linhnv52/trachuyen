@@ -256,8 +256,36 @@ function updateProduct(int $id, array $data): void
     ]);
 }
 
+/**
+ * Xóa một file ảnh vật lý nếu nó nằm trong thư mục upload sản phẩm
+ * và an toàn (không phải placeholder/URL ngoài).
+ */
+function deleteUploadedFile(?string $path): void
+{
+    if (!$path || !is_string($path)) {
+        return;
+    }
+    $dir = realpath(UPLOAD_DIR);
+    if ($dir === false) {
+        return;
+    }
+    $full = realpath($dir . '/' . basename($path));
+    if ($full !== false && str_starts_with($full, $dir . DIRECTORY_SEPARATOR) && is_file($full)) {
+        @unlink($full);
+    }
+}
+
 function deleteProduct(int $id): void
 {
+    $stmt = db()->prepare('SELECT image_url, gallery FROM products WHERE id = ?');
+    $stmt->execute([$id]);
+    $row = $stmt->fetch();
+    if ($row) {
+        deleteUploadedFile($row['image_url']);
+        foreach (productGallery($row['gallery'] ?? null) as $g) {
+            deleteUploadedFile($g);
+        }
+    }
     $stmt = db()->prepare('DELETE FROM products WHERE id = ?');
     $stmt->execute([$id]);
 }

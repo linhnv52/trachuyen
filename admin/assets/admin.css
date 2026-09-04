@@ -192,6 +192,42 @@
             border: 2px solid white;
         }
 
+        .rebuild-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border: 1px solid var(--gold);
+            background: transparent;
+            color: var(--gold);
+            border-radius: 8px;
+            font-size: .88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .rebuild-btn:hover:not(:disabled) {
+            background: var(--gold);
+            color: #fff;
+        }
+
+        .rebuild-btn:disabled {
+            opacity: .7;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .rebuild-btn {
+                padding: 8px 12px;
+                font-size: .8rem;
+            }
+            .rebuild-btn .button-label {
+                display: none;
+            }
+        }
+
         .admin-header .header-actions .admin-avatar {
             width: 42px;
             height: 42px;
