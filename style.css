@@ -1243,12 +1243,19 @@ nav ul li a.active {
 }
 
 .tea-info-nav__group {
-    color: #573100;
-    font-size: 0.92rem;
-    font-weight: 700;
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: #573100;
+    border: 1px solid #573100;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 0.98rem;
+    font-weight: 500;
+    font-family: 'Be Vietnam Pro', system-ui, sans-serif;
+    padding: 10px 12px;
     margin: 16px 0 8px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid rgba(87, 49, 0, 0.18);
+    letter-spacing: 0;
 }
 
 .tea-nav-btn {
@@ -1380,12 +1387,14 @@ nav ul li a.active {
 
     .tea-info-nav__group {
         flex: 0 0 auto;
-        font-size: 0.72rem;
-        font-weight: 700;
+        font-size: 0.78rem;
+        font-weight: 500;
         margin: 0;
-        padding: 6px 2px;
-        border: none;
-        color: #b8860b;
+        padding: 8px 12px;
+        background: #573100;
+        border: 1px solid #573100;
+        border-radius: 999px;
+        color: #fff;
         text-transform: uppercase;
         white-space: nowrap;
     }
@@ -3572,14 +3581,16 @@ input, textarea, select, button {
         font-size: .85rem;
     }
 
-    .tea-info-page .tea-info-nav__group {
+.tea-info-page .tea-info-nav__group {
         display: flex;
         align-items: center;
         justify-content: space-between;
         min-height: 48px;
-        margin: 0;
-        padding: 12px 4px;
-        border-bottom: 1px solid #eadcca;
+        margin: 0 0 8px;
+        padding: 10px 12px;
+        background: #573100;
+        border-radius: 8px;
+        color: #fff;
         font-size: .88rem;
         cursor: pointer;
     }

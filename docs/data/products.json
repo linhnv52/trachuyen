@@ -15,7 +15,7 @@
             "category_name": "Trà Xanh",
             "category_slug": "tra-xanh",
             "stock_quantity": 10,
-            "views": 1,
+            "views": 3,
             "capacity": null,
             "description": "Uống không ngon bằng nước lọc",
             "detail_url": "tra-xanh-thai-nguyen-ac-biet-khong-ngon.html"
@@ -35,7 +35,7 @@
             "category_name": "Trà Xanh",
             "category_slug": "tra-xanh",
             "stock_quantity": 25,
-            "views": 4,
+            "views": 5,
             "capacity": null,
             "description": "Trà xanh Thái Nguyên đặc biệt, hái từ những búp non đầu mùa.",
             "detail_url": "tra-xanh-thai-nguyen-dac-biet.html"
@@ -55,7 +55,7 @@
             "category_name": "Trà Xanh",
             "category_slug": "tra-xanh",
             "stock_quantity": 18,
-            "views": 3,
+            "views": 4,
             "capacity": null,
             "description": "Trà xanh Tân Cương hương thơm nhẹ, vị chát đậm đà.",
             "detail_url": "tra-xanh-tan-cuong.html"
@@ -75,7 +75,7 @@
             "category_name": "Trà Xanh",
             "category_slug": "tra-xanh",
             "stock_quantity": 12,
-            "views": 3,
+            "views": 4,
             "capacity": null,
             "description": "Trà xanh Shan Tuyết từ những cây chè cổ thụ vùng cao.",
             "detail_url": "tra-xanh-shan-tuyet.html"
@@ -95,7 +95,7 @@
             "category_name": "Trà Xanh",
             "category_slug": "tra-xanh",
             "stock_quantity": 20,
-            "views": 3,
+            "views": 4,
             "capacity": null,
             "description": "Trà xanh ướp hương sen tự nhiên.",
             "detail_url": "tra-xanh-huong-sen.html"
@@ -115,7 +115,7 @@
             "category_name": null,
             "category_slug": null,
             "stock_quantity": 15,
-            "views": 3,
+            "views": 4,
             "capacity": null,
             "description": "Trà đen Shan Tuyết vị đậm đà.",
             "detail_url": "tra-den-shan-tuyet.html"
@@ -135,7 +135,7 @@
             "category_name": null,
             "category_slug": null,
             "stock_quantity": 20,
-            "views": 3,
+            "views": 4,
             "capacity": null,
             "description": "Trà ô long Đài Loan trồng ở độ cao 1000m.",
             "detail_url": "tra-o-long-dai-loan-cao-son.html"
@@ -155,7 +155,7 @@
             "category_name": null,
             "category_slug": null,
             "stock_quantity": 8,
-            "views": 3,
+            "views": 4,
             "capacity": null,
             "description": "Ấm tử sa Nghi Hưng chế tác thủ công.",
             "detail_url": "am-tu-sa-nghi-hung.html"
@@ -175,7 +175,7 @@
             "category_name": null,
             "category_slug": null,
             "stock_quantity": 10,
-            "views": 3,
+            "views": 4,
             "capacity": null,
             "description": "Bộ trà cụ gốm sứ cao cấp.",
             "detail_url": "bo-tra-cu-cao-cap.html"
@@ -195,7 +195,7 @@
             "category_name": null,
             "category_slug": null,
             "stock_quantity": 22,
-            "views": 4,
+            "views": 5,
             "capacity": null,
             "description": "Trà thảo mộc hoa hồng.",
             "detail_url": "tra-thao-moc-hoa-hong.html"
@@ -215,7 +215,7 @@
             "category_name": null,
             "category_slug": null,
             "stock_quantity": 5,
-            "views": 3,
+            "views": 4,
             "capacity": null,
             "description": "Khay trà gỗ sưa tự nhiên.",
             "detail_url": "khay-tra-go-sua.html"
@@ -235,7 +235,7 @@
             "category_name": null,
             "category_slug": null,
             "stock_quantity": 15,
-            "views": 3,
+            "views": 4,
             "capacity": null,
             "description": "Trà sạch đặc biệt.",
             "detail_url": "tra-sach-dac-biet.html"
@@ -255,7 +255,7 @@
             "category_name": null,
             "category_slug": null,
             "stock_quantity": 10,
-            "views": 3,
+            "views": 4,
             "capacity": null,
             "description": "Trà cao cấp Đà Lạt.",
             "detail_url": "tra-cao-cap-da-lat.html"
