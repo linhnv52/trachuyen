@@ -9,6 +9,27 @@ $allCategories = getAllCategories();
 // Loại danh mục cha (nhóm trên header) khỏi khối danh mục
 $_parentIds = array_map('intval', array_filter(array_column($allCategories, 'parent_id')));
 $displayCategories = array_values(array_filter($allCategories, fn ($c) => !in_array((int)$c['id'], $_parentIds, true)));
+$homepageCategorySlugs = ['tra', 'hop-qua-tang', 'gomsu', 'amtusa'];
+$homepageCategories = [];
+foreach ($homepageCategorySlugs as $homepageSlug) {
+    foreach ($allCategories as $category) {
+        if ($category['slug'] === $homepageSlug) {
+            $homepageCategories[] = $category;
+            break;
+        }
+    }
+}
+if (!$homepageCategories) {
+    $homepageFallbackSlugs = ['tra-xanh', 'hop-qua-tang', 'bo-tra-cu', 'am-tu-sa'];
+    foreach ($homepageFallbackSlugs as $homepageSlug) {
+        foreach ($allCategories as $category) {
+            if ($category['slug'] === $homepageSlug) {
+                $homepageCategories[] = $category;
+                break;
+            }
+        }
+    }
+}
 $countStmt = db()->query('SELECT category_id, COUNT(*) AS c FROM products WHERE is_active = 1 GROUP BY category_id');
 $catCounts = [];
 foreach ($countStmt->fetchAll() as $row) {
@@ -16,13 +37,13 @@ foreach ($countStmt->fetchAll() as $row) {
 }
 $newProducts = db()->query('SELECT p.*, c.name AS category_name, c.slug AS category_slug
                             FROM products p
-                            JOIN categories c ON c.id = p.category_id
-                            WHERE p.is_active = 1 AND p.badge = "new"
+                            LEFT JOIN categories c ON c.id = p.category_id
+                            WHERE p.is_active = 1
                             ORDER BY p.created_at DESC, p.id DESC
-                            LIMIT 12')->fetchAll();
+                            LIMIT 5')->fetchAll();
 $bestSellers = db()->query('SELECT p.*, c.name AS category_name, c.slug AS category_slug
                             FROM products p
-                            JOIN categories c ON c.id = p.category_id
+                            LEFT JOIN categories c ON c.id = p.category_id
                             WHERE p.is_active = 1 AND p.badge = "hot"
                             ORDER BY p.rating_avg DESC, p.created_at DESC
                             LIMIT 12')->fetchAll();
@@ -60,7 +81,7 @@ require __DIR__ . '/includes/header.php';
     <!-- ====== 1. SẢN PHẨM MỚI ====== -->
     <section class="section-new-products">
         <h2 class="section-title">Sản phẩm mới</h2>
-        <div class="grid-6col-2row">
+        <div class="grid-6col-2row new-products-track" id="newProductsTrack">
             <?php if (!$newProducts): ?>
                 <p style="grid-column:1/-1; text-align:center; color:#8d6e63; padding:30px;">Chưa có sản phẩm mới.</p>
             <?php else: foreach ($newProducts as $p): ?>
@@ -87,7 +108,7 @@ require __DIR__ . '/includes/header.php';
             <h2 class="section-title">Khám phá các dòng trà</h2>
         </div>
         <div class="category-layout-list">
-            <?php foreach ($displayCategories as $i => $c): ?>
+            <?php foreach ($homepageCategories as $i => $c): ?>
                 <article class="category-layout<?= $i % 2 ? ' is-reversed' : '' ?>">
                     <a class="category-layout-image" href="<?= e(categoryPageUrl($c['slug'])) ?>">
                         <img src="<?= e(categoryImage($c['image_url'])) ?>" alt="<?= e($c['name']) ?>" loading="lazy">
@@ -261,6 +282,26 @@ $extraScript = <<<'HTML'
             bestSellerTrack.addEventListener('mouseenter', function () { clearInterval(bestSellerTimer); });
             bestSellerTrack.addEventListener('mouseleave', startBestSeller);
             startBestSeller();
+        }
+
+        const newProductsTrack = document.getElementById('newProductsTrack');
+        if (newProductsTrack && newProductsTrack.children.length > 1) {
+            let newProductsTimer;
+            const moveNewProducts = function () {
+                const item = newProductsTrack.querySelector('.product-item');
+                if (!item) return;
+                const gap = parseFloat(getComputedStyle(newProductsTrack).gap) || 24;
+                const distance = item.getBoundingClientRect().width + gap;
+                if (newProductsTrack.scrollLeft + newProductsTrack.clientWidth >= newProductsTrack.scrollWidth - 4) {
+                    newProductsTrack.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    newProductsTrack.scrollBy({ left: distance, behavior: 'smooth' });
+                }
+            };
+            const startNewProducts = function () { newProductsTimer = setInterval(moveNewProducts, 4500); };
+            newProductsTrack.addEventListener('mouseenter', function () { clearInterval(newProductsTimer); });
+            newProductsTrack.addEventListener('mouseleave', startNewProducts);
+            startNewProducts();
         }
     });
 </script>

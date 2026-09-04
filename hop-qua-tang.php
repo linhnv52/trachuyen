@@ -9,8 +9,9 @@ $PL_title           = '🎁 Hộp quà tặng';
 $PL_subtitle        = 'Những hộp quà trà sang trọng, tinh tế dành cho người thân yêu';
 $PL_breadcrumbLabel = 'Hộp quà tặng';
 $PL_active          = 'gift';
-$PL_fixedSlug       = 'hop-qua-tang';
+$PL_fixedSlug       = '';
 $PL_groupIds        = null;
-$PL_showTabs        = false;
+$PL_rootSlug        = 'hop-qua-tang';
+$PL_showTabs        = true;
 
 require __DIR__ . '/includes/product-listing.php';

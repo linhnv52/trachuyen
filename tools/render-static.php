@@ -42,13 +42,13 @@ function staticGroupIds(string $src): array
 {
     require_once dirname(__DIR__) . '/config/db.php';
     require_once dirname(__DIR__) . '/admin/product/model.php';
-    $all = getAllCategories();
-    if ($src === 'san-pham-tra.php') {
-        $slugs = ['tra-xanh', 'tra-den', 'tra-o-long', 'tra-thao-moc', 'phu-kien-tra', 'tra-xanh-viet'];
-        return array_values(array_map('intval', array_column(array_filter($all, fn ($c) => in_array($c['slug'], $slugs, true)), 'id')));
-    }
-    if ($src === 'khai-va-chen.php') {
-        return array_values(array_map('intval', array_column(array_filter($all, fn ($c) => $c['slug'] !== 'tra-xanh-viet'), 'id')));
+    $rootSlug = match ($src) {
+        'san-pham-tra.php' => 'tra',
+        'khai-va-chen.php' => 'gomsu',
+        default            => '',
+    };
+    if ($rootSlug !== '') {
+        return array_values(array_map('intval', array_column(categoriesUnderRoot($rootSlug), 'id')));
     }
     return []; // product.php: tất cả
 }

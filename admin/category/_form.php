@@ -45,8 +45,9 @@ function categoryFieldError(string $key): void
 <?php endif; ?>
 
 <div class="form-card">
-    <form method="post" enctype="multipart/form-data" onsubmit="prepareCategoryForm()">
+    <form method="post" action="<?= e($categoryFormAction ?? '') ?>" enctype="multipart/form-data" onsubmit="prepareCategoryForm()">
         <?= csrf_field() ?>
+        <?php if (!empty($section)): ?><input type="hidden" name="section" value="<?= e($section) ?>"><?php endif; ?>
         <div class="form-group">
             <label>Tên danh mục <span class="required">*</span></label>
             <input type="text" name="name" value="<?= e($v['name'] ?? '') ?>" required placeholder="VD: Trà Xanh Việt">
@@ -57,16 +58,6 @@ function categoryFieldError(string $key): void
             <label>Slug (đường dẫn thân thiện)</label>
             <input type="text" name="slug" value="<?= e($v['slug'] ?? '') ?>" placeholder="Tự sinh từ tên nếu để trống">
             <?php categoryFieldError('slug'); ?>
-        </div>
-
-        <div class="form-group">
-            <label>Danh mục cha</label>
-            <select name="parent_id">
-                <option value="">-- Không có (cấp 1) --</option>
-                <?php foreach ($parentCategories as $pc): ?>
-                    <option value="<?= $pc['id'] ?>" <?= (string)($v['parent_id'] ?? '') === (string)$pc['id'] ? 'selected' : '' ?>><?= e($pc['name']) ?></option>
-                <?php endforeach; ?>
-            </select>
         </div>
 
         <div class="form-group">
@@ -102,8 +93,8 @@ function categoryFieldError(string $key): void
 
         <div class="form-actions">
             <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Lưu danh mục</button>
-            <a href="<?= e(url('/admin/category/add.php')) ?>" class="btn btn-outline"><i class="fas fa-plus"></i> Thêm mới</a>
-            <a href="<?= e(url('/admin/category/list.php')) ?>" class="btn btn-outline">Hủy</a>
+            <a href="<?= e(url('/admin/category/add.php' . (!empty($section) ? '?section=' . urlencode($section) : ''))) ?>" class="btn btn-outline"><i class="fas fa-plus"></i> Thêm mới</a>
+            <a href="<?= e(url('/admin/category/list.php' . (!empty($section) ? '?section=' . urlencode($section) : ''))) ?>" class="btn btn-outline">Hủy</a>
         </div>
     </form>
 </div>

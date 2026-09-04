@@ -78,19 +78,30 @@ function url(string $path): string
 
 /**
  * Đường dẫn trang public tương ứng với slug danh mục.
- * Các chuyên mục có trang riêng; nhóm trà về san-pham-tra.php kèm tab;
- * slug lạ về trang Tất cả sản phẩm.
+ * Trang hiển thị được xác định bằng đỉnh tổ tiên (gốc cấp trang) của danh mục.
+ * Gốc trang ánh xạ cố định (rootPageMap); slug lạ về trang Tất cả sản phẩm.
  */
 function categoryPageUrl(string $slug): string
 {
-    return match ($slug) {
-        'hop-qua-tang' => 'hop-qua-tang.php',
-        'bo-tra-cu'    => 'khai-va-chen.php',
-        'am-tu-sa'     => 'am-tu-sa.php',
-        'tra-xanh', 'tra-den', 'tra-o-long', 'tra-thao-moc', 'phu-kien-tra', 'tra-xanh-viet'
-                       => 'san-pham-tra.php?category=' . urlencode($slug),
-        default        => 'product.php?category=' . urlencode($slug),
-    };
+    $all = function_exists('getAllCategories') ? getAllCategories(true) : [];
+    $categories = $all;
+    $cat = null;
+    foreach ($categories as $c) {
+        if ($c['slug'] === $slug) {
+            $cat = $c;
+            break;
+        }
+    }
+    $root = $cat !== null ? categoryRoot((int)$cat['id'], $categories) : null;
+    $rootSlug = $root['slug'] ?? '';
+    $map = rootPageMap();
+    if (isset($map[$rootSlug])) {
+        $file = $map[$rootSlug]['file'];
+        return $rootSlug === $slug
+            ? $file
+            : $file . '?category=' . urlencode($slug);
+    }
+    return 'product.php?category=' . urlencode($slug);
 }
 
 /**

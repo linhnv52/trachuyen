@@ -25,7 +25,7 @@ $extraCssLinks = '<link rel="stylesheet" href="css/product-detail.css">';
 
 // Sản phẩm liên quan (cùng danh mục)
 $relStmt = db()->prepare('SELECT p.*, c.name AS category_name FROM products p
-                          JOIN categories c ON c.id = p.category_id
+                          LEFT JOIN categories c ON c.id = p.category_id
                           WHERE p.is_active = 1 AND p.category_id = ? AND p.id != ?
                           ORDER BY p.rating_avg DESC LIMIT 4');
 $relStmt->execute([$product['category_id'], $product['id']]);

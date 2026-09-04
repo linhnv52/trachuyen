@@ -85,6 +85,23 @@
         <span class="current">Hộp quà tặng</span>
     </div>
 
+        <!-- ====== DANH MỤC (carousel 6 cột) ====== -->
+    <div class="cat-carousel" id="catCarousel">
+        <button type="button" class="cat-arrow cat-arrow-prev" aria-label="Danh mục trước"><i class="fas fa-chevron-left"></i></button>
+        <div class="cat-viewport">
+            <div class="grid-6col-2row cat-track" id="categoryCards">
+                                    <a class="category-item "
+                       data-cat-id="48"
+                       data-cat-slug="hop-mu-tra"
+                       href="hop-qua-tang.html?category=hop-mu-tra&amp;sort=default">
+                        <img src="img/placeholder.svg" alt="Hộp Mù Trà 2" loading="lazy">
+                        <h3>Hộp Mù Trà 2</h3>
+                        <p>1 sản phẩm</p>
+                    </a>
+                            </div>
+        </div>
+        <button type="button" class="cat-arrow cat-arrow-next" aria-label="Danh mục tiếp theo"><i class="fas fa-chevron-right"></i></button>
+    </div>
     
     <div class="products-layout">
 
@@ -129,7 +146,7 @@
         <section class="products-content">
             <div class="products-toolbar">
                 <div class="result-count">
-                    Hiển thị <span>2</span> sản phẩm
+                    Hiển thị <span>1</span> sản phẩm
                 </div>
                 <div class="view-mode">
                     <button type="button" class="active" id="gridView" title="Dạng lưới"><i class="fas fa-th"></i></button>
@@ -139,22 +156,14 @@
 
             <!-- ====== GRID SẢN PHẨM ====== -->
             <div class="products-grid" id="productsGrid">
-                                    <div class="product-item" data-id="18">
-        <div class="product-badge sale">Sale</div>
-        <a href="hop-qua-tang-tra-thai-nguyen.html">
-            <img src="img/placeholder.svg" alt="Hộp Quà Tặng Trà Thái Nguyên">
-            <h3>Hộp Quà Tặng Trà Thái Nguyên</h3>
+                                    <div class="product-item" data-id="41">
+        
+        <a href="m-1.html">
+            <img src="img/placeholder.svg" alt="mÙ 1">
+            <h3>mÙ 1</h3>
         </a>
         
-        <div class="product-price"><span class="current-price">450.000đ</span><span class="old-price">530.000đ</span></div>
-    </div>                                    <div class="product-item" data-id="19">
-        
-        <a href="set-qua-tra-den-shan-tuyet.html">
-            <img src="img/placeholder.svg" alt="Set Quà Trà Đen Shan Tuyết">
-            <h3>Set Quà Trà Đen Shan Tuyết</h3>
-        </a>
-        
-        <div class="product-price"><span class="current-price">520.000đ</span></div>
+        <div class="product-price"><span class="current-price">500.000đ</span><span class="old-price">15.000đ</span></div>
     </div>                            </div>
 
             <!-- ====== PHÂN TRANG ====== -->
@@ -241,6 +250,21 @@
         nextBtn.addEventListener('click', function() { scrollBy(viewport.clientWidth); });
         viewport.addEventListener('scroll', refresh);
         window.addEventListener('resize', refresh);
+        // Mobile: vuốt ngang để chuyển danh mục, không cần mũi tên.
+        var touchStartX = 0;
+        var touchStartY = 0;
+        viewport.addEventListener('touchstart', function(event) {
+            var touch = event.changedTouches[0];
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+        }, { passive: true });
+        viewport.addEventListener('touchend', function(event) {
+            var touch = event.changedTouches[0];
+            var deltaX = touch.clientX - touchStartX;
+            var deltaY = touch.clientY - touchStartY;
+            if (Math.abs(deltaX) < 40 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+            scrollBy(deltaX < 0 ? viewport.clientWidth : -viewport.clientWidth);
+        }, { passive: true });
         // refresh sau khi layout ổn định
         window.addEventListener('load', refresh);
         refresh();

@@ -139,7 +139,7 @@ require __DIR__ . '/../includes/header.php';
                         </div>
                     </td>
                     <td><span style="font-weight:600;"><?= e($p['code']) ?></span></td>
-                    <td><?= e($p['category_name']) ?></td>
+                    <td><?= e($p['category_name'] ?: 'Chưa phân loại') ?></td>
                     <td>
                         <strong style="color:var(--gold);"><?= formatPrice($p['price']) ?>đ</strong>
                         <?php if ($p['old_price']): ?>

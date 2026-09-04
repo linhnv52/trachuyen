@@ -85,6 +85,23 @@
         <span class="current">Ấm tử sa</span>
     </div>
 
+        <!-- ====== DANH MỤC (carousel 6 cột) ====== -->
+    <div class="cat-carousel" id="catCarousel">
+        <button type="button" class="cat-arrow cat-arrow-prev" aria-label="Danh mục trước"><i class="fas fa-chevron-left"></i></button>
+        <div class="cat-viewport">
+            <div class="grid-6col-2row cat-track" id="categoryCards">
+                                    <a class="category-item "
+                       data-cat-id="66"
+                       data-cat-slug="m-tu-sa"
+                       href="am-tu-sa.html?category=m-tu-sa&amp;sort=default">
+                        <img src="img/placeholder.svg" alt="Ấm Tử Sa" loading="lazy">
+                        <h3>Ấm Tử Sa</h3>
+                        <p>2 sản phẩm</p>
+                    </a>
+                            </div>
+        </div>
+        <button type="button" class="cat-arrow cat-arrow-next" aria-label="Danh mục tiếp theo"><i class="fas fa-chevron-right"></i></button>
+    </div>
     
     <div class="products-layout">
 
@@ -112,7 +129,7 @@
                                                             Trên 2.000.000                                                    </label>
                                     </div>
 
-                                <div class="filter-group">
+                                <div class="filter-group capacity-filter-group">
                     <h4 class="filter-title">Dung tích</h4>
                                                                         <label class="filter-option">
                                 <input type="radio" name="capacity" value="lt-150"
@@ -158,22 +175,22 @@
 
             <!-- ====== GRID SẢN PHẨM ====== -->
             <div class="products-grid" id="productsGrid">
-                                    <div class="product-item" data-id="14">
-        <div class="product-badge ">Hot</div>
-        <a href="am-tu-sa-nghi-hung-co-phong.html">
-            <img src="img/placeholder.svg" alt="Ấm Tử Sa Nghi Hưng Cổ Phong">
-            <h3>Ấm Tử Sa Nghi Hưng Cổ Phong</h3>
+                                    <div class="product-item" data-id="43">
+        
+        <a href="m-tu-sa-200ml.html">
+            <img src="img/placeholder.svg" alt="Ấm Tử Sa 200ml">
+            <h3>Ấm Tử Sa 200ml</h3>
         </a>
         <div class="product-capacity">Dung tích: 200ml</div>
-        <div class="product-price"><span class="current-price">1.200.000đ</span><span class="old-price">1.500.000đ</span></div>
-    </div>                                    <div class="product-item" data-id="15">
-        <div class="product-badge new">Mới</div>
-        <a href="bo-am-chen-tu-sa.html">
-            <img src="img/placeholder.svg" alt="Bộ Ấm Chén Tử Sa">
-            <h3>Bộ Ấm Chén Tử Sa</h3>
+        <div class="product-price"><span class="current-price">200.000đ</span></div>
+    </div>                                    <div class="product-item" data-id="42">
+        
+        <a href="m-tu-sa-500ml.html">
+            <img src="img/placeholder.svg" alt="Ấm Tử Sa 500ml">
+            <h3>Ấm Tử Sa 500ml</h3>
         </a>
-        <div class="product-capacity">Dung tích: 300ml</div>
-        <div class="product-price"><span class="current-price">950.000đ</span><span class="old-price">1.100.000đ</span></div>
+        <div class="product-capacity">Dung tích: 500ml</div>
+        <div class="product-price"><span class="current-price">800.000đ</span></div>
     </div>                            </div>
 
             <!-- ====== PHÂN TRANG ====== -->
@@ -260,6 +277,21 @@
         nextBtn.addEventListener('click', function() { scrollBy(viewport.clientWidth); });
         viewport.addEventListener('scroll', refresh);
         window.addEventListener('resize', refresh);
+        // Mobile: vuốt ngang để chuyển danh mục, không cần mũi tên.
+        var touchStartX = 0;
+        var touchStartY = 0;
+        viewport.addEventListener('touchstart', function(event) {
+            var touch = event.changedTouches[0];
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+        }, { passive: true });
+        viewport.addEventListener('touchend', function(event) {
+            var touch = event.changedTouches[0];
+            var deltaX = touch.clientX - touchStartX;
+            var deltaY = touch.clientY - touchStartY;
+            if (Math.abs(deltaX) < 40 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+            scrollBy(deltaX < 0 ? viewport.clientWidth : -viewport.clientWidth);
+        }, { passive: true });
         // refresh sau khi layout ổn định
         window.addEventListener('load', refresh);
         refresh();

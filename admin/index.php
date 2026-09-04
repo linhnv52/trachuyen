@@ -89,7 +89,7 @@ $bestSellers    = (int)db()->query('SELECT COUNT(*) FROM products WHERE is_best_
 
 $recent = db()->query('SELECT p.*, c.name AS category_name
                        FROM products p
-                       JOIN categories c ON c.id = p.category_id
+                       LEFT JOIN categories c ON c.id = p.category_id
                        ORDER BY p.created_at DESC
                        LIMIT 6')->fetchAll();
 
@@ -225,7 +225,7 @@ require __DIR__ . '/includes/header.php';
                             </div>
                         </div>
                     </td>
-                    <td><?= e($p['category_name']) ?></td>
+                    <td><?= e($p['category_name'] ?: 'Chưa phân loại') ?></td>
                     <td><?= formatPrice($p['price']) ?>đ</td>
                     <td><?= (int)$p['stock_quantity'] ?></td>
                     <td>

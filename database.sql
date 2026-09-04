@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS products (
   id int NOT NULL AUTO_INCREMENT,
   code varchar(50) DEFAULT NULL COMMENT 'Mã sản phẩm',
   search_key varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Từ khóa tìm kiếm không dấu',
-  category_id int NOT NULL COMMENT 'ID danh mục',
+  category_id int DEFAULT NULL COMMENT 'ID danh mục, có thể để trống',
   name varchar(255) NOT NULL COMMENT 'Tên sản phẩm',
   slug varchar(255) NOT NULL COMMENT 'Đường dẫn thân thiện',
   description text COMMENT 'Mô tả chi tiết',
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS products (
   UNIQUE KEY slug (slug),
   UNIQUE KEY uk_products_code (code),
   KEY category_id (category_id),
-  CONSTRAINT products_ibfk_1 FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE CASCADE
+  CONSTRAINT products_ibfk_1 FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ============================================================

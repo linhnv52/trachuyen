@@ -19,9 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($name === '') {
         $errors['name'] = 'Vui lòng nhập tên sản phẩm.';
     }
-    if (empty($_POST['category_id'])) {
-        $errors['category_id'] = 'Vui lòng chọn danh mục.';
-    }
     if ($_POST['price'] === '' || (float)$_POST['price'] < 0) {
         $errors['price'] = 'Vui lòng nhập giá bán hợp lệ.';
     }
@@ -32,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $uploadedGallery = uploadGalleryImages($_FILES['gallery'] ?? []);
             $data = [
                 'code' => $_POST['code'] ?? '',
-                'category_id' => (int)$_POST['category_id'],
+                'category_id' => $_POST['category_id'] ?? null,
                 'name' => $name,
                 'description' => trim($_POST['description'] ?? ''),
                 'short_description' => trim($_POST['short_description'] ?? ''),

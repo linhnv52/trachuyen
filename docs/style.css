@@ -1341,19 +1341,98 @@ nav ul li a.active {
 @media (max-width: 768px) {
     .tea-info-split {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 18px;
     }
 
+    /* Cột trái thành dải cuộn ngang các nút bài (dễ chạm trên điện thoại) */
     .tea-info-nav {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding: 12px;
         position: static;
     }
 
+    .tea-info-nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .tea-info-nav__title {
+        flex: 0 0 auto;
+        font-size: 0.78rem;
+        margin: 0;
+        padding: 6px 8px 6px 2px;
+        border: none;
+        color: #8a7c6b;
+        text-transform: uppercase;
+    }
+
+    .tea-info-nav__group {
+        flex: 0 0 auto;
+        font-size: 0.72rem;
+        font-weight: 700;
+        margin: 0;
+        padding: 6px 2px;
+        border: none;
+        color: #b8860b;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    .tea-nav-btn {
+        flex: 0 0 auto;
+        white-space: nowrap;
+        width: auto;
+        min-height: 44px;
+        padding: 10px 16px;
+        margin: 0;
+        font-size: 0.92rem;
+        border: 1px solid #e5d9c8;
+        background: #fff;
+        border-radius: 999px;
+    }
+
     .tea-info-panel {
-        padding: 22px 18px;
+        padding: 22px 16px;
+        min-height: auto;
     }
 
     .tea-art__title {
-        font-size: 1.3rem;
+        font-size: 1.25rem;
+        margin-bottom: 14px;
+    }
+
+    .tea-art__desc {
+        font-size: 0.96rem;
+        line-height: 1.75;
+    }
+}
+
+/* Điện thoại nhỏ */
+@media (max-width: 480px) {
+    .tea-info-nav {
+        margin: 0 -4px;
+    }
+
+    .tea-info-panel {
+        padding: 18px 14px;
+    }
+
+    .tea-art__title {
+        font-size: 1.15rem;
+    }
+
+    .tea-art__num {
+        width: 34px;
+        height: 34px;
+    }
+
+    .tea-art__step {
+        gap: 12px;
     }
 }
 
@@ -2574,6 +2653,23 @@ header > .container > nav ul {
     flex: 0 0 calc((100% - 72px) / 4);
 }
 
+.new-products-track {
+    display: flex;
+    grid-template-columns: none;
+    gap: 24px;
+    overflow: hidden;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+
+.new-products-track::-webkit-scrollbar {
+    display: none;
+}
+
+.new-products-track .product-item {
+    flex: 0 0 calc((100% - 72px) / 4);
+}
+
 /* Homepage: New products and editorial tea-category layouts */
 .section-new-products .product-price {
     display: none !important;
@@ -2699,6 +2795,14 @@ header > .container > nav ul {
     }
 
     .best-seller-track .product-item {
+        flex-basis: calc((100% - 14px) / 2);
+    }
+
+    .new-products-track {
+        gap: 14px;
+    }
+
+    .new-products-track .product-item {
         flex-basis: calc((100% - 14px) / 2);
     }
 }
@@ -3074,6 +3178,24 @@ header > .container {
     display: none !important;
 }
 
+/* Homepage product cards: square image and centered product name. */
+.section-best-seller .product-item,
+.section-new-products .product-item {
+    text-align: center;
+}
+
+.section-best-seller .product-item img,
+.section-new-products .product-item img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
+.section-best-seller .btn-add-cart,
+.section-new-products .btn-add-cart {
+    display: none !important;
+}
+
 /* ==========================================================================
    FONT INTER (TT Norms-like) toàn site + nén letter-spacing
    — lớp override ở cuối để giành quyền trên mọi rule trước đó
@@ -3105,6 +3227,19 @@ h1, h2, h3, h4, h5, h6,
 .mobile-menu-list li a,
 .related-title {
     font-family: 'Inter', system-ui, sans-serif;
+}
+
+@media (max-width: 768px) {
+    .mobile-menu-list li a {
+        min-height: 58px;
+        padding: 18px 2px;
+        color: var(--luxury-ink);
+        font-size: 1.4rem;
+        font-weight: 500;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        transition: color .2s ease, padding-left .2s ease;
+    }
 }
 
 /* Nav: nén khoảng cách chữ, giữ caps */
@@ -3200,6 +3335,11 @@ input, textarea, select, button {
     color: #a37349;
 }
 
+/* Instagram chưa có link chính thức. */
+.social-icon.instagram {
+    display: none;
+}
+
 .social-icon:hover {
     opacity: 0.85;
 }
@@ -3240,4 +3380,246 @@ input, textarea, select, button {
     width: 54px;
     height: 54px;
     object-fit: contain;
+}
+
+/* Font menu mobile - đặt cuối file để không bị rule cũ ghi đè. */
+@media (max-width: 768px) {
+    .mobile-menu-list li a {
+        min-height: 58px !important;
+        padding: 18px 2px !important;
+        color: var(--luxury-ink) !important;
+        font-size: 1.4rem !important;
+        font-weight: 500 !important;
+        letter-spacing: .12em !important;
+        text-transform: uppercase !important;
+    }
+}
+
+/* Mobile layout pass: giữ khoảng thở, tránh tràn ngang và giảm các khối quá cao. */
+@media (max-width: 768px) {
+    html,
+    body {
+        overflow-x: hidden;
+    }
+
+    .container {
+        width: 100%;
+        max-width: none;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    header > .container {
+        min-height: 60px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .logo img {
+        width: auto;
+        max-width: calc(100vw - 108px) !important;
+        max-height: 54px !important;
+    }
+
+    .hero-slider-shell {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        margin-bottom: 40px !important;
+    }
+
+    .hero-slider-shell .hero-carousel,
+    .hero-slider-shell .slide {
+        height: 210px !important;
+    }
+
+    .body-container {
+        padding: 0 16px 52px;
+    }
+
+    .section-category,
+    .section-gallery,
+    .section-best-seller,
+    .tea-category-layouts {
+        margin-bottom: 58px;
+    }
+
+    .section-title {
+        margin-bottom: 22px;
+        font-size: 1.15rem;
+        letter-spacing: .08em;
+    }
+
+    .section-new-products .grid-6col-2row {
+        gap: 22px 12px;
+    }
+
+    .section-new-products .product-item img,
+    .section-best-seller .product-item img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+    }
+
+    .section-new-products .product-item h3,
+    .section-best-seller .product-item h3 {
+        margin-top: 10px;
+        font-size: .82rem;
+        line-height: 1.35;
+    }
+
+    .product-short-description {
+        font-size: .73rem;
+        line-height: 1.45;
+    }
+
+    .category-layout-list {
+        gap: 26px;
+    }
+
+    .category-layout-image {
+        min-height: 0;
+        aspect-ratio: 4 / 3;
+    }
+
+    .category-layout-copy {
+        padding: 24px 20px 28px;
+    }
+
+    .category-layout-copy h3 {
+        margin-bottom: 12px;
+        font-size: 1.75rem;
+    }
+
+    .category-layout-copy > p:not(.category-layout-kicker) {
+        margin-bottom: 20px;
+        font-size: .88rem;
+        line-height: 1.65;
+    }
+
+    .gallery-container {
+        gap: 14px;
+    }
+
+    .gallery-images {
+        gap: 10px;
+    }
+
+    .services-row {
+        gap: 12px;
+        margin-bottom: 44px;
+    }
+
+    .service-item {
+        min-height: 110px;
+        padding: 14px 8px;
+    }
+
+    .footer {
+        padding-top: 42px;
+    }
+
+    .footer-grid {
+        gap: 28px;
+    }
+}
+
+@media (max-width: 420px) {
+    .hero-slider-shell .hero-carousel,
+    .hero-slider-shell .slide {
+        height: 190px !important;
+    }
+
+    .section-new-products .product-item h3,
+    .section-best-seller .product-item h3 {
+        font-size: .78rem;
+    }
+
+    .category-layout-copy h3 {
+        font-size: 1.55rem;
+    }
+}
+
+/* Thông tin trà mobile: nhóm bài viết dạng accordion dễ đọc và dễ chạm. */
+@media (max-width: 768px) {
+    .tea-info-page .tea-info-split {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .tea-info-page .tea-info-nav {
+        display: block;
+        width: 100%;
+        margin: 0;
+        padding: 14px;
+        overflow: visible;
+        position: static;
+    }
+
+    .tea-info-page .tea-info-nav__title {
+        display: block;
+        padding: 4px 2px 12px;
+        margin-bottom: 4px;
+        font-size: .85rem;
+    }
+
+    .tea-info-page .tea-info-nav__group {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 48px;
+        margin: 0;
+        padding: 12px 4px;
+        border-bottom: 1px solid #eadcca;
+        font-size: .88rem;
+        cursor: pointer;
+    }
+
+    .tea-info-page .tea-info-nav__group::after {
+        content: '+';
+        color: #573100;
+        font-size: 1.25rem;
+        font-weight: 400;
+        line-height: 1;
+    }
+
+    .tea-info-page .tea-info-nav__group[aria-expanded="true"]::after {
+        content: '−';
+    }
+
+    .tea-info-page .tea-nav-btn {
+        display: block;
+        width: calc(100% - 12px);
+        margin: 0 6px;
+        padding: 12px 10px;
+        border-bottom: 1px solid #f0e8dd;
+        border-radius: 0;
+        text-align: left;
+        font-size: .84rem;
+    }
+
+    .tea-info-page .tea-info-panel {
+        width: 100%;
+        padding: 22px 18px;
+        border-radius: 12px;
+    }
+
+    .tea-info-page .tea-info-panel.is-inline-mobile {
+        order: initial;
+        margin: 10px 0 14px;
+        box-shadow: 0 5px 16px rgba(87, 49, 0, .06);
+    }
+
+    .tea-info-page .tea-art__title {
+        font-size: 1.35rem;
+        line-height: 1.3;
+    }
+
+    .tea-info-page .tea-art__desc,
+    .tea-info-page .tea-art__step p {
+        font-size: .95rem;
+        line-height: 1.8;
+    }
 }

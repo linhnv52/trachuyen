@@ -5,16 +5,24 @@
  */
 $v = $old; // các giá trị cần điền vào form
 $errors = $errors ?? [];
-// Danh mục trà cụ/ấm tử sa được phép nhập dung tích (bằng slug, không cứng id)
-$_teaSlugs = ['am-tu-sa', 'bo-tra-cu'];
-$_curCatId = (int)($v['category_id'] ?? 0);
-$_isTeaUtensil = false;
-foreach (($categories ?? []) as $_cat) {
-    if ((int)$_cat['id'] === $_curCatId && in_array($_cat['slug'], $_teaSlugs, true)) {
-        $_isTeaUtensil = true;
-        break;
+$categoryRoots = [];
+$categoryChildren = [];
+foreach (($categories ?? []) as $categoryOption) {
+    $categoryParentId = $categoryOption['parent_id'] !== null ? (int)$categoryOption['parent_id'] : 0;
+    if ($categoryParentId === 0) {
+        $categoryRoots[(int)$categoryOption['id']] = $categoryOption;
+    } else {
+        $categoryChildren[$categoryParentId][] = $categoryOption;
     }
 }
+// Chỉ nhóm Ấm Tử Sa và toàn bộ danh mục con được nhập dung tích.
+$_curCatId = (int)($v['category_id'] ?? 0);
+$_curCatRootSlug = '';
+if ($_curCatId > 0 && function_exists('categoryRoot')) {
+    $_curCatRoot = categoryRoot($_curCatId, $categories);
+    $_curCatRootSlug = (string)($_curCatRoot['slug'] ?? '');
+}
+$_isTeaUtensil = $_curCatRootSlug === 'amtusa';
 function fieldError(string $key): void
 {
     global $errors;
@@ -50,6 +58,17 @@ function fieldError(string $key): void
         display:flex; align-items:center; justify-content:center; background:var(--bg); margin-bottom:10px; }
     .image-preview img { width:100%; height:100%; object-fit:cover; }
     .form-actions { display:flex; gap:12px; margin-top:24px; }
+    .category-picker { position:relative; }
+    .category-picker-toggle { width:100%; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:11px 14px; border:1px solid var(--gray); border-radius:10px; background:#fff; color:var(--text); font:inherit; text-align:left; cursor:pointer; }
+    .category-picker-toggle:hover, .category-picker.is-open .category-picker-toggle { border-color:var(--gold); box-shadow:0 0 0 3px rgba(184,134,11,.12); }
+    .category-picker-menu { position:absolute; z-index:20; top:calc(100% + 6px); left:0; right:0; max-height:300px; overflow:auto; padding:8px; border:1px solid var(--gray); border-radius:10px; background:#fff; box-shadow:0 12px 30px rgba(50,35,20,.16); }
+    .category-picker-empty, .category-picker-group-toggle, .category-picker-option { width:100%; border:0; background:transparent; color:var(--text); font:inherit; text-align:left; cursor:pointer; }
+    .category-picker-empty { padding:9px 10px; color:var(--text-light); border-bottom:1px solid #eee; }
+    .category-picker-group-toggle { display:flex; align-items:center; gap:9px; padding:10px; font-weight:700; color:var(--primary-dark); }
+    .category-picker-plus { width:18px; height:18px; display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--gold); border-radius:4px; color:var(--gold); font-weight:700; line-height:1; }
+    .category-picker-children { padding:0 0 5px 30px; }
+    .category-picker-option { padding:8px 10px; border-radius:6px; }
+    .category-picker-empty:hover, .category-picker-option:hover { background:#f7efe5; color:var(--primary-dark); }
 </style>
 
 <?php if ($errors): ?>
@@ -76,13 +95,43 @@ function fieldError(string $key): void
             </div>
 
             <div class="form-group">
-                <label>Danh mục <span class="required">*</span></label>
-                <select name="category_id" required>
-                    <option value="">-- Chọn danh mục --</option>
-                    <?php foreach ($categories as $c): ?>
-                        <option value="<?= $c['id'] ?>" data-slug="<?= e($c['slug']) ?>" <?= (string)($v['category_id'] ?? '') === (string)$c['id'] ? 'selected' : '' ?>><?= e($c['name']) ?></option>
-                    <?php endforeach; ?>
-                </select>
+                <label>Danh mục <span style="color:#888; font-weight:400;">(có thể chọn sau)</span></label>
+                <?php
+                $_selectedCategoryName = 'Chưa phân loại';
+                $_selectedCategorySlug = '';
+                foreach ($categories as $_categoryOption) {
+                    if ((string)($_categoryOption['id'] ?? '') === (string)($v['category_id'] ?? '')) {
+                        $_selectedCategoryName = $_categoryOption['name'];
+                        $_selectedCategorySlug = $_categoryOption['slug'];
+                        break;
+                    }
+                }
+                ?>
+                <input type="hidden" name="category_id" id="categorySelect" value="<?= e($v['category_id'] ?? '') ?>" data-slug="<?= e($_selectedCategorySlug) ?>" data-root-slug="<?= e($_curCatRootSlug) ?>">
+                <div class="category-picker" id="categoryPicker">
+                    <button type="button" class="category-picker-toggle" aria-expanded="false">
+                        <span id="selectedCategoryName"><?= e($_selectedCategoryName) ?></span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="category-picker-menu" hidden>
+                        <button type="button" class="category-picker-empty" data-category-id="" data-slug="">-- Chưa phân loại --</button>
+                        <?php foreach ($categoryRoots as $rootId => $root): ?>
+                            <?php if (!empty($categoryChildren[$rootId])): ?>
+                                <div class="category-picker-group">
+                                    <button type="button" class="category-picker-group-toggle" aria-expanded="false">
+                                        <span class="category-picker-plus">+</span>
+                                        <span><?= e($root['name']) ?></span>
+                                    </button>
+                                    <div class="category-picker-children" hidden>
+                                        <?php foreach ($categoryChildren[$rootId] as $c): ?>
+                                            <button type="button" class="category-picker-option" data-category-id="<?= (int)$c['id'] ?>" data-slug="<?= e($c['slug']) ?>" data-root-slug="<?= e($root['slug']) ?>"><?= e($c['name']) ?></button>
+                                        <?php endforeach; ?>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
                 <?php fieldError('category_id'); ?>
             </div>
 
@@ -240,15 +289,47 @@ function fieldError(string $key): void
         });
     });
 
-    // Hiện trường dung tích ngay khi chọn danh mục Ấm Tử Sa hoặc Bộ Trà Cụ.
+    // Danh mục dạng accordion: bấm + để mở, - để thu nhỏ.
     document.addEventListener('DOMContentLoaded', function() {
-        const categorySelect = document.querySelector('select[name="category_id"]');
+        const picker = document.getElementById('categoryPicker');
+        const categorySelect = document.getElementById('categorySelect');
+        const selectedName = document.getElementById('selectedCategoryName');
+        if (picker && categorySelect && selectedName) {
+            const pickerToggle = picker.querySelector('.category-picker-toggle');
+            const pickerMenu = picker.querySelector('.category-picker-menu');
+            pickerToggle.addEventListener('click', function() {
+                const open = picker.classList.toggle('is-open');
+                pickerMenu.hidden = !open;
+                pickerToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            });
+            picker.querySelectorAll('.category-picker-group-toggle').forEach(function(groupToggle) {
+                groupToggle.addEventListener('click', function() {
+                    const children = groupToggle.nextElementSibling;
+                    const open = groupToggle.getAttribute('aria-expanded') !== 'true';
+                    children.hidden = !open;
+                    groupToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+                    groupToggle.querySelector('.category-picker-plus').textContent = open ? '−' : '+';
+                });
+            });
+            picker.querySelectorAll('[data-category-id]').forEach(function(option) {
+                option.addEventListener('click', function() {
+                    categorySelect.value = option.dataset.categoryId || '';
+                    categorySelect.dataset.slug = option.dataset.slug || '';
+                    categorySelect.dataset.rootSlug = option.dataset.rootSlug || '';
+                    selectedName.textContent = option.textContent.trim();
+                    picker.classList.remove('is-open');
+                    pickerMenu.hidden = true;
+                    pickerToggle.setAttribute('aria-expanded', 'false');
+                    categorySelect.dispatchEvent(new Event('change', { bubbles: true }));
+                });
+            });
+        }
+
+        // Hiện trường dung tích ngay khi chọn danh mục Ấm Tử Sa hoặc Bộ Trà Cụ.
         const capacityField = document.getElementById('capacityField');
         if (!categorySelect || !capacityField) return;
-        const capacitySlugs = ['am-tu-sa', 'bo-tra-cu'];
         const updateCapacityField = function() {
-            const selected = categorySelect.options[categorySelect.selectedIndex];
-            const show = selected && capacitySlugs.includes(selected.dataset.slug || '');
+            const show = categorySelect.dataset.rootSlug === 'amtusa';
             capacityField.style.display = show ? '' : 'none';
             if (!show) capacityField.querySelector('input').value = '';
         };

@@ -9,8 +9,9 @@ $PL_title           = '🫖 Ấm tử sa';
 $PL_subtitle        = 'Ấm đất tử sa chính gốc, chưng cất tinh hoa nghệ nhân Trung Hoa';
 $PL_breadcrumbLabel = 'Ấm tử sa';
 $PL_active          = 'teapot';
-$PL_fixedSlug       = 'am-tu-sa';
+$PL_fixedSlug       = '';
 $PL_groupIds        = null;
-$PL_showTabs        = false;
+$PL_rootSlug        = 'amtusa';
+$PL_showTabs        = true;
 
 require __DIR__ . '/includes/product-listing.php';

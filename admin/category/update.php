@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'slug'        => trim($_POST['slug'] ?? ''),
                 'description' => trim($_POST['description'] ?? ''),
                 'image_url'   => $imageUrl,
-                'parent_id'   => $_POST['parent_id'] ?? '',
+                'parent_id'   => $category['parent_id'],
                 'is_active'   => $_POST['is_active'] ?? 0,
                 'sort_order'  => $_POST['sort_order'] ?? 0,
             ];

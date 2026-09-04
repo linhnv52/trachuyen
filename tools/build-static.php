@@ -37,7 +37,7 @@ if (!$php || !is_file($php)) {
 // ============ 1. data/products.json ============
 $products = db()->query('SELECT p.*, c.name AS category_name, c.slug AS category_slug
                          FROM products p
-                         JOIN categories c ON c.id = p.category_id
+                         LEFT JOIN categories c ON c.id = p.category_id
                          WHERE p.is_active = 1
                          ORDER BY p.created_at DESC')->fetchAll();
 

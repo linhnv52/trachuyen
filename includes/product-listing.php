@@ -13,6 +13,7 @@
  * @var string     $PL_fixedSlug      Slug danh mục khoá cứng ('' = không khoá)
  * @var array|null $PL_groupIds       Mảng id danh mục được phép (giới hạn cả sản phẩm lẫn tab); null = tất cả
  * @var bool       $PL_showTabs       Có hiển thị dải tab danh mục hay không
+ * @var string     $PL_rootSlug       Slug gốc cấp trang ('' = tất cả) — lọc danh mục theo đỉnh tổ tiên
  */
 
 $PL_baseFile  = $PL_baseFile ?? 'product.php';
@@ -20,6 +21,7 @@ $PL_active    = $PL_active ?? 'products';
 $PL_showTabs  = $PL_showTabs ?? true;
 $PL_fixedSlug = $PL_fixedSlug ?? '';
 $PL_groupIds  = $PL_groupIds ?? null;
+$PL_rootSlug  = $PL_rootSlug ?? '';
 $PL_catGrid   = $PL_catGrid ?? 'grid-6col-2row';
 
 // ---------- Bộ lọc ----------
@@ -64,7 +66,7 @@ $capacity = trim((string)($_GET['capacity'] ?? ''));
 if (!isset($CAPACITY_BRACKETS[$capacity])) {
     $capacity = '';
 }
-$showCapacityFilter = ($PL_fixedSlug === 'am-tu-sa');
+$showCapacityFilter = ($PL_fixedSlug === 'am-tu-sa' || $PL_rootSlug === 'amtusa');
 
 $allCategories = getAllCategories();
 // Loại danh mục cha khỏi mọi dải hiển thị
@@ -72,12 +74,18 @@ $_parentIds = array_map('intval', array_filter(array_column($allCategories, 'par
 
 // Danh mục trên dải tab: chỉ nhóm được phép nếu có đặt, ngược lại là tất cả
 $tabCategories = $allCategories;
-if (is_array($PL_groupIds)) {
+if ($PL_rootSlug !== '') {
+    // Lọc theo gốc cấp trang (đỉnh tổ tiên) — chỉ danh mục thuộc đúng trang
+    $rootCategories = categoriesUnderRoot($PL_rootSlug);
+    $rootIds = array_flip(array_map('intval', array_column($rootCategories, 'id')));
+    $tabCategories = array_values(array_filter($allCategories, fn ($c) => isset($rootIds[(int)$c['id']])));
+} elseif (is_array($PL_groupIds)) {
     $tabCategories = array_values(array_filter($allCategories, fn ($c) => in_array((int)$c['id'], $PL_groupIds, true)));
 }
 $tabCategories = array_values(array_filter($tabCategories, fn ($c) => !in_array((int)$c['id'], $_parentIds, true)));
 
-// Khoá cứng danh mục theo slug (trang chuyên mục)
+// Khoá cứng danh mục theo slug (trang chuyên mục). Nếu khoá cứng là gốc cấp trang thì giữ id gốc
+// (việc mở rộng con cháu xử lý ở filter sản phẩm bên dưới).
 $fixedCategoryId = 0;
 if ($PL_fixedSlug !== '') {
     foreach ($allCategories as $_c) {
@@ -146,7 +154,19 @@ if ($showCapacityFilter && $capacity) {
     $listFilters['capacity_max'] = $capRange[1];
 }
 if ($categoryId !== 0) {
-    $listFilters['category_id'] = $categoryId;
+    // Nếu chọn là gốc cấp trang (trang khoá cứng) thì lấy toàn bộ con cháu
+    $descIds = categoryWithDescendantIds($categoryId, $allCategories);
+    if (count($descIds) > 1) {
+        $listFilters['category_ids'] = $descIds;
+    } else {
+        $listFilters['category_id'] = $categoryId;
+    }
+} elseif ($PL_rootSlug !== '') {
+    // Chưa chọn tab cụ thể -> lấy toàn bộ danh mục thuộc gốc trang
+    $rootIds = array_map('intval', array_column(categoriesUnderRoot($PL_rootSlug, true), 'id'));
+    if ($rootIds) {
+        $listFilters['category_ids'] = $rootIds;
+    }
 } elseif (is_array($PL_groupIds)) {
     // Chưa chọn tab cụ thể -> lấy toàn bộ nhóm
     $listFilters['category_ids'] = $PL_groupIds;
@@ -259,7 +279,7 @@ require __DIR__ . '/header.php';
                 </div>
 
                 <?php if ($showCapacityFilter): ?>
-                <div class="filter-group">
+                <div class="filter-group capacity-filter-group">
                     <h4 class="filter-title">Dung tích</h4>
                     <?php if ($capacityOptions): ?>
                         <?php foreach ($capacityOptions as $capKey): ?>
@@ -357,6 +377,21 @@ $extraScript = <<<'HTML'
         nextBtn.addEventListener('click', function() { scrollBy(viewport.clientWidth); });
         viewport.addEventListener('scroll', refresh);
         window.addEventListener('resize', refresh);
+        // Mobile: vuốt ngang để chuyển danh mục, không cần mũi tên.
+        var touchStartX = 0;
+        var touchStartY = 0;
+        viewport.addEventListener('touchstart', function(event) {
+            var touch = event.changedTouches[0];
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+        }, { passive: true });
+        viewport.addEventListener('touchend', function(event) {
+            var touch = event.changedTouches[0];
+            var deltaX = touch.clientX - touchStartX;
+            var deltaY = touch.clientY - touchStartY;
+            if (Math.abs(deltaX) < 40 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+            scrollBy(deltaX < 0 ? viewport.clientWidth : -viewport.clientWidth);
+        }, { passive: true });
         // refresh sau khi layout ổn định
         window.addEventListener('load', refresh);
         refresh();

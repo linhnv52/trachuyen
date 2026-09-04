@@ -32,18 +32,14 @@
     }
 
     function confirmDelete(form, message) {
-        if (confirm(message || 'Bạn có chắc chắn muốn xóa?')) {
-            form.submit();
-        }
+        return window.confirm(message || 'Bạn có chắc chắn muốn xóa?');
     }
 
     function confirmHideShow(form, current, name) {
         const msg = current
             ? 'Tạm ẩn sản phẩm "' + name + '" khỏi website?\n(Sản phẩm sẽ không hiển thị cho khách hàng)'
             : 'Hiện sản phẩm "' + name + '" trở lại website?';
-        if (confirm(msg)) {
-            form.submit();
-        }
+        return window.confirm(msg);
     }
 
     // Ảnh không tải được -> thay bằng placeholder cục bộ

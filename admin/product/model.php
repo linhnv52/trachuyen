@@ -62,11 +62,108 @@ function getAllCategories(bool $includeInactive = false): array
     return $stmt->fetchAll();
 }
 
+/**
+ * Bảng ánh xạ "gốc cấp trang" (danh mục cha cấp 1) -> trang public.
+ * Danh mục thuộc trang nào được xác định bằng đỉnh tổ tiên (root) của nó.
+ */
+function rootPageMap(): array
+{
+    return [
+        'tra'          => ['file' => 'san-pham-tra.php', 'active' => 'products'],
+        'gomsu'        => ['file' => 'khai-va-chen.php', 'active' => 'teaset'],
+        'amtusa'       => ['file' => 'am-tu-sa.php',     'active' => 'teapot'],
+        'hop-qua-tang' => ['file' => 'hop-qua-tang.php', 'active' => 'gift'],
+    ];
+}
+
+/**
+ * Tìm đỉnh tổ tiên (danh mục gốc) của một danh mục theo id.
+ * Trả về dòng category gốc, hoặc null nếu không tìm thấy.
+ */
+function categoryRoot(?int $id, ?array $all = null): ?array
+{
+    if ($id === null || $id <= 0) {
+        return null;
+    }
+    if ($all === null) {
+        $all = getAllCategories(true);
+    }
+    $byId = [];
+    foreach ($all as $c) {
+        $byId[(int)$c['id']] = $c;
+    }
+    $seen = [];
+    $current = $byId[$id] ?? null;
+    while ($current !== null && !isset($seen[(int)$current['id']])) {
+        $seen[(int)$current['id']] = true;
+        $pid = $current['parent_id'] !== null ? (int)$current['parent_id'] : 0;
+        if ($pid <= 0) {
+            return $current; // đỉnh không có cha = root
+        }
+        $current = $byId[$pid] ?? null;
+    }
+    return $current;
+}
+
+/**
+ * Danh sách id của một danh mục và toàn bộ con cháu của nó (dựa trên parent_id).
+ */
+function categoryWithDescendantIds(?int $id, ?array $all = null): array
+{
+    if ($id === null || $id <= 0) {
+        return [];
+    }
+    if ($all === null) {
+        $all = getAllCategories(true);
+    }
+    $children = [];
+    foreach ($all as $c) {
+        $children[(int)$c['parent_id']][] = (int)$c['id'];
+    }
+    $ids = [];
+    $stack = [$id];
+    while ($stack) {
+        $cur = array_pop($stack);
+        $ids[] = $cur;
+        foreach ($children[$cur] ?? [] as $childId) {
+            $stack[] = $childId;
+        }
+    }
+    return $ids;
+}
+
+/**
+ * Mọi danh mục thuộc một gốc trang (đỉnh tổ tiên = gốc đã cho), trừ gốc trang.
+ * Slug gốc không có trong rootPageMap thì trả về [].
+ */
+function categoriesUnderRoot(string $rootSlug, bool $includeInactive = false): array
+{
+    if (!isset(rootPageMap()[$rootSlug])) {
+        return [];
+    }
+    $all = getAllCategories($includeInactive);
+    // Tìm id của gốc trang theo slug
+    $rootId = null;
+    foreach ($all as $c) {
+        if ($c['slug'] === $rootSlug) {
+            $rootId = (int)$c['id'];
+            break;
+        }
+    }
+    if ($rootId === null) {
+        return [];
+    }
+    $descIds = categoryWithDescendantIds($rootId, $all);
+    $ids = array_flip($descIds);
+    unset($ids[$rootId]); // bỏ chính gốc trang
+    return array_values(array_filter($all, fn ($c) => isset($ids[(int)$c['id']])));
+}
+
 function getProductById(int $id, bool $includeInactive = false): ?array
 {
     $sql = 'SELECT p.*, c.name AS category_name, c.slug AS category_slug
             FROM products p
-            JOIN categories c ON c.id = p.category_id
+            LEFT JOIN categories c ON c.id = p.category_id
             WHERE p.id = ?';
     if (!$includeInactive) {
         $sql .= ' AND p.is_active = 1';
@@ -91,7 +188,7 @@ function searchProducts(string $q, int $limit = 8, bool $includeInactive = false
     $sql = 'SELECT p.id, p.code, p.name, p.price, p.old_price, p.image_url,
                    p.rating_avg, p.review_count, p.badge, c.name AS category_name
             FROM products p
-            JOIN categories c ON c.id = p.category_id
+            LEFT JOIN categories c ON c.id = p.category_id
             WHERE (p.name LIKE ? OR p.code LIKE ? OR p.search_key LIKE ?)';
     $params = [$like, $like, $likeKey];
     if (!$includeInactive) {
@@ -176,7 +273,7 @@ function getAllProducts(array $filters = [], int $page = 1, int $perPage = 8): a
     $offset = ($page - 1) * $perPage;
     $stmt = db()->prepare("SELECT p.*, c.name AS category_name, c.slug AS category_slug
                            FROM products p
-                           JOIN categories c ON c.id = p.category_id
+                           LEFT JOIN categories c ON c.id = p.category_id
                            $whereSql
                            ORDER BY $sort
                            LIMIT $perPage OFFSET $offset");
@@ -200,7 +297,7 @@ function createProduct(array $data): int
     $stmt->execute([
         $code,
         $searchKey,
-        (int)$data['category_id'],
+        !empty($data['category_id']) ? (int)$data['category_id'] : null,
         trim($data['name']),
         $slug,
         $data['description'] ?? null,
@@ -236,7 +333,7 @@ function updateProduct(int $id, array $data): void
     $stmt->execute([
         $code,
         $searchKey,
-        (int)$data['category_id'],
+        !empty($data['category_id']) ? (int)$data['category_id'] : null,
         trim($data['name']),
         $slug,
         $data['description'] ?? null,

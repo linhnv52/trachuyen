@@ -4,8 +4,38 @@ require_login();
 require_once __DIR__ . '/model.php';
 
 $admin = current_admin();
-$pageTitle = 'Quản lý danh mục';
-$pageSubtitle = 'Thêm, sửa, xóa danh mục hiển thị trên website';
+$section = $_GET['section'] ?? 'tea';
+$sectionConfig = [
+    'tea' => [
+        'title' => 'Danh mục sản phẩm trà',
+        'subtitle' => 'Thêm, sửa, xóa danh mục sản phẩm trà hiển thị trên website',
+        'root' => 'tra',
+    ],
+    'gift' => [
+        'title' => 'Danh mục hộp quà tặng',
+        'subtitle' => 'Thêm, sửa, xóa danh mục hộp quà tặng hiển thị trên website',
+        'root' => 'hop-qua-tang',
+    ],
+    'ceramics' => [
+        'title' => 'Danh mục gốm sứ',
+        'subtitle' => 'Thêm, sửa, xóa danh mục gốm sứ hiển thị trên website',
+        'root' => 'gomsu',
+    ],
+    'teapot' => [
+        'title' => 'Danh mục ấm tử sa',
+        'subtitle' => 'Thêm, sửa, xóa danh mục ấm tử sa hiển thị trên website',
+        'root' => 'amtusa',
+    ],
+];
+if (!isset($sectionConfig[$section])) {
+    $section = 'tea';
+}
+$_SESSION['admin_category_section'] = $section;
+$pageTitle = $sectionConfig[$section]['title'];
+$pageSubtitle = $sectionConfig[$section]['subtitle'];
+$sectionRootSlug = $sectionConfig[$section]['root'];
+$sectionRootIds = ensureCategorySectionRoots();
+$sectionRootId = $sectionRootIds[$section];
 $activeMenu = 'categories';
 
 $flash = null;
@@ -56,6 +86,16 @@ if ($status !== '') {
     $where[] = 'is_active = ?';
     $params[] = (int)$status;
 }
+$allSectionCategories = getAllCategories(true);
+$categoryIdsForSection = categoryWithDescendantIds($sectionRootId, $allSectionCategories);
+$categoryIdsForSection = array_values(array_diff($categoryIdsForSection, [$sectionRootId]));
+
+if (!$categoryIdsForSection) {
+    $categoryIdsForSection = [0];
+}
+$categoryIdPlaceholders = implode(',', array_fill(0, count($categoryIdsForSection), '?'));
+$where[] = "id IN ($categoryIdPlaceholders)";
+$params = array_merge($params, $categoryIdsForSection);
 $whereSql = $where ? ('WHERE ' . implode(' AND ', $where)) : '';
 
 $countStmt = db()->prepare("SELECT COUNT(*) FROM categories $whereSql");
@@ -84,6 +124,7 @@ require __DIR__ . '/../includes/header.php';
 <?php endif; ?>
 
 <form method="get" class="toolbar">
+    <input type="hidden" name="section" value="<?= e($section) ?>">
     <div class="toolbar-left">
         <div class="search-box">
             <input type="text" name="search" value="<?= e($search) ?>" placeholder="Tìm theo tên / slug danh mục...">
@@ -95,12 +136,12 @@ require __DIR__ . '/../includes/header.php';
             <option value="0" <?= $status === '0' ? 'selected' : '' ?>>Tạm dừng</option>
         </select>
         <?php if ($search !== '' || $status !== ''): ?>
-            <a href="<?= e(url('/admin/category/list.php')) ?>" class="btn btn-outline btn-sm"><i class="fas fa-times"></i> Bỏ lọc</a>
+            <a href="<?= e(url('/admin/category/list.php?section=' . urlencode($section))) ?>" class="btn btn-outline btn-sm"><i class="fas fa-times"></i> Bỏ lọc</a>
         <?php endif; ?>
     </div>
     <div class="toolbar-right">
         <a href="<?= e(url('/admin/category/layout.php')) ?>" class="btn btn-outline"><i class="fas fa-layer-group"></i> Bố cục trang chủ</a>
-        <a href="<?= e(url('/admin/category/add.php')) ?>" class="btn btn-primary"><i class="fas fa-plus"></i> Thêm danh mục</a>
+        <a href="<?= e(url('/admin/category/add.php?section=' . urlencode($section))) ?>" class="btn btn-primary"><i class="fas fa-plus"></i> Thêm danh mục</a>
     </div>
 </form>
 
@@ -110,7 +151,6 @@ require __DIR__ . '/../includes/header.php';
             <tr>
                 <th>Danh mục</th>
                 <th>Slug</th>
-                <th>Danh mục cha</th>
                 <th>Số SP</th>
                 <th>Thứ tự</th>
                 <th>Trạng thái</th>
@@ -134,7 +174,6 @@ require __DIR__ . '/../includes/header.php';
                         </div>
                     </td>
                     <td><span style="color:#9b8a7a;">/<?= e($c['slug']) ?></span></td>
-                    <td><?= $c['parent_id'] ? e($parentNames[(int)$c['parent_id']] ?? '') : '<span style="color:#aaa;">—</span>' ?></td>
                     <td><span class="status-badge" style="background:#f5f0eb; color:#5d4037;"><?= $counts[(int)$c['id']] ?? 0 ?></span></td>
                     <td><?= (int)$c['sort_order'] ?></td>
                     <td>
@@ -171,6 +210,7 @@ require __DIR__ . '/../includes/header.php';
             <div class="pagination">
                 <?php
                 $qs = http_build_query(array_filter([
+                    'section' => $section,
                     'search' => $search,
                     'status' => $status,
                 ], fn($v) => $v !== ''));
