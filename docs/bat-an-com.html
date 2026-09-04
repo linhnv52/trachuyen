@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gốm sứ - Trà Chuyện</title>
+    <title>Bát ăn cơm - Trà Chuyện</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="css/product.css">    <style></style>
+    <link rel="stylesheet" href="css/product-detail.css">    <style></style>
 </head>
 <body>
 
@@ -42,9 +42,9 @@
         <nav>
             <ul>
                 <li><a href="index.html" class="">TRANG CHỦ</a></li>
-                <li><a href="san-pham-tra.html" class="">SẢN PHẨM TRÀ</a></li>
+                <li><a href="san-pham-tra.html" class="active">SẢN PHẨM TRÀ</a></li>
                 <li><a href="hop-qua-tang.html" class="">HỘP QUÀ TẶNG</a></li>
-                <li><a href="khai-va-chen.html" class="active">GỐM SỨ</a></li>
+                <li><a href="khai-va-chen.html" class="">GỐM SỨ</a></li>
                 <li><a href="am-tu-sa.html" class="">ẤM TỬ SA</a></li>
                 <li><a href="thong-tin-tra.html" class="">THÔNG TIN VỀ TRÀ</a></li>
             </ul>
@@ -63,9 +63,9 @@
             </button>
             <ul class="mobile-menu-list">
                 <li><a href="index.html" class="">Trang chủ</a></li>
-                <li><a href="san-pham-tra.html" class="">Sản phẩm trà</a></li>
+                <li><a href="san-pham-tra.html" class="active">Sản phẩm trà</a></li>
                 <li><a href="hop-qua-tang.html" class="">Hộp quà tặng</a></li>
-                <li><a href="khai-va-chen.html" class="active">Gốm sứ</a></li>
+                <li><a href="khai-va-chen.html" class="">Gốm sứ</a></li>
                 <li><a href="am-tu-sa.html" class="">Ấm tử sa</a></li>
                 <li><a href="thong-tin-tra.html" class="">Thông tin về trà</a></li>
             </ul>
@@ -76,99 +76,66 @@
         </div>
 </header>
 
-<!-- ========== TRANG DANH SÁCH SẢN PHẨM ========== -->
-<div class="container products-page">
+<!-- ========== CHI TIẾT SẢN PHẨM ========== -->
+<div class="container product-detail-page">
 
     <div class="breadcrumb">
         <a href="index.html"><i class="fas fa-home"></i> Trang chủ</a>
         <span class="separator"><i class="fas fa-chevron-right"></i></span>
-        <span class="current">Gốm sứ</span>
+        <a href="san-pham-tra.html">Sản phẩm trà</a>
+                    <span class="separator"><i class="fas fa-chevron-right"></i></span>
+            <a href="khai-va-chen.html?category=gom-su">Gốm Sứ</a>
+                <span class="separator"><i class="fas fa-chevron-right"></i></span>
+        <span class="current">Bát ăn cơm</span>
     </div>
 
-        <!-- ====== DANH MỤC (carousel 6 cột) ====== -->
-    <div class="cat-carousel" id="catCarousel">
-        <button type="button" class="cat-arrow cat-arrow-prev" aria-label="Danh mục trước"><i class="fas fa-chevron-left"></i></button>
-        <div class="cat-viewport">
-            <div class="grid-6col-2row cat-track" id="categoryCards">
-                                    <a class="category-item "
-                       data-cat-id="67"
-                       data-cat-slug="gom-su"
-                       href="khai-va-chen.html?category=gom-su&amp;sort=default">
-                        <img src="img/placeholder.svg" alt="Gốm Sứ" loading="lazy">
-                        <h3>Gốm Sứ</h3>
-                        <p>1 sản phẩm</p>
-                    </a>
-                            </div>
-        </div>
-        <button type="button" class="cat-arrow cat-arrow-next" aria-label="Danh mục tiếp theo"><i class="fas fa-chevron-right"></i></button>
-    </div>
-    
-    <div class="products-layout">
+    <div class="product-detail-grid">
+        <!-- Cột trái: Hình ảnh -->
+        <div class="product-detail-images">
+                        <div class="main-image">
+                <img src="img/placeholder.svg" alt="Bát ăn cơm" id="mainImage">
+            </div>
 
-        <!-- ====== SIDEBAR BỘ LỌC (trái) ====== -->
-        <aside class="products-sidebar">
-            <form class="filter-sidebar" method="get" action="khai-va-chen.html">
-                
-                <div class="filter-group">
-                    <h4 class="filter-title">Giá</h4>
-                                            <label class="filter-option">
-                            <input type="radio" name="price_range" value="duoi-500"
-                                   >
-                                                            Dưới 500.000                                                    </label>
-                                            <label class="filter-option">
-                            <input type="radio" name="price_range" value="500-1m"
-                                   >
-                                                            500.000 → 1.000.000                                                    </label>
-                                            <label class="filter-option">
-                            <input type="radio" name="price_range" value="1m-2m"
-                                   >
-                                                            1.000.000 → 2.000.000                                                    </label>
-                                            <label class="filter-option">
-                            <input type="radio" name="price_range" value="tren-2m"
-                                   >
-                                                            Trên 2.000.000                                                    </label>
-                                    </div>
+                    </div>
 
-                
-                <div class="filter-group">
-                    <h4 class="filter-title">Sắp xếp</h4>
-                    <select name="sort">
-                        <option value="default" selected>Mặc định</option>
-                        <option value="price-asc" >Giá tăng dần</option>
-                        <option value="price-desc" >Giá giảm dần</option>
-                        <option value="name" >Tên A-Z</option>
-                    </select>
+        <!-- Cột phải: Thông tin -->
+        <div class="product-detail-info">
+            <h1 class="product-detail-name">Bát ăn cơm</h1>
+
+            <div class="product-meta">
+                <div class="product-meta-item">
+                    <i class="fas fa-tag"></i>
+                    <span>Mã sản phẩm: <strong>TC-6A9B4FEBC3E8E</strong></span>
                 </div>
-            </form>
-        </aside>
-
-        <!-- ====== NỘI DUNG (phải) ====== -->
-        <section class="products-content">
-            <div class="products-toolbar">
-                <div class="result-count">
-                    Hiển thị <span>1</span> sản phẩm
+                <div class="product-meta-item">
+                    <i class="fas fa-folder"></i>
+                    <span>Danh mục: Gốm Sứ</span>
                 </div>
-                <div class="view-mode">
-                    <button type="button" class="active" id="gridView" title="Dạng lưới"><i class="fas fa-th"></i></button>
-                    <button type="button" id="listView" title="Dạng danh sách"><i class="fas fa-list"></i></button>
+                <div class="product-meta-item">
+                    <i class="fas fa-box"></i>
+                    <span>Tình trạng: Còn hàng (10000)</span>
+                </div>
+                <div class="product-meta-item">
+                    <i class="fas fa-eye"></i>
+                    <span>Lượt xem: 1</span>
                 </div>
             </div>
 
-            <!-- ====== GRID SẢN PHẨM ====== -->
-            <div class="products-grid" id="productsGrid">
-                                    <div class="product-item" data-id="45">
-        
-        <a href="bat-an-com.html">
-            <img src="img/placeholder.svg" alt="Bát ăn cơm">
-            <h3>Bát ăn cơm</h3>
-        </a>
-        
-        <div class="product-price"><span class="current-price">5.000.000đ</span></div>
-    </div>                            </div>
+            <div class="product-detail-price">
+                <span class="current">5.000.000đ</span>
+                                            </div>
 
-            <!-- ====== PHÂN TRANG ====== -->
-                    </section>
+            <div class="product-detail-description">
+                <h4>Mô tả sản phẩm</h4>
+                <p>Chưa có mô tả cho sản phẩm này.</p>
+            </div>
+
+            <a class="btn-consult" href="tel:0877013030"><i class="fas fa-phone-alt"></i>Tư vấn mua hàng</a>
+        </div>
     </div>
+
+    <!-- ====== SẢN PHẨM LIÊN QUAN ====== -->
+    
 </div>
 
 <footer class="footer">
@@ -227,100 +194,8 @@
     </div>
 </footer>
 
-<script>
-    // Carousel danh mục (6 cột + mũi tên trái/phải)
-    document.querySelectorAll('.cat-carousel').forEach(function(carousel) {
-        var viewport = carousel.querySelector('.cat-viewport');
-        var track   = carousel.querySelector('.cat-track');
-        var prevBtn = carousel.querySelector('.cat-arrow-prev');
-        var nextBtn = carousel.querySelector('.cat-arrow-next');
 
-        function refresh() {
-            var canScroll = track.scrollWidth > viewport.clientWidth + 1;
-            carousel.classList.toggle('has-overflow', canScroll);
-            prevBtn.classList.toggle('enabled', canScroll && viewport.scrollLeft > 0);
-            nextBtn.classList.toggle('enabled', canScroll && viewport.scrollLeft + viewport.clientWidth < track.scrollWidth - 1);
-        }
-
-        function scrollBy(amount) {
-            viewport.scrollBy({ left: amount, behavior: 'smooth' });
-        }
-
-        prevBtn.addEventListener('click', function() { scrollBy(-viewport.clientWidth); });
-        nextBtn.addEventListener('click', function() { scrollBy(viewport.clientWidth); });
-        viewport.addEventListener('scroll', refresh);
-        window.addEventListener('resize', refresh);
-        // Mobile: vuốt ngang để chuyển danh mục, không cần mũi tên.
-        var touchStartX = 0;
-        var touchStartY = 0;
-        viewport.addEventListener('touchstart', function(event) {
-            var touch = event.changedTouches[0];
-            touchStartX = touch.clientX;
-            touchStartY = touch.clientY;
-        }, { passive: true });
-        viewport.addEventListener('touchend', function(event) {
-            var touch = event.changedTouches[0];
-            var deltaX = touch.clientX - touchStartX;
-            var deltaY = touch.clientY - touchStartY;
-            if (Math.abs(deltaX) < 40 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
-            scrollBy(deltaX < 0 ? viewport.clientWidth : -viewport.clientWidth);
-        }, { passive: true });
-        // refresh sau khi layout ổn định
-        window.addEventListener('load', refresh);
-        refresh();
-    });
-
-    // View toggle (grid / list) - chỉ thay đổi CSS, không cần tải lại
-    const gridViewBtn = document.getElementById('gridView');
-    const listViewBtn = document.getElementById('listView');
-    const productsGrid = document.getElementById('productsGrid');
-
-    function applyView(view) {
-        if (view === 'list') {
-            productsGrid.classList.add('list-view');
-            gridViewBtn.classList.remove('active');
-            listViewBtn.classList.add('active');
-            document.cookie = 'trachuyen_view=list; path=/';
-        } else {
-            productsGrid.classList.remove('list-view');
-            listViewBtn.classList.remove('active');
-            gridViewBtn.classList.add('active');
-            document.cookie = 'trachuyen_view=grid; path=/';
-        }
-    }
-
-    if (document.cookie.indexOf('trachuyen_view=list') !== -1) applyView('list');
-
-    gridViewBtn.addEventListener('click', function() { applyView('grid'); });
-    listViewBtn.addEventListener('click', function() { applyView('list'); });
-</script>
-<script>
-// Cho phép bỏ chọn radio đã chọn (giá / dung tích) + tự áp dụng khi đổi filter — chỉ chạy trên PHP live (bản tĩnh do static-listing.js lo)
-if (!document.documentElement.hasAttribute('data-static')) {
-    (function () {
-        var form = document.querySelector('.filter-sidebar');
-        if (!form) return;
-        var wasChecked = false;
-        form.addEventListener('mousedown', function (ev) {
-            var t = ev.target;
-            if (t.matches('input[type="radio"][name="price_range"], input[type="radio"][name="capacity"]')) wasChecked = t.checked;
-        }, true);
-        form.addEventListener('click', function (ev) {
-            var t = ev.target;
-            if (!t.matches('input[type="radio"][name="price_range"], input[type="radio"][name="capacity"]')) return;
-            if (wasChecked) { t.checked = false; wasChecked = false; form.submit(); return; }
-        });
-        // Auto-apply khi chạm radio / đổi sort (PHP live)
-        form.addEventListener('change', function (ev) {
-            if (ev.target.matches('select[name="sort"]') || ev.target.matches('input[name="price_range"]') || ev.target.matches('input[name="capacity"]')) {
-                form.submit();
-            }
-        });
-    })();
-}
-</script>
 <!-- Bản tĩnh (GitHub Pages): bổ sung cấu hình trang + breakpoint -->
-<script type="application/json" id="pageConfig">{"baseFile":"khai-va-chen.html","fixedSlug":"","groupIds":[67],"showTabs":true,"perPage":8}</script>
 
 <script>
     // Ảnh không tải được (VD via.placeholder.com lỗi) -> thay bằng placeholder cục bộ
@@ -422,6 +297,5 @@ if (!document.documentElement.hasAttribute('data-static')) {
     });
 })();
 </script>
-<script src="js/static-listing.js"></script>
 </body>
 </html>
