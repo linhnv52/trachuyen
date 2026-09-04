@@ -1200,6 +1200,13 @@ nav ul li a.active {
     height: 20px;
 }
 
+.social-icon img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
 .social-icon.facebook { color: #1877f2; }
 .social-icon.tiktok { color: #000; }
 .social-icon.zalo { color: #0068ff; }

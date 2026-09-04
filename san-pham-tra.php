@@ -9,9 +9,8 @@ $PL_subtitle        = 'Khám phá các dòng trà tuyển chọn từ khắp nơ
 $PL_breadcrumbLabel = 'Sản phẩm trà';
 $PL_active          = 'products';
 $PL_fixedSlug       = '';
-// Hiển thị đúng toàn bộ danh mục đang có trong Admin > Quản lý danh mục.
-// Việc chọn danh mục sẽ lọc sản phẩm tương ứng.
-$PL_rootSlug        = '';
+// Trang Sản phẩm trà: chỉ hiển thị các danh mục thuộc gốc cấp trang "tra".
+$PL_rootSlug        = 'tra';
 $PL_showTabs        = true;
 
 require __DIR__ . '/includes/product-listing.php';
