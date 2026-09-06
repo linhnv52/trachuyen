@@ -1213,7 +1213,14 @@
                 flex: 0 0 auto;
             }
 
-            .products-page .filter-sidebar .filter-group:last-child {
+.products-page .filter-sidebar .filter-group:last-child {
                 flex-wrap: wrap;
+            }
+        }
+
+        /* Desktop/tablet: hide category carousel arrows (mobile only) */
+        @media (min-width: 769px) {
+            .products-page .cat-arrow {
+                display: none !important;
             }
         }
