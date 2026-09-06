@@ -833,12 +833,12 @@
         }
 
         /* Danh mục: ảnh 70%, chữ căn giữa, thẻ bo góc */
-        .products-page .category-item {
+.products-page .category-item {
             border: 1px solid #dedede;
             border-radius: 12px;
             overflow: hidden;
             text-align: center;
-            padding: 10px 8px 14px;
+            padding: 6px 6px 10px;
         }
 
         .products-page .category-item img {
@@ -1094,9 +1094,9 @@
                 background: rgba(184, 134, 11, 0.92);
             }
 
-            .products-page .cat-carousel .category-item {
+.products-page .cat-carousel .category-item {
                 transform: none;
-                padding: 8px 7px 12px;
+                padding: 5px 5px 8px;
             }
 
             .products-page .category-item img {
