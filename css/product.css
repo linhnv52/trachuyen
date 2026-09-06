@@ -1082,8 +1082,16 @@
                 -webkit-overflow-scrolling: touch;
             }
 
-            .products-page .cat-arrow {
+.products-page .cat-arrow {
                 display: none !important;
+            }
+            .products-page .cat-arrow-next {
+                display: flex !important;
+                right: 6px;
+                top: 50%;
+                width: 38px;
+                height: 38px;
+                background: rgba(184, 134, 11, 0.92);
             }
 
             .products-page .cat-carousel .category-item {
