@@ -49,13 +49,6 @@
             padding: 0 20px;
             position: relative;
         }
-@font-face {
-    font-family: 'CoalhandLuke';
-    src: url('/fonts/CoalhandLuke\ TRIAL.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap; /* Giúp văn bản hiển thị nhanh hơn */
-}
         /* ---------- HEADER ---------- */
 /* ---------- HEADER ---------- */
 header {
