@@ -1179,21 +1179,17 @@
 
         /* Mobile: các mức giá luôn nằm trên một hàng, có thể vuốt ngang khi hẹp. */
         @media (max-width: 768px) {
-            .products-page .filter-sidebar .filter-group:first-of-type {
-                flex-wrap: nowrap;
-                overflow-x: auto;
-                overflow-y: hidden;
-                padding-bottom: 3px;
-                scrollbar-width: none;
+.products-page .filter-sidebar .filter-group:first-of-type {
+                flex-wrap: wrap;
             }
 
-            .products-page .filter-sidebar .filter-group:first-of-type::-webkit-scrollbar {
-                display: none;
+            .products-page .filter-sidebar .filter-group:first-of-type .filter-title {
+                flex: 0 0 100%;
             }
 
-            .products-page .filter-sidebar .filter-group:first-of-type .filter-title,
             .products-page .filter-sidebar .filter-group:first-of-type .filter-option {
-                flex: 0 0 auto;
+                flex: 0 0 calc(50% - 4px);
+                text-align: center;
             }
 
             .products-page .filter-sidebar .capacity-filter-group {
