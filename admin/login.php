@@ -1,7 +1,5 @@
 <?php
-session_start();
-require_once __DIR__ . '/../config/db.php';
-require_once __DIR__ . '/includes/csrf.php';
+require_once __DIR__ . '/includes/auth.php';
 
 if (!empty($_SESSION['admin_id'])) {
     redirect(url('/admin/index.php'));
@@ -15,7 +13,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $username = trim($_POST['username'] ?? '');
         $password = $_POST['password'] ?? '';
 
-        if ($username === '' || $password === '') {
+        if (!rateLimit('admin-login-ip', 30, 900) || !rateLimit('admin-login-user-' . strtolower($username), 10, 900)) {
+            http_response_code(429);
+            $error = 'Bạn đã thử đăng nhập quá nhiều lần. Vui lòng thử lại sau 15 phút.';
+        }
+
+        if ($error !== '') {
+            // Stop before querying the database when rate limited.
+        } elseif ($username === '' || $password === '') {
             $error = 'Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.';
         } else {
             $stmt = db()->prepare('SELECT * FROM admin_users WHERE username = ? LIMIT 1');

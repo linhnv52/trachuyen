@@ -2,10 +2,10 @@
 /**
  * Cấu hình kết nối cơ sở dữ liệu (PDO)
  */
-define('DB_HOST', '127.0.0.1');
-define('DB_NAME', 'trachuyen_db');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_HOST', getenv('TRACHUYEN_DB_HOST') ?: '127.0.0.1');
+define('DB_NAME', getenv('TRACHUYEN_DB_NAME') ?: 'trachuyen_db');
+define('DB_USER', getenv('TRACHUYEN_DB_USER') ?: 'root');
+define('DB_PASS', getenv('TRACHUYEN_DB_PASS') ?: '');
 define('DB_CHARSET', 'utf8mb4');
 
 define('BASE_URL', '');          // Để trống nếu chạy ở thư mục gốc domain
@@ -17,6 +17,30 @@ define('BANNER_UPLOAD_DIR', __DIR__ . '/../img/banners/');
 define('BANNER_UPLOAD_URL', 'img/banners/');
 define('VIDEO_UPLOAD_DIR', __DIR__ . '/../img/videos/');
 define('VIDEO_UPLOAD_URL', 'img/videos/');
+
+// Harden PHP sessions and responses for production requests.
+if (PHP_SAPI !== 'cli' && session_status() === PHP_SESSION_NONE) {
+    ini_set('session.use_strict_mode', '1');
+    ini_set('session.use_only_cookies', '1');
+    $isHttps = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+    session_set_cookie_params([
+        'lifetime' => 0,
+        'path' => '/',
+        'secure' => $isHttps,
+        'httponly' => true,
+        'samesite' => 'Lax',
+    ]);
+}
+if (PHP_SAPI !== 'cli' && !headers_sent()) {
+    header('X-Content-Type-Options: nosniff');
+    header('X-Frame-Options: SAMEORIGIN');
+    header('Referrer-Policy: strict-origin-when-cross-origin');
+    header('Permissions-Policy: camera=(), microphone=(), geolocation=()');
+    header("Content-Security-Policy: frame-ancestors 'self'");
+    if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
+        header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
+    }
+}
 
 function db(): PDO
 {
@@ -30,10 +54,39 @@ function db(): PDO
                 PDO::ATTR_EMULATE_PREPARES   => false,
             ]);
         } catch (PDOException $e) {
-            die('Không thể kết nối cơ sở dữ liệu: ' . htmlspecialchars($e->getMessage()));
+            error_log('Database connection failed: ' . $e->getMessage());
+            http_response_code(500);
+            die('Máy chủ đang gặp sự cố. Vui lòng thử lại sau.');
         }
     }
     return $pdo;
+}
+
+/** Simple file-backed rate limit for a single VPS. */
+function rateLimit(string $bucket, int $maxRequests, int $windowSeconds): bool
+{
+    $ip = $_SERVER['REMOTE_ADDR'] ?? 'cli';
+    $dir = __DIR__ . '/../storage/rate-limit';
+    if (!is_dir($dir) && !@mkdir($dir, 0700, true) && !is_dir($dir)) return false;
+    $file = $dir . '/' . hash('sha256', $bucket . '|' . $ip) . '.json';
+    $handle = @fopen($file, 'c+');
+    if (!$handle || !flock($handle, LOCK_EX)) {
+        if ($handle) fclose($handle);
+        return false;
+    }
+    $timestamps = json_decode(stream_get_contents($handle) ?: '[]', true);
+    if (!is_array($timestamps)) $timestamps = [];
+    $now = time();
+    $timestamps = array_values(array_filter($timestamps, static fn ($t) => is_int($t) && $t > $now - $windowSeconds));
+    $allowed = count($timestamps) < $maxRequests;
+    if ($allowed) $timestamps[] = $now;
+    ftruncate($handle, 0);
+    rewind($handle);
+    fwrite($handle, json_encode($timestamps));
+    fflush($handle);
+    flock($handle, LOCK_UN);
+    fclose($handle);
+    return $allowed;
 }
 
 function e(?string $value): string

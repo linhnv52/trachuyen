@@ -7,6 +7,14 @@
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../admin/product/model.php';
 
+if (!rateLimit('api-product', 120, 60)) {
+    http_response_code(429);
+    header('Retry-After: 60');
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode(['error' => 'too many requests']);
+    exit;
+}
+
 $id = (int)($_GET['id'] ?? 0);
 $product = $id ? getProductById($id) : null;
 

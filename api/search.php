@@ -11,6 +11,23 @@ $q = trim($_GET['q'] ?? '');
 $q = mb_substr($q, 0, 60);
 $includeInactive = ($_GET['admin'] ?? '') === '1';
 
+if (!rateLimit('api-search', 60, 60)) {
+    http_response_code(429);
+    header('Retry-After: 60');
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode(['error' => 'too many requests']);
+    exit;
+}
+if ($includeInactive) {
+    require_once __DIR__ . '/../admin/includes/auth.php';
+    if (!current_admin()) {
+        http_response_code(403);
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['error' => 'forbidden']);
+        exit;
+    }
+}
+
 $results = searchProducts($q, 8, $includeInactive);
 foreach ($results as &$result) {
     $result['image_url'] = productImage($result['image_url'] ?? null);

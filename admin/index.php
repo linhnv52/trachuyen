@@ -24,10 +24,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'updat
             if (($file['size'] ?? 0) > 3 * 1024 * 1024) {
                 throw new RuntimeException('Logo quá lớn. Kích thước tối đa là 3MB.');
             }
+            if (!is_uploaded_file($file['tmp_name'] ?? '')) {
+                throw new RuntimeException('Tệp logo không hợp lệ.');
+            }
             $mime = mime_content_type($file['tmp_name']);
-            $allowed = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'image/webp' => 'webp', 'image/svg+xml' => 'svg'];
+            if (@getimagesize($file['tmp_name']) === false) {
+                throw new RuntimeException('Tệp logo không phải ảnh hợp lệ.');
+            }
+            $allowed = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'image/webp' => 'webp'];
             if (!isset($allowed[$mime])) {
-                throw new RuntimeException('Chỉ chấp nhận JPG, PNG, WEBP hoặc SVG.');
+                throw new RuntimeException('Chỉ chấp nhận JPG, PNG hoặc WEBP.');
             }
             $logoDir = __DIR__ . '/../img/logo';
             if (!is_dir($logoDir) && !mkdir($logoDir, 0777, true)) {
@@ -131,7 +137,7 @@ require __DIR__ . '/includes/header.php';
         <form method="post" enctype="multipart/form-data" class="logo-picker logo-file-form">
             <?= csrf_field() ?>
             <input type="hidden" name="action" value="update_logo">
-            <input type="file" name="logo" id="adminLogoInput" accept="image/jpeg,image/png,image/webp,image/svg+xml">
+            <input type="file" name="logo" id="adminLogoInput" accept="image/jpeg,image/png,image/webp">
             <button type="submit" name="save_mode" value="file" class="btn btn-primary"><i class="fas fa-upload"></i> Lưu tệp</button>
         </form>
         <form method="post" class="logo-picker logo-url-form">

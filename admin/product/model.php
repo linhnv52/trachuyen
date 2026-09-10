@@ -408,6 +408,9 @@ function uploadProductImage(array $file, ?string $currentImage = null): ?string
     if ($file['size'] > 5 * 1024 * 1024) {
         throw new RuntimeException('Ảnh quá lớn (tối đa 5MB).');
     }
+    if (!is_uploaded_file($file['tmp_name'] ?? '') || @getimagesize($file['tmp_name']) === false) {
+        throw new RuntimeException('Tệp ảnh không hợp lệ.');
+    }
 
     if (!is_dir(UPLOAD_DIR) && !mkdir(UPLOAD_DIR, 0777, true)) {
         throw new RuntimeException('Không tạo được thư mục upload.');
@@ -466,6 +469,9 @@ function uploadGalleryImages(array $files): array
         }
         if ($files['size'][$i] > 5 * 1024 * 1024) {
             throw new RuntimeException('"' . $name . '" quá lớn (tối đa 5MB).');
+        }
+        if (!is_uploaded_file($files['tmp_name'][$i] ?? '') || @getimagesize($files['tmp_name'][$i]) === false) {
+            throw new RuntimeException('"' . $name . '" không phải ảnh hợp lệ.');
         }
 
         $stored = 'g' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $allowed[$mime];
