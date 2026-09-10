@@ -99,8 +99,8 @@ INSERT INTO products
 ('TC-014', 5, 'Ấm Tử Sa Nghi Hưng Cổ Phong', 'am-tu-sa-nghi-hung-co-phong', 'Ấm tử sa Nghi Hưng chế tác thủ công bởi nghệ nhân lành nghề, chất đất nguyên khoáng, giữ nhiệt tốt.', 'Thủ công, chất đất nguyên khoáng', 1200000, 1500000, 'hot', 'https://via.placeholder.com/600x500/b8860b/ffffff?text=Ấm+Tử+Sa', 5.0, 30, 1, 8, 1),
 ('TC-015', 5, 'Bộ Ấm Chén Tử Sa', 'bo-am-chen-tu-sa', 'Bộ ấm chén tử sa đồng bộ, tinh xảo, thích hợp thưởng trà hàng ngày.', 'Đồng bộ ấm chén', 950000, 1100000, 'new', 'https://via.placeholder.com/600x500/8d6e63/ffffff?text=Bộ+Ấm+Chén+Tử+Sa', 4.5, 14, 0, 10, 1),
 
-('TC-016', 6, 'Bộ Trà Cụ Gốm Sứ Cao Cấp', 'bo-tra-cu-gom-su-cao-cap', 'Bộ trà cụ gốm sứ Bát Tràng cao cấp, men ngọc, sang trọng.', 'Gốm sứ Bát Tràng', 850000, 1000000, 'sale', 'https://via.placeholder.com/600x500/4e342e/ffffff?text=Bộ+Trà+Cụ', 4.0, 18, 1, 10, 200, 1),
-('TC-017', 6, 'Khay Trà Gỗ Sưa Tự Nhiên', 'khay-tra-go-sua-tu-nhien', 'Khay trà gỗ sưa tự nhiên, vân gỗ đẹp, chống thấm tốt.', 'Gỗ sưa tự nhiên', 1500000, 1800000, '', 'https://via.placeholder.com/600x500/795548/ffffff?text=Khay+Trà+Gỗ+Sưa', 5.0, 8, 0, 5, 250, 1),
+('TC-016', 6, 'Bộ Trà Cụ Gốm Sứ Cao Cấp', 'bo-tra-cu-gom-su-cao-cap', 'Bộ trà cụ gốm sứ Bát Tràng cao cấp, men ngọc, sang trọng.', 'Gốm sứ Bát Tràng', 850000, 1000000, 'sale', 'https://via.placeholder.com/600x500/4e342e/ffffff?text=Bộ+Trà+Cụ', 4.0, 18, 1, 10, 1),
+('TC-017', 6, 'Khay Trà Gỗ Sưa Tự Nhiên', 'khay-tra-go-sua-tu-nhien', 'Khay trà gỗ sưa tự nhiên, vân gỗ đẹp, chống thấm tốt.', 'Gỗ sưa tự nhiên', 1500000, 1800000, '', 'https://via.placeholder.com/600x500/795548/ffffff?text=Khay+Trà+Gỗ+Sưa', 5.0, 8, 0, 5, 1),
 
 ('TC-018', 7, 'Hộp Quà Tặng Trà Thái Nguyên', 'hop-qua-tang-tra-thai-nguyen', 'Hộp quà tặng trà Thái Nguyên cao cấp, kèm túi lụa, thiệp chúc.', 'Hộp quà tặng kèm thiệp', 450000, 530000, 'sale', 'https://via.placeholder.com/600x500/3e2723/ffffff?text=Hộp+Quà+Tặng', 5.0, 20, 1, 15, 1),
 ('TC-019', 7, 'Set Quà Trà Đen Shan Tuyết', 'set-qua-tra-den-shan-tuyet', 'Set quà trà đen shan tuyết với hộp gỗ sang trọng.', 'Hộp gỗ sang trọng', 520000, NULL, '', 'https://via.placeholder.com/600x500/5d4037/ffffff?text=Set+Quà+Trà+Đen', 4.5, 7, 0, 12, 1),
@@ -110,6 +110,8 @@ INSERT INTO products
 
 UPDATE products SET capacity = 200 WHERE code = 'TC-014';
 UPDATE products SET capacity = 300 WHERE code = 'TC-015';
+UPDATE products SET capacity = 200 WHERE code = 'TC-016';
+UPDATE products SET capacity = 250 WHERE code = 'TC-017';
 
 -- ============================================================
 -- TÀI KHOẢN ADMIN (tạo tài khoản riêng; không dùng mật khẩu mặc định)
