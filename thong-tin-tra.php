@@ -7,15 +7,12 @@ $active = 'about';
 
 // Nội dung: settings (admin sửa) đè lên mặc định
 $teaNewDefaults = [
-    'art_vc_items' => "TRÀ|
-Danh sách các loại trà|
-Từ Đại Danh Nham|
-Vũ Di Nham Trà|",
-    'art_gs_items' => "Các loại Gốm sứ TQ|
-Lịch sử Gốm sứ TQ|",
-    'art_as_items' => "Các loại đất tử sa|
-Các dạng ấm tử sa|
-Cách khai ấm tử sa|",
+    'art_vc_title' => 'Về chúng tôi',
+    'art_gs_title' => 'Gốm sứ',
+    'art_as_title' => 'Ấm Tử Sa',
+    'art_vc_items' => '',
+    'art_gs_items' => '',
+    'art_as_items' => '',
     'brew_title'   => 'Pha Nham Trà (Wuyi Rock Tea)',
     'brew_desc'    => 'là một nghệ thuật, và để trà đạt chất lượng tốt nhất, từng chi tiết đều rất quan trọng. Dưới đây là 6 điều bạn cần lưu ý khi pha nham trà và cách chọn trà chất lượng.',
     'brew_1_title' => 'Chọn Trà Nham Tốt',
@@ -25,6 +22,28 @@ Cách khai ấm tử sa|",
     'brew_3_title' => 'Cách rót nước',
     'brew_3_desc'  => 'Chi tiết về cách rót nước: rót nước theo vòng tròn quanh thành ấm để trà ngấm đều, sau đó đậy nắp ngắn và rót nước thấp, dứt khoát để tránh làm nguội nước. Các lần pha sau có thể kéo dài thời gian ngâm nhẹ để giữ hương vị cân bằng từ lần đầu đến lần cuối.',
 ];
+
+/** Mặc định danh sách bài viết cho mỗi nhóm (dùng khi settings chưa có dữ liệu) */
+function teaGroupDefaults(string $groupKey): array
+{
+    return match ($groupKey) {
+        'art_vc_items' => [
+            ['title' => 'TRÀ',                  'body' => ''],
+            ['title' => 'Danh sách các loại trà', 'body' => ''],
+            ['title' => 'Từ Đại Danh Nham',       'body' => ''],
+            ['title' => 'Vũ Di Nham Trà',         'body' => ''],
+        ],
+        'art_gs_items' => [
+            ['title' => 'Các loại Gốm sứ TQ', 'body' => ''],
+            ['title' => 'Lịch sử Gốm sứ TQ', 'body' => ''],
+        ],
+        default => [
+            ['title' => 'Các loại đất tử sa', 'body' => ''],
+            ['title' => 'Các dạng ấm tử sa',  'body' => ''],
+            ['title' => 'Cách khai ấm tử sa', 'body' => ''],
+        ],
+    };
+}
 
 $info = [];
 foreach ($teaNewDefaults as $key => $val) {
@@ -37,17 +56,45 @@ function teaLines(string $text): array
     return array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $text)), fn ($l) => $l !== ''));
 }
 
-/** Tách tiêu đề + nội dung của 1 dòng bài viết (ngăn cách bằng | đầu tiên) */
-function teaArticle(string $line): array
+/** Nạp danh sách bài viết của 1 nhóm: JSON [{title, body}] nếu có, fallback format cũ "Tiêu đề|Nội dung" */
+function teaGroupArticles(string $key, string $raw): array
 {
-    [$title, $body] = array_pad(explode('|', $line, 2), 2, '');
-    return [trim($title), trim($body)];
+    $raw = trim($raw);
+    if ($raw !== '') {
+        $decoded = json_decode($raw, true);
+        if (is_array($decoded)) {
+            $out = [];
+            foreach ($decoded as $row) {
+                if (!is_array($row)) {
+                    continue;
+                }
+                $title = trim((string)($row['title'] ?? ''));
+                if ($title === '') {
+                    continue;
+                }
+                $out[] = ['title' => $title, 'body' => trim((string)($row['body'] ?? ''))];
+            }
+            return $out;
+        }
+        $out = [];
+        foreach (teaLines($raw) as $line) {
+            [$title, $body] = array_pad(explode('|', $line, 2), 2, '');
+            $title = trim($title);
+            if ($title === '') {
+                continue;
+            }
+            $out[] = ['title' => $title, 'body' => trim($body)];
+        }
+        if ($out) {
+            return $out;
+        }
+    }
+    return teaGroupDefaults($key);
 }
 
-/** Nội dung thật của 1 dòng bài viết: nếu bài có từ "nham" (không dấu) thì dùng nội dung Pha Nham Trà */
-function teaArticleBody(array $info, string $line): string
+/** Nội dung thật của bài viết: nếu bài có từ "nham" (không dấu) và để trống nội dung thì dùng nội dung Pha Nham Trà */
+function teaArticleBody(array $info, string $title, string $body): string
 {
-    [$title, $body] = teaArticle($line);
     if ($body !== '' || !preg_match('/nham/i', normalizeText($title))) {
         return $body;
     }
@@ -61,31 +108,30 @@ function teaArticleBody(array $info, string $line): string
 }
 
 /** Có phải bài "nham trà" (hiển thị dạng 3 bước đánh số) hay không */
-function teaIsNham(string $line): bool
+function teaIsNham(string $title): bool
 {
-    [$title] = teaArticle($line);
     return preg_match('/nham/i', normalizeText($title)) === 1;
 }
 
-/** Các nhóm bài viết hiển thị ở cột trái */
+/** Các nhóm bài viết hiển thị ở cột trái (tiêu đề đọc từ settings) */
 $groups = [
-    ['title' => 'Về chúng tôi', 'key' => 'art_vc_items'],
-    ['title' => 'Gốm sứ',       'key' => 'art_gs_items'],
-    ['title' => 'Ấm Tử Sa',     'key' => 'art_as_items'],
+    ['title' => $info['art_vc_title'], 'key' => 'art_vc_items'],
+    ['title' => $info['art_gs_title'], 'key' => 'art_gs_items'],
+    ['title' => $info['art_as_title'], 'key' => 'art_as_items'],
 ];
 
 $articles = [];
 foreach ($groups as $g) {
-    foreach (teaLines($info[$g['key']]) as $line) {
-        [$title] = teaArticle($line);
+    foreach (teaGroupArticles($g['key'], $info[$g['key']]) as $art) {
+        $title = $art['title'];
         if ($title === '') {
             continue;
         }
         $articles[] = [
             'group' => $g['title'],
             'title' => $title,
-            'body'  => teaArticleBody($info, $line),
-            'nham'  => teaIsNham($line),
+            'body'  => teaArticleBody($info, $title, $art['body']),
+            'nham'  => teaIsNham($title),
         ];
     }
 }
