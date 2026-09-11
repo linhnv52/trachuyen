@@ -2663,6 +2663,10 @@ header > .container > nav ul {
     flex: 0 0 calc((100% - 72px) / 4);
 }
 
+.best-seller-track.few-items {
+    justify-content: center;
+}
+
 .new-products-track {
     display: flex;
     grid-template-columns: none;

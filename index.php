@@ -162,7 +162,7 @@ require __DIR__ . '/includes/header.php';
     <!-- ====== 4. SẢN PHẨM BÁN CHẠY ====== -->
     <section class="section-best-seller">
         <h2 class="section-title">Sản phẩm bán chạy</h2>
-        <div class="grid-6col-2row best-seller-track" id="bestSellerTrack">
+        <div class="grid-6col-2row best-seller-track<?= count($bestSellers) < 5 ? ' few-items' : '' ?>" id="bestSellerTrack">
             <?php if (!$bestSellers): ?>
                 <p style="grid-column:1/-1; text-align:center; color:#8d6e63; padding:30px;">Chưa có sản phẩm bán chạy.</p>
             <?php else: foreach ($bestSellers as $p):
@@ -186,7 +186,6 @@ require __DIR__ . '/includes/header.php';
                     <div class="product-price">
                         <span class="current-price"><?= formatPrice($p['price']) ?>đ</span>
                         <?php if ($p['old_price']): ?><span class="old-price"><?= formatPrice($p['old_price']) ?>đ</span><?php endif; ?>
-                    </div>
                     </div>
                 </div>
             <?php endforeach; endif; ?>
