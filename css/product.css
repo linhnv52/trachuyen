@@ -1072,9 +1072,9 @@
                 padding: 28px 14px 56px;
             }
 
-            .products-page .cat-track {
-                grid-auto-columns: calc((100% - 12px) / 2);
-                gap: 12px;
+.products-page .cat-track {
+                grid-auto-columns: calc((100% - 8px) / 2);
+                gap: 8px;
             }
 
             .products-page .cat-viewport {
