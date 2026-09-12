@@ -2,6 +2,7 @@
 /**
  * Footer chung cho các trang admin
  */
+$extraScript = $extraScript ?? '';
 ?>
 </main>
 
@@ -67,5 +68,6 @@
         });
     })();
 </script>
+<?= $extraScript ?>
 </body>
 </html>

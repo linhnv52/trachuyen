@@ -7,6 +7,7 @@ if (!isset($pageTitle))    $pageTitle = 'Quản trị';
 if (!isset($pageSubtitle)) $pageSubtitle = '';
 if (!isset($activeMenu))   $activeMenu = '';
 $adminCategorySection = $section ?? 'tea';
+$extraCssLinks = $extraCssLinks ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -20,6 +21,7 @@ $adminCategorySection = $section ?? 'tea';
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="<?= e(url('/admin/assets/admin.css')) ?>">
+    <?= $extraCssLinks ?>
 </head>
 <body>
 

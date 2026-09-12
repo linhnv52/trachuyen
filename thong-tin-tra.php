@@ -1,134 +1,31 @@
 <?php
 require_once __DIR__ . '/config/db.php';
-require_once __DIR__ . '/admin/product/model.php';
+require_once __DIR__ . '/config/tea-content.php';
 
 $pageTitle = 'Thông tin về trà - Trà Chuyện';
 $active = 'about';
 
 // Nội dung: settings (admin sửa) đè lên mặc định
-$teaNewDefaults = [
-    'art_vc_title' => 'Về chúng tôi',
-    'art_gs_title' => 'Gốm sứ',
-    'art_as_title' => 'Ấm Tử Sa',
-    'art_vc_items' => '',
-    'art_gs_items' => '',
-    'art_as_items' => '',
-    'brew_title'   => 'Pha Nham Trà (Wuyi Rock Tea)',
-    'brew_desc'    => 'là một nghệ thuật, và để trà đạt chất lượng tốt nhất, từng chi tiết đều rất quan trọng. Dưới đây là 6 điều bạn cần lưu ý khi pha nham trà và cách chọn trà chất lượng.',
-    'brew_1_title' => 'Chọn Trà Nham Tốt',
-    'brew_1_desc'  => 'Chi tiết về cách chọn trà: hãy ưu tiên những búp trà được hái từ vùng núi đá (nham) có độ cao, hái những búp non, đều và còn nguyên vẹn. Trà nham thật có hương thơm đá quyến rũ, vị đậm, hậu ngọt và khi pha nước trà trong, màu đẹp. Tránh trà quá vụn hoặc có mùi lạ.',
-    'brew_2_title' => 'Sử Dụng Nước Sôi 100°C',
-    'brew_2_desc'  => 'Chi tiết về nhiệt độ nước: nham trà cần nước thật sôi (khoảng 100°C) để đánh thức và chiết xuất trọn vẹn hương vị đặc trưng. Nước sôi đúng độ sẽ giúp lá trà nở đều, tránh vị chát gắt hoặc nước trà nhạt, thiếu hậu vị.',
-    'brew_3_title' => 'Cách rót nước',
-    'brew_3_desc'  => 'Chi tiết về cách rót nước: rót nước theo vòng tròn quanh thành ấm để trà ngấm đều, sau đó đậy nắp ngắn và rót nước thấp, dứt khoát để tránh làm nguội nước. Các lần pha sau có thể kéo dài thời gian ngâm nhẹ để giữ hương vị cân bằng từ lần đầu đến lần cuối.',
-];
-
-/** Mặc định danh sách bài viết cho mỗi nhóm (dùng khi settings chưa có dữ liệu) */
-function teaGroupDefaults(string $groupKey): array
-{
-    return match ($groupKey) {
-        'art_vc_items' => [
-            ['title' => 'TRÀ',                  'body' => ''],
-            ['title' => 'Danh sách các loại trà', 'body' => ''],
-            ['title' => 'Từ Đại Danh Nham',       'body' => ''],
-            ['title' => 'Vũ Di Nham Trà',         'body' => ''],
-        ],
-        'art_gs_items' => [
-            ['title' => 'Các loại Gốm sứ TQ', 'body' => ''],
-            ['title' => 'Lịch sử Gốm sứ TQ', 'body' => ''],
-        ],
-        default => [
-            ['title' => 'Các loại đất tử sa', 'body' => ''],
-            ['title' => 'Các dạng ấm tử sa',  'body' => ''],
-            ['title' => 'Cách khai ấm tử sa', 'body' => ''],
-        ],
-    };
-}
-
 $info = [];
-foreach ($teaNewDefaults as $key => $val) {
+foreach ($teaGroups as $g) {
+    $info[$g['titleKey']] = getSetting($g['titleKey'], $g['defaultTitle']);
+    $info[$g['itemsKey']] = (string)getSetting($g['itemsKey'], '');
+}
+foreach ($brewDefaults as $key => $val) {
     $info[$key] = getSetting($key, $val);
 }
 
-/** Tách dòng bỏ dòng rỗng */
-function teaLines(string $text): array
-{
-    return array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $text)), fn ($l) => $l !== ''));
-}
-
-/** Nạp danh sách bài viết của 1 nhóm: JSON [{title, body}] nếu có, fallback format cũ "Tiêu đề|Nội dung" */
-function teaGroupArticles(string $key, string $raw): array
-{
-    $raw = trim($raw);
-    if ($raw !== '') {
-        $decoded = json_decode($raw, true);
-        if (is_array($decoded)) {
-            $out = [];
-            foreach ($decoded as $row) {
-                if (!is_array($row)) {
-                    continue;
-                }
-                $title = trim((string)($row['title'] ?? ''));
-                if ($title === '') {
-                    continue;
-                }
-                $out[] = ['title' => $title, 'body' => trim((string)($row['body'] ?? ''))];
-            }
-            return $out;
-        }
-        $out = [];
-        foreach (teaLines($raw) as $line) {
-            [$title, $body] = array_pad(explode('|', $line, 2), 2, '');
-            $title = trim($title);
-            if ($title === '') {
-                continue;
-            }
-            $out[] = ['title' => $title, 'body' => trim($body)];
-        }
-        if ($out) {
-            return $out;
-        }
-    }
-    return teaGroupDefaults($key);
-}
-
-/** Nội dung thật của bài viết: nếu bài có từ "nham" (không dấu) và để trống nội dung thì dùng nội dung Pha Nham Trà */
-function teaArticleBody(array $info, string $title, string $body): string
-{
-    if ($body !== '' || !preg_match('/nham/i', normalizeText($title))) {
-        return $body;
-    }
-    return implode("\n\n", array_merge(
-        [$info['brew_desc']],
-        array_map(
-            fn ($n) => trim($info["brew_{$n}_title"]) . ':' . "\n" . trim($info["brew_{$n}_desc"]),
-            [1, 2, 3]
-        )
-    ));
-}
-
-/** Có phải bài "nham trà" (hiển thị dạng 3 bước đánh số) hay không */
-function teaIsNham(string $title): bool
-{
-    return preg_match('/nham/i', normalizeText($title)) === 1;
-}
-
-/** Các nhóm bài viết hiển thị ở cột trái (tiêu đề đọc từ settings) */
-$groups = [
-    ['title' => $info['art_vc_title'], 'key' => 'art_vc_items'],
-    ['title' => $info['art_gs_title'], 'key' => 'art_gs_items'],
-    ['title' => $info['art_as_title'], 'key' => 'art_as_items'],
-];
-
+// Các nhóm bài viết hiển thị ở cột trái (tiêu đề đọc từ settings)
 $articles = [];
-foreach ($groups as $g) {
-    foreach (teaGroupArticles($g['key'], $info[$g['key']]) as $art) {
+foreach ($teaGroups as $g) {
+    $groupTitle = $info[$g['titleKey']];
+    foreach (teaGroupArticles($g['itemsKey'], $info[$g['itemsKey']], $g['defaultItems']) as $art) {
         $title = $art['title'];
         if ($title === '') {
             continue;
         }
         $articles[] = [
-            'group' => $g['title'],
+            'group' => $groupTitle,
             'title' => $title,
             'body'  => teaArticleBody($info, $title, $art['body']),
             'nham'  => teaIsNham($title),
@@ -165,122 +62,6 @@ require __DIR__ . '/includes/header.php';
 </div>
 
 <?php
-$extraScript = <<<'HTML'
-<script>
-    (function () {
-        var navBtns = Array.prototype.slice.call(document.querySelectorAll('.tea-info-nav .tea-nav-btn'));
-        var groupHeads = Array.prototype.slice.call(document.querySelectorAll('.tea-info-nav .tea-info-nav__group'));
-        var panel = document.querySelector('.tea-info-panel');
-
-        function setupMobileGroups() {
-            var mobile = window.matchMedia('(max-width: 768px)').matches;
-            groupHeads.forEach(function (head, index) {
-                head.setAttribute('role', 'button');
-                head.setAttribute('tabindex', '0');
-                head.setAttribute('aria-expanded', mobile && index === 0 ? 'true' : (mobile ? 'false' : 'true'));
-                var open = !mobile || index === 0;
-                var next = head.nextElementSibling;
-                while (next && !next.classList.contains('tea-info-nav__group')) {
-                    if (next.classList.contains('tea-nav-btn')) next.hidden = !open;
-                    next = next.nextElementSibling;
-                }
-            });
-        }
-
-        groupHeads.forEach(function (head) {
-            function toggleGroup() {
-                if (!window.matchMedia('(max-width: 768px)').matches) return;
-                var open = head.getAttribute('aria-expanded') !== 'true';
-                head.setAttribute('aria-expanded', open ? 'true' : 'false');
-                var next = head.nextElementSibling;
-                while (next && !next.classList.contains('tea-info-nav__group')) {
-                    if (next.classList.contains('tea-nav-btn')) next.hidden = !open;
-                    next = next.nextElementSibling;
-                }
-            }
-            head.addEventListener('click', toggleGroup);
-            head.addEventListener('keydown', function (event) {
-                if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); toggleGroup(); }
-            });
-        });
-        setupMobileGroups();
-        window.addEventListener('resize', setupMobileGroups);
-
-        function esc(s) {
-            return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        }
-
-        function placeArticlePanel(btn) {
-            var split = document.querySelector('.tea-info-split');
-            var nav = document.querySelector('.tea-info-nav');
-            if (window.matchMedia('(max-width: 768px)').matches) {
-                nav.insertBefore(panel, btn.nextElementSibling);
-                panel.classList.add('is-inline-mobile');
-            } else {
-                split.appendChild(panel);
-                panel.classList.remove('is-inline-mobile');
-            }
-        }
-
-        function renderArticle(btn) {
-            var title = btn.textContent.trim();
-            var nham = btn.getAttribute('data-nham') === '1';
-            var body = btn.getAttribute('data-body') || '';
-
-            navBtns.forEach(function (b) { b.classList.toggle('active', b === btn); });
-            placeArticlePanel(btn);
-
-            var html = '<article class="tea-art">';
-            if (nham) {
-                html += '<h3 class="tea-art__title">' + esc(title) + '</h3>';
-                var lines = body.split(/\n{2,}/).filter(function (l) { return l.trim() !== ''; });
-                if (lines.length) {
-                    // Dòng đầu là mô tả, các dòng sau là bước "Tiêu đề:Nội dung"
-                    html += '<p class="tea-art__desc">' + esc(lines.shift()) + '</p>';
-                    html += '<div class="tea-art__steps">';
-                    lines.forEach(function (l, i) {
-                        var pos = l.indexOf(':');
-                        var stepTitle, stepBody;
-                        if (pos > -1) {
-                            stepTitle = l.slice(0, pos);
-                            stepBody = l.slice(pos + 1);
-                        } else {
-                            stepTitle = 'Bước ' + (i + 1);
-                            stepBody = l;
-                        }
-                        html += '<div class="tea-art__step">'
-                            + '<span class="tea-art__num">' + (i + 1) + '</span>'
-                            + '<div><h4>' + esc(stepTitle) + '</h4>'
-                            + '<p>' + esc(stepBody.trim()) + '</p></div></div>';
-                    });
-                    html += '</div>';
-                }
-            } else {
-                html += '<h3 class="tea-art__title">' + esc(title) + '</h3>';
-                var paras = body.split(/\n{2,}/).filter(function (l) { return l.trim() !== ''; });
-                if (paras.length) {
-                    html += paras.map(function (p) { return '<p class="tea-art__desc">' + esc(p) + '</p>'; }).join('');
-                }
-            }
-            html += '</article>';
-            panel.innerHTML = html;
-        }
-
-        navBtns.forEach(function (b) {
-            b.addEventListener('click', function () { renderArticle(b); });
-        });
-
-        window.addEventListener('resize', function () {
-            var activeBtn = navBtns.find(function (btn) { return btn.classList.contains('active'); });
-            if (activeBtn) placeArticlePanel(activeBtn);
-        });
-
-        // Mặc định hiện bài đầu tiên
-        if (navBtns.length) {
-            renderArticle(navBtns[0]);
-        }
-    })();
-</script>
-HTML;
+$extraScript = '<script src="js/tea-info.js"></script>';
 require __DIR__ . '/includes/footer.php';
 ?>
