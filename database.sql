@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS products (
   old_price decimal(15,2) DEFAULT NULL COMMENT 'Giá cũ (để hiển thị giảm giá)',
   badge enum('hot','sale','new','') DEFAULT '' COMMENT 'Nhãn dán: Hot, Sale, Mới',
   image_url varchar(255) DEFAULT NULL COMMENT 'Ảnh đại diện',
+  gallery longtext DEFAULT NULL COMMENT 'Danh sách ảnh phụ JSON',
   rating_avg decimal(2,1) DEFAULT 0.0 COMMENT 'Điểm đánh giá trung bình',
   review_count int DEFAULT 0 COMMENT 'Tổng số lượt đánh giá',
   is_best_seller tinyint(1) DEFAULT 0 COMMENT 'Sản phẩm bán chạy',
