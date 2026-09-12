@@ -127,7 +127,7 @@ function copyDir(string $src, string $dst): void
     }
 }
 
-foreach (['style.css', 'favicon.svg', 'favicon.ico'] as $fname) {
+foreach (['style.css', 'favicon.ico'] as $fname) {
     $f = $ROOT . '/' . $fname;
     if (is_file($f)) copy($f, $OUT . '/' . $fname);
 }
