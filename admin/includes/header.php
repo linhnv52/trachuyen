@@ -14,7 +14,7 @@ $adminCategorySection = $section ?? 'tea';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= e($pageTitle) ?> - Admin Trà Chuyện</title>
-    <link rel="icon" type="image/svg+xml" href="<?= e(url('/favicon.svg')) ?>">
+    <link rel="icon" type="image/jpeg" href="<?= e(url('/img/favicon.jpg')) ?>">
     <link rel="shortcut icon" href="<?= e(url('/favicon.ico')) ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
