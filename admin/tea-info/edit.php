@@ -17,9 +17,6 @@ foreach ($teaGroups as $code => $g) {
     $values['group_title_' . $code] = getSetting($g['titleKey'], $g['defaultTitle']);
     $values['group_items_' . $code] = teaGroupArticles($g['itemsKey'], (string)getSetting($g['itemsKey'], ''), $g['defaultItems']);
 }
-foreach ($brewDefaults as $key => $val) {
-    $values[$key] = getSetting($key, $val);
-}
 
 $flash = null;
 
@@ -49,19 +46,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             setSetting($g['titleKey'], $title);
             setSetting($g['itemsKey'], json_encode($articles, JSON_UNESCAPED_UNICODE));
         }
-        foreach ($brewDefaults as $key => $val) {
-            if (array_key_exists($key, $_POST)) {
-                setSetting($key, trim((string)$_POST[$key]));
-            }
-        }
 
         // Nạp lại giá trị đã lưu
         foreach ($teaGroups as $code => $g) {
             $values['group_title_' . $code] = getSetting($g['titleKey'], $g['defaultTitle']);
             $values['group_items_' . $code] = teaGroupArticles($g['itemsKey'], (string)getSetting($g['itemsKey'], ''), $g['defaultItems']);
-        }
-        foreach ($brewDefaults as $key => $val) {
-            $values[$key] = getSetting($key, $val);
         }
 
         // Tự động rebuild + push lên website
@@ -140,39 +129,6 @@ require __DIR__ . '/../includes/header.php';
                         </button>
                     </div>
                 <?php endforeach; ?>
-            </div>
-        </div>
-
-        <!-- PHA NHAM TRÀ -->
-        <div class="tea-editor__card">
-            <h2 class="tea-editor__h2">Pha Nham Trà (Wuyi Rock Tea)</h2>
-
-            <input type="text" name="brew_title" value="<?= e($values['brew_title']) ?>"
-                   style="width:100%; padding:10px 12px; border:1px solid #e0d6cc; border-radius:8px; font-size:1.25rem; font-weight:700; color:#573100; font-family:inherit; box-sizing:border-box; margin-bottom:14px;">
-            <textarea name="brew_desc" class="brew-desc-field"><?= e($values['brew_desc']) ?></textarea>
-
-            <div class="brew-steps">
-                <div class="brew-step">
-                    <div class="number">1</div>
-                    <div class="body">
-                        <input type="text" name="brew_1_title" value="<?= e($values['brew_1_title']) ?>">
-                        <textarea name="brew_1_desc"><?= e($values['brew_1_desc']) ?></textarea>
-                    </div>
-                </div>
-                <div class="brew-step">
-                    <div class="number">2</div>
-                    <div class="body">
-                        <input type="text" name="brew_2_title" value="<?= e($values['brew_2_title']) ?>">
-                        <textarea name="brew_2_desc"><?= e($values['brew_2_desc']) ?></textarea>
-                    </div>
-                </div>
-                <div class="brew-step">
-                    <div class="number">3</div>
-                    <div class="body">
-                        <input type="text" name="brew_3_title" value="<?= e($values['brew_3_title']) ?>">
-                        <textarea name="brew_3_desc"><?= e($values['brew_3_desc']) ?></textarea>
-                    </div>
-                </div>
             </div>
         </div>
 

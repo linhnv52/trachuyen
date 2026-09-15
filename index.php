@@ -51,6 +51,12 @@ $homepageVideoUrl = getSetting('homepage_video_url', '');
 $homepageVideoUrl = $homepageVideoUrl ? normalizeVideoUrl($homepageVideoUrl) : '';
 $homepageVideoIsFile = str_starts_with($homepageVideoUrl, 'img/videos/');
 
+// 4 ảnh trưng bày (section-gallery) — quản lý từ admin dashboard
+$galleryImages = [];
+for ($gi = 1; $gi <= 4; $gi++) {
+    $galleryImages[] = getSetting('gallery_img_' . $gi, 'img/placeholder.svg');
+}
+
 // Banner slider (quản lý từ admin); fallback ảnh mặc định nếu chưa có dữ liệu
 $banners = db()->query('SELECT image_url FROM banners WHERE is_active = 1 ORDER BY sort_order, id')->fetchAll(PDO::FETCH_COLUMN);
 if (!$banners) {
@@ -128,10 +134,10 @@ require __DIR__ . '/includes/header.php';
     <section class="section-gallery">
         <div class="gallery-container">
             <div class="gallery-images">
-                <div class="gallery-img-item"><img src="img/placeholder.svg" alt="Ấm tử sa 1"></div>
-                <div class="gallery-img-item"><img src="img/placeholder.svg" alt="Ấm tử sa 2"></div>
-                <div class="gallery-img-item"><img src="img/placeholder.svg" alt="Ấm tử sa 3"></div>
-                <div class="gallery-img-item"><img src="img/placeholder.svg" alt="Ấm tử sa 4"></div>
+                <div class="gallery-img-item"><img src="<?= e($galleryImages[0]) ?>" alt="Ấm tử sa 1"></div>
+                <div class="gallery-img-item"><img src="<?= e($galleryImages[1]) ?>" alt="Ấm tử sa 2"></div>
+                <div class="gallery-img-item"><img src="<?= e($galleryImages[2]) ?>" alt="Ấm tử sa 3"></div>
+                <div class="gallery-img-item"><img src="<?= e($galleryImages[3]) ?>" alt="Ấm tử sa 4"></div>
             </div>
 
             <div class="gallery-video">
