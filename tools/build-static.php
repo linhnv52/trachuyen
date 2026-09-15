@@ -136,7 +136,7 @@ copyDir($ROOT . '/js', $OUT . '/js');
 copyDir($ROOT . '/img', $OUT . '/img');
 echo 'Copied assets' . PHP_EOL;
 
-// ============ 3.+4. Render pages ============
+// ============ 3.+4. Render pages (batch 1 process) ============
 function runRender(string $php, string $root, string $out, array $args): bool
 {
     $cmd = escapeshellarg($php) . ' ' . escapeshellarg($root . '/tools/render-static.php');
@@ -155,8 +155,11 @@ function runRender(string $php, string $root, string $out, array $args): bool
     return true;
 }
 
+// Thu thập tất cả trang (nội dung + chi tiết) vào 1 batch
+$allPages = [];
+
 // Trang nội dung
-$pages = [
+$contentPages = [
     ['src' => 'index.php',                 'out' => 'index.html',                 'type' => 'index'],
     ['src' => 'product.php',               'out' => 'product.html',               'type' => 'product'],
     ['src' => 'san-pham-tra.php',          'out' => 'san-pham-tra.html',          'type' => 'product'],
@@ -165,24 +168,26 @@ $pages = [
     ['src' => 'hop-qua-tang.php',          'out' => 'hop-qua-tang.html',          'type' => 'product'],
     ['src' => 'thong-tin-tra.php',         'out' => 'thong-tin-tra.html',         'type' => 'page'],
 ];
-
-foreach ($pages as $pg) {
-    runRender($php, $ROOT, $OUT, array_merge([
-        'src' => $pg['src'],
-        'out' => $pg['out'],
-        'type' => $pg['type'],
-        'page' => str_replace('.php', '', $pg['src']),
-    ], ['map' => base64_encode(json_encode($prodFiles))]));
-}
+$allPages = array_merge($allPages, $contentPages);
 
 // Trang chi tiết sản phẩm
 foreach ($products as $p) {
-    runRender($php, $ROOT, $OUT, [
-        'src' => 'productdetal.php',
-        'out' => $prodFiles[(int)$p['id']],
+    $allPages[] = [
+        'src'  => 'productdetal.php',
+        'out'  => $prodFiles[(int)$p['id']],
         'type' => 'detail',
-        'id' => (int)$p['id'],
-    ]);
+        'id'   => (int)$p['id'],
+    ];
 }
+
+// Render batch — 1 tiến trình duy nhất
+$pagesJson = base64_encode(json_encode($allPages));
+$mapJson   = base64_encode(json_encode($prodFiles));
+$batchCmd  = escapeshellarg($php) . ' ' . escapeshellarg($ROOT . '/tools/render-batch.php')
+           . ' --pages ' . escapeshellarg($pagesJson)
+           . ' --map ' . escapeshellarg($mapJson)
+           . ' 2>&1';
+$batchOut = shell_exec($batchCmd);
+echo $batchOut ?: 'Batch render: không có output' . PHP_EOL;
 
 echo "Done. Output: $OUT" . PHP_EOL;

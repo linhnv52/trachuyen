@@ -53,13 +53,29 @@ function uniqueCode(?string $code, ?int $ignoreId = null): string
 
 function getAllCategories(bool $includeInactive = false): array
 {
+    $key = 'categories_' . ($includeInactive ? 'all' : 'active');
+    $cached = cacheGet($key, 60);
+    if ($cached !== null) {
+        return $cached;
+    }
     $sql = 'SELECT * FROM categories';
     if (!$includeInactive) {
         $sql .= ' WHERE is_active = 1';
     }
     $sql .= ' ORDER BY sort_order, id';
     $stmt = db()->query($sql);
-    return $stmt->fetchAll();
+    $result = $stmt->fetchAll();
+    cacheSet($key, $result);
+    return $result;
+}
+
+/**
+ * Xóa file cache danh mục — gọi khi admin thêm/sửa/xóa category hoặc layout.
+ */
+function invalidateCategoriesCache(): void
+{
+    cacheInvalidate('categories_all');
+    cacheInvalidate('categories_active');
 }
 
 /**

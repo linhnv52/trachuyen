@@ -2,11 +2,11 @@
 require_once __DIR__ . '/includes/auth.php';
 require_login();
 require_once __DIR__ . '/product/model.php';
-require_once __DIR__ . '/includes/build-trigger.php';
 
 $admin = current_admin();
 $logoError = '';
 $logoSuccess = '';
+$autoRebuild = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'update_logo') {
     require_csrf();
@@ -140,20 +140,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'updat
             throw new RuntimeException('Chọn tệp ảnh hoặc dán link cho vị trí #' . $slot . '.');
         }
 
-        // Tự động rebuild + push lên website
-        $build = buildRebuild();
-        $git = $build['ok'] ? buildGitStageCommitPush() : ['ok' => false];
-
-        $msg = 'Đã lưu ảnh trưng bày #' . $slot . '.';
-        if ($build['ok'] && ($git['ok'] ?? false)) {
-            $msg .= ($git['changed'] ?? false)
-                ? ' Website đã được cập nhật và đẩy lên GitHub.'
-                : ' Website đã đồng bộ (không có thay đổi).';
-        } else {
-            $err = $build['ok'] ? ($git['error'] ?? 'lỗi không xác định') : ($build['error'] ?: 'lỗi build');
-            $msg .= ' NHƯNG cập nhật website gặp lỗi: ' . $err;
-        }
-        $gallerySuccess = $msg;
+        // Tự động rebuild + push lên website (chạy nền qua AJAX ở footer)
+        $autoRebuild = true;
+        $gallerySuccess = 'Đã lưu ảnh trưng bày #' . $slot . '. Website đang được cập nhật trong nền...';
     } catch (Throwable $e) {
         $galleryError = $e->getMessage();
     }

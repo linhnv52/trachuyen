@@ -3,6 +3,8 @@
  * Footer chung cho các trang admin
  */
 $extraScript = $extraScript ?? '';
+$autoRebuild = $autoRebuild ?? false;
+$rebuildCsrf = $autoRebuild ? csrf_token() : '';
 ?>
 </main>
 
@@ -68,6 +70,27 @@ $extraScript = $extraScript ?? '';
         });
     })();
 </script>
+<?php if ($autoRebuild): ?>
+<script>
+    (function () {
+        var token = <?= json_encode($rebuildCsrf) ?>;
+        var body = new URLSearchParams({ csrf_token: token });
+        showToast('Đã lưu. Đang cập nhật website...', 'success');
+        fetch('<?= url('/admin/rebuild.php') ?>', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: body.toString()
+        })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+            showToast(d.message || 'Đã cập nhật website.', d.ok ? 'success' : 'error');
+        })
+        .catch(function () {
+            showToast('Cập nhật website thất bại (mạng hoặc server quá tải).', 'error');
+        });
+    })();
+</script>
+<?php endif; ?>
 <?= $extraScript ?>
 </body>
 </html>

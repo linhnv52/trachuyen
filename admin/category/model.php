@@ -63,6 +63,7 @@ function ensureCategorySectionRoots(): array
             }
             $move->execute([$parentId, (int)$row['id']]);
         }
+        invalidateCategoriesCache();
     }
 
     return $rootIds;
@@ -101,6 +102,7 @@ function createCategory(array $data): int
         (int)($data['sort_order'] ?? 0),
     ]);
 
+    invalidateCategoriesCache();
     return (int)db()->lastInsertId();
 }
 
@@ -122,6 +124,7 @@ function updateCategory(int $id, array $data): void
         (int)($data['sort_order'] ?? 0),
         $id,
     ]);
+    invalidateCategoriesCache();
 }
 
 function deleteCategory(int $id): void
@@ -132,6 +135,7 @@ function deleteCategory(int $id): void
     }
 
     db()->prepare('DELETE FROM categories WHERE id = ?')->execute([$id]);
+    invalidateCategoriesCache();
 }
 
 /**

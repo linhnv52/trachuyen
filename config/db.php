@@ -134,10 +134,9 @@ function url(string $path): string
  * Trang hiển thị được xác định bằng đỉnh tổ tiên (gốc cấp trang) của danh mục.
  * Gốc trang ánh xạ cố định (rootPageMap); slug lạ về trang Tất cả sản phẩm.
  */
-function categoryPageUrl(string $slug): string
+function categoryPageUrl(string $slug, ?array $categories = null): string
 {
-    $all = function_exists('getAllCategories') ? getAllCategories(true) : [];
-    $categories = $all;
+    $categories = $categories ?? (function_exists('getAllCategories') ? getAllCategories(true) : []);
     $cat = null;
     foreach ($categories as $c) {
         if ($c['slug'] === $slug) {
@@ -205,15 +204,57 @@ function productImage(?string $imageUrl): string
 
 /* ---------- Settings key-value ---------- */
 
+function cacheGet(string $key, int $ttlSeconds = 60): ?array
+{
+    $dir = __DIR__ . '/../storage/cache';
+    if (!is_dir($dir)) {
+        @mkdir($dir, 0777, true);
+    }
+    $file = $dir . '/' . $key . '.json';
+    if (!is_file($file)) {
+        return null;
+    }
+    if ((time() - filemtime($file)) > $ttlSeconds) {
+        return null;
+    }
+    $data = @json_decode((string)file_get_contents($file), true);
+    return is_array($data) ? $data : null;
+}
+
+function cacheSet(string $key, array $data): void
+{
+    $dir = __DIR__ . '/../storage/cache';
+    if (!is_dir($dir)) {
+        @mkdir($dir, 0777, true);
+    }
+    @file_put_contents($dir . '/' . $key . '.json', json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+}
+
+function cacheInvalidate(string $key): void
+{
+    $dir = __DIR__ . '/../storage/cache';
+    $file = $dir . '/' . $key . '.json';
+    if (is_file($file)) {
+        @unlink($file);
+    }
+}
+
 function getSettings(): array
 {
     static $cache = null;
-    if ($cache === null) {
-        $cache = [];
-        foreach (db()->query('SELECT skey, svalue FROM settings')->fetchAll() as $row) {
-            $cache[$row['skey']] = (string)$row['svalue'];
-        }
+    if ($cache !== null) {
+        return $cache;
     }
+    $persist = cacheGet('settings', 60);
+    if ($persist !== null) {
+        $cache = $persist;
+        return $cache;
+    }
+    $cache = [];
+    foreach (db()->query('SELECT skey, svalue FROM settings')->fetchAll() as $row) {
+        $cache[$row['skey']] = (string)$row['svalue'];
+    }
+    cacheSet('settings', $cache);
     return $cache;
 }
 
@@ -228,6 +269,7 @@ function setSetting(string $key, string $value): void
     $stmt = db()->prepare('INSERT INTO settings (skey, svalue) VALUES (?, ?)
                            ON DUPLICATE KEY UPDATE svalue = VALUES(svalue)');
     $stmt->execute([$key, $value]);
+    cacheInvalidate('settings');
 }
 
 /**

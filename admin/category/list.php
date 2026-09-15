@@ -59,6 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $newActive = $category['is_active'] ? 0 : 1;
             db()->prepare('UPDATE categories SET is_active = ? WHERE id = ?')
                 ->execute([$newActive, $category['id']]);
+            invalidateCategoriesCache();
             $flash = [
                 'type' => 'success',
                 'msg'  => $newActive ? 'Đã hiện danh mục: ' . $category['name'] : 'Đã tạm ẩn danh mục: ' . $category['name'],

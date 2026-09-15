@@ -116,14 +116,14 @@ require __DIR__ . '/includes/header.php';
         <div class="category-layout-list">
             <?php foreach ($homepageCategories as $i => $c): ?>
                 <article class="category-layout<?= $i % 2 ? ' is-reversed' : '' ?>">
-                    <a class="category-layout-image" href="<?= e(categoryPageUrl($c['slug'])) ?>">
+                    <a class="category-layout-image" href="<?= e(categoryPageUrl($c['slug'], $allCategories)) ?>">
                         <img src="<?= e(categoryImage($c['image_url'])) ?>" alt="<?= e($c['name']) ?>" loading="lazy">
                     </a>
                     <div class="category-layout-copy">
                         <p class="category-layout-kicker">Trà Chuyện</p>
                         <h3><?= e($c['name']) ?></h3>
                         <p><?= e($c['description'] ?: 'Những hương vị trà được tuyển chọn kỹ lưỡng, cân bằng giữa truyền thống và trải nghiệm hiện đại.') ?></p>
-                        <a class="category-layout-link" href="<?= e(categoryPageUrl($c['slug'])) ?>">Khám phá dòng trà <span>→</span></a>
+                        <a class="category-layout-link" href="<?= e(categoryPageUrl($c['slug'], $allCategories)) ?>">Khám phá dòng trà <span>→</span></a>
                     </div>
                 </article>
             <?php endforeach; ?>

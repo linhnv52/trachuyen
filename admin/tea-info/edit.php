@@ -19,6 +19,7 @@ foreach ($teaGroups as $code => $g) {
 }
 
 $flash = null;
+$autoRebuild = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_csrf();
@@ -53,23 +54,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $values['group_items_' . $code] = teaGroupArticles($g['itemsKey'], (string)getSetting($g['itemsKey'], ''), $g['defaultItems']);
         }
 
-        // Tự động rebuild + push lên website
-        $build = buildRebuild();
-        $git = $build['ok'] ? buildGitStageCommitPush() : ['ok' => false];
-
-        $msg = 'Đã lưu nội dung trang Thông tin về trà.';
-        if ($build['ok'] && ($git['ok'] ?? false)) {
-            $msg .= ($git['changed'] ?? false)
-                ? ' Website đã được cập nhật và đẩy lên GitHub.'
-                : ' Website đã đồng bộ (không có thay đổi).';
-        } else {
-            $err = $build['ok'] ? ($git['error'] ?? 'lỗi không xác định') : ($build['error'] ?: 'lỗi build');
-            $msg .= ' NHƯNG cập nhật website gặp lỗi: ' . $err;
-            $flash = ['type' => 'error', 'msg' => $msg];
-        }
-        if ($flash === null) {
-            $flash = ['type' => 'success', 'msg' => $msg];
-        }
+        // Tự động rebuild + push lên website (chạy nền qua AJAX ở footer)
+        $autoRebuild = true;
+        $msg = 'Đã lưu nội dung trang Thông tin về trà. Website đang được cập nhật trong nền...';
+        $flash = ['type' => 'success', 'msg' => $msg];
     } catch (RuntimeException $ex) {
         $flash = ['type' => 'error', 'msg' => $ex->getMessage()];
     }

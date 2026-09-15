@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $isActive = !empty($_POST['is_active']) ? 1 : 0;
             db()->prepare('UPDATE categories SET description = ?, image_url = ?, sort_order = ?, is_active = ? WHERE id = ?')
                 ->execute([$description, $imageUrl, $sortOrder, $isActive, $categoryId]);
+            invalidateCategoriesCache();
             $flash = ['type' => 'success', 'msg' => 'Đã lưu bố cục danh mục: ' . $category['name']];
         } catch (RuntimeException $ex) {
             $flash = ['type' => 'error', 'msg' => $ex->getMessage()];

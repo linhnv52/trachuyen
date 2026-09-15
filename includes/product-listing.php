@@ -180,6 +180,7 @@ $totalPages  = max(1, (int)ceil($total / $perPage));
 // Các mốc dung tích (chỉ trang Ấm Tử Sa) — 4 khoảng cố định
 $capacityOptions = $showCapacityFilter ? array_keys($CAPACITY_BRACKETS) : [];
 
+if (!function_exists('plBuildUrl')) {
 function plBuildUrl(string $baseFile, array $overrides): string
 {
     $qs = $_GET;
@@ -216,6 +217,7 @@ function plProductCard(array $p): string
         <div class="product-price">' . $price . '</div>
     </div>';
 }
+} // end function_exists
 
 $pageTitle      = $PL_pageTitle;
 $active         = $PL_active;
