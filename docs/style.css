@@ -951,18 +951,19 @@ nav ul li a.active {
 
 .gallery-container {
     display: grid;
-    grid-template-columns: 1.2fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 25px;
     margin-top: 0;
 }
 
-/* Cột trái: 4 ảnh - Grid 2x2 */
+/* Cột trái: 4 ảnh - Grid 2x2 hình vuông */
 .gallery-images {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     gap: 12px;
-    height: 100%;
+    aspect-ratio: 1 / 1;
+    align-self: start;
 }
 
 .gallery-img-item {
@@ -971,6 +972,7 @@ nav ul li a.active {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s, box-shadow 0.3s;
     cursor: pointer;
+    aspect-ratio: 1 / 1;
 }
 
 .gallery-img-item:hover {
@@ -985,7 +987,7 @@ nav ul li a.active {
     display: block;
 }
 
-/* Cột phải: Video (dạng dọc 9:16 như TikTok) */
+/* Cột phải: Video dọc 9:16 */
 .gallery-video {
     border-radius: 0;
     overflow: hidden;
@@ -993,7 +995,6 @@ nav ul li a.active {
     background: #1a1a1a;
     width: 100%;
     aspect-ratio: 9 / 16;
-    max-height: 560px;
 }
 
 .video-wrapper {
@@ -1022,23 +1023,13 @@ nav ul li a.active {
     .gallery-images {
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr 1fr;
-        max-height: 400px;
-    }
-
-    .gallery-video {
-        max-height: 480px;
     }
 }
 
 @media (max-width: 576px) {
     .gallery-images {
         grid-template-columns: 1fr 1fr;
-        max-height: 300px;
         gap: 8px;
-    }
-
-    .gallery-video {
-        max-height: 420px;
     }
 
     .gallery-img-item:hover {
@@ -2996,10 +2987,6 @@ header > .container > nav ul {
 
     .gallery-container {
         gap: 14px;
-    }
-
-    .gallery-video {
-        max-height: 420px;
     }
 
 .services-row {
