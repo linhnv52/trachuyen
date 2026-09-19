@@ -132,7 +132,7 @@ function initProductModal(config) {
         infoCol.appendChild(desc);
 
         var consult = el('a', 'btn-consult');
-        consult.href = 'tel:0877013030';
+        consult.href = 'https://zalo.me/0877013030';
         consult.innerHTML = '<i class="fas fa-phone-alt"></i>Tư vấn mua hàng';
         infoCol.appendChild(consult);
 

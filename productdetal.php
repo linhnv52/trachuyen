@@ -124,7 +124,7 @@ require __DIR__ . '/includes/header.php';
                 <p><?= nl2br(e($product['description'] ?: 'Chưa có mô tả cho sản phẩm này.')) ?></p>
             </div>
 
-            <a class="btn-consult" href="tel:0877013030"><i class="fas fa-phone-alt"></i>Tư vấn mua hàng</a>
+            <a class="btn-consult" href="https://zalo.me/0877013030"><i class="fas fa-phone-alt"></i>Tư vấn mua hàng</a>
         </div>
     </div>
 
