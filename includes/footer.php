@@ -108,7 +108,7 @@ $extraScript = $extraScript ?? '';
     });
 })();
 </script>
-<script src="js/product-modal.js"></script>
+<script src="js/product-modal.js?v=2"></script>
 <script>
     (function () {
         var isStatic = document.querySelector('html').hasAttribute('data-static');
